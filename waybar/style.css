@@ -1,17 +1,19 @@
 * {
   font-family: FiraCode Nerd Font;
   font-size: 13px;
+  border: none;
 }
 
 window#waybar {
-  background: rgba(20, 20, 20, 0.6);
-  border-radius: 12px;
+  background: rgba(15, 15, 15, 0.6);
+  border-radius: 14px;
 }
 
+/* Workspaces */
 #workspaces button {
-  padding: 5px 10px;
+  padding: 5px 12px;
   margin: 5px;
-  border-radius: 8px;
+  border-radius: 10px;
   background: transparent;
   color: #cdd6f4;
 }
@@ -21,16 +23,34 @@ window#waybar {
   color: #1e1e2e;
 }
 
+/* Normal modules (with pills) */
 #custom-user,
-#cpu,
-#memory,
 #temperature,
+#memory,
+#custom-gpu,
+#custom-fan,
 #network,
-#pulseaudio,
-#battery,
-#clock {
-  padding: 5px 10px;
+#clock,
+#custom-media {
+  padding: 5px 12px;
   margin: 5px;
-  border-radius: 10px;
-  background: rgba(40, 40, 40, 0.6);
+  border-radius: 12px;
+  background: rgba(40, 40, 40, 0.5);
+}
+
+/* Media control buttons (NO background) */
+#custom-media-prev,
+#custom-media-play,
+#custom-media-next {
+  padding: 5px 6px;
+  margin: 5px 2px;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* Hover effect */
+#workspaces button:hover,
+#clock:hover,
+#network:hover {
+  background: rgba(137, 180, 250, 0.3);
 }
