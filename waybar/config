@@ -11,6 +11,14 @@
     "tooltip": false
   },
 
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "persistent-workspaces": {
+      "*": [1, 2, 3, 4, 5]
+    },
+    "on-click": "activate"
+  },
+
   "temperature": {
     "format": " {temperatureC}°C",
     "critical-threshold": 80
@@ -33,7 +41,7 @@
   },
 
   "clock": {
-  "format": "{:%d-%m-%Y %H:%M:%S}",
-  "interval": 1
-}
+    "format": "{:%d-%m-%Y %H:%M:%S}",
+    "interval": 1
+  }
 }
