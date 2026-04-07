@@ -2,9 +2,9 @@
   "layer": "top",
   "position": "top",
 
-  "modules-left": ["custom/user"],
-  "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["temperature", "custom/gpu", "memory", "custom/fan", "clock"],
+  "modules-left": ["custom/user", "hyprland/workspaces"],
+  "modules-center": ["custom/media", "custom/media-prev", "custom/media-play", "custom/media-next"],
+  "modules-right": ["temperature", "custom/gpu", "memory", "custom/fan", "network", "clock"],
 
   "custom/user": {
     "format": " masum@Arch ",
@@ -43,5 +43,33 @@
   "clock": {
     "format": "{:%d-%m-%Y %H:%M:%S}",
     "interval": 1
-  }
+  },
+
+  "network": {
+  "format-wifi": " {essid}",
+  "format-ethernet": "󰈀 Ethernet",
+  "format-disconnected": "⚠ No Net",
+  "tooltip": false,
+  "on-click": "nm-connection-editor"
+ },
+ "custom/media": {
+  "exec": "playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null || echo 'No Media'",
+  "interval": 2,
+  "max-length": 40
+},
+
+ "custom/media-prev": {
+  "format": " ⏮",
+  "on-click": "playerctl previous"
+}, 
+ "custom/media-play": {
+  "exec": "playerctl status 2>/dev/null | grep -q Playing && echo ' ⏸' || echo ' ▶'",
+  "interval": 2,
+  "on-click": "playerctl play-pause"
+}, 
+
+"custom/media-next": {
+  "format": " ⏭",
+  "on-click": "playerctl next"
+}
 }
