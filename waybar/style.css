@@ -1,0 +1,36 @@
+* {
+  font-family: FiraCode Nerd Font;
+  font-size: 13px;
+}
+
+window#waybar {
+  background: rgba(20, 20, 20, 0.6);
+  border-radius: 12px;
+}
+
+#workspaces button {
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 8px;
+  background: transparent;
+  color: #cdd6f4;
+}
+
+#workspaces button.active {
+  background: #89b4fa;
+  color: #1e1e2e;
+}
+
+#custom-user,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#battery,
+#clock {
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 10px;
+  background: rgba(40, 40, 40, 0.6);
+}
