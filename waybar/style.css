@@ -1,9 +1,11 @@
+@import "colors.css";
+
 * {
-  /* Using Adwaita Sans for text as you liked, FiraCode for icons */
+  /* Using Adwaita Sans for text, FiraCode for icons */
   font-family: "Adwaita Sans", "FiraCode Nerd Font";
   font-weight: 500;
   font-size: 13px;
-  border: none;
+  border: none;	
 }
 
 window#waybar {
@@ -11,22 +13,22 @@ window#waybar {
   border-radius: 14px;
 }
 
-/* --- Workspaces (Clean numbers, no big borders) --- */
+/* --- Workspaces --- */
 #workspaces button {
   padding: 0 8px;
   margin: 5px 2px;
   border-radius: 8px;
   background: transparent;
-  color: #cdd6f4; /* Subtle white/grey for inactive */
+  color: @text; /* Use Matugen text color for better contrast */
 }
 
 #workspaces button.active {
-  background: #89b4fa; /* Your signature blue */
-  color: #1e1e2e;      /* Dark text for contrast */
+  background: @primary; /* Fixed: changed # to @ */
+  color: @surface;      
   font-weight: bold;
 }
 
-/* --- The Blue Shaded Pills --- */
+/* --- The Dynamic Pills --- */
 #custom-user,
 #temperature,
 #memory,
@@ -35,39 +37,39 @@ window#waybar {
 #network,
 #clock,
 #custom-media,
-#wireplumber, /* Added for your PipeWire module */
+#wireplumber,
 #battery {
   padding: 2px 12px;
   margin: 5px;
   border-radius: 12px;
   
-  /* The "Blue Shade" Fix */
-  background: rgba(137, 180, 250, 0.15); 
-  color: #89b4fa; 
-  border: 1px solid rgba(137, 180, 250, 0.2); /* Subtle outline to define the pill */
+  /* These will now change automatically! */
+  background: @primary_alt; 
+  color: @primary; 
+  border: 1px solid rgba(255, 255, 255, 0.1); 
 }
 
-/* Special pop for your name on the left */
+/* Name on the left */
 #custom-user {
-  background: transparent; /* Makes it look like plain text on the bar */
+  background: transparent;
   border: none;
   font-weight: 700;
 }
 
-/* Media control buttons (Stay transparent) */
+/* Media buttons (Now using the dynamic color) */
 #custom-media-prev,
 #custom-media-play,
 #custom-media-next {
   padding: 5px 6px;
   margin: 5px 2px;
   background: transparent;
-  color: #89b4fa;
+  color: @primary;
 }
 
 /* Hover effect */
 #workspaces button:hover,
 #clock:hover,
 #network:hover {
-  background: rgba(137, 180, 250, 0.3);
-  color: #1e1e2e;
+  background: rgba(255, 255, 255, 0.1); /* Subtle white hover works on any color */
+  color: @primary;
 }
