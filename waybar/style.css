@@ -1,5 +1,7 @@
 * {
-  font-family: FiraCode Nerd Font;
+  /* Using Adwaita Sans for text as you liked, FiraCode for icons */
+  font-family: "Adwaita Sans", "FiraCode Nerd Font";
+  font-weight: 500;
   font-size: 13px;
   border: none;
 }
@@ -9,21 +11,22 @@ window#waybar {
   border-radius: 14px;
 }
 
-/* Workspaces */
+/* --- Workspaces (Clean numbers, no big borders) --- */
 #workspaces button {
-  padding: 5px 12px;
-  margin: 5px;
-  border-radius: 10px;
+  padding: 0 8px;
+  margin: 5px 2px;
+  border-radius: 8px;
   background: transparent;
-  color: #cdd6f4;
+  color: #cdd6f4; /* Subtle white/grey for inactive */
 }
 
 #workspaces button.active {
-  background: #89b4fa;
-  color: #1e1e2e;
+  background: #89b4fa; /* Your signature blue */
+  color: #1e1e2e;      /* Dark text for contrast */
+  font-weight: bold;
 }
 
-/* Normal modules (with pills) */
+/* --- The Blue Shaded Pills --- */
 #custom-user,
 #temperature,
 #memory,
@@ -31,21 +34,34 @@ window#waybar {
 #custom-fan,
 #network,
 #clock,
-#custom-media {
-  padding: 5px 12px;
+#custom-media,
+#wireplumber, /* Added for your PipeWire module */
+#battery {
+  padding: 2px 12px;
   margin: 5px;
   border-radius: 12px;
-  background: rgba(40, 40, 40, 0.5);
+  
+  /* The "Blue Shade" Fix */
+  background: rgba(137, 180, 250, 0.15); 
+  color: #89b4fa; 
+  border: 1px solid rgba(137, 180, 250, 0.2); /* Subtle outline to define the pill */
 }
 
-/* Media control buttons (NO background) */
+/* Special pop for your name on the left */
+#custom-user {
+  background: transparent; /* Makes it look like plain text on the bar */
+  border: none;
+  font-weight: 700;
+}
+
+/* Media control buttons (Stay transparent) */
 #custom-media-prev,
 #custom-media-play,
 #custom-media-next {
   padding: 5px 6px;
   margin: 5px 2px;
   background: transparent;
-  border-radius: 0;
+  color: #89b4fa;
 }
 
 /* Hover effect */
@@ -53,4 +69,5 @@ window#waybar {
 #clock:hover,
 #network:hover {
   background: rgba(137, 180, 250, 0.3);
+  color: #1e1e2e;
 }

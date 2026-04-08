@@ -1,0 +1,64 @@
+{
+  "layer": "top",
+  "position": "top",
+  "margin-top": 5,
+  "margin-left": 10,
+  "margin-right": 10,
+  "height": 34,
+
+  "modules-left": ["custom/user", "hyprland/workspaces"],
+  "modules-center": ["custom/media", "custom/media-prev", "custom/media-play", "custom/media-next"],
+  "modules-right": ["temperature", "custom/gpu", "memory", "custom/fan", "network", "wireplumber", "battery", "clock"],
+
+  // --- LEFT ---
+  "custom/user": {
+    "format": "󰣇  masum@Arch",
+    "tooltip": false
+  },
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate",
+    "all-outputs": true,
+    "persistent-workspaces": {
+      "*": [1, 2, 3, 4, 5, 6, 7] // 7 persistent clickable dots
+    }
+  },
+
+  // --- CENTER (Media) ---
+  "custom/media": {
+    "exec": "playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null",
+    "interval": 1, "max-length": 20, "format": "󰝚 {}"
+  },
+  "custom/media-prev": { "format": "󰒮", "on-click": "playerctl previous" },
+  "custom/media-play": {
+    "exec": "playerctl status 2>/dev/null | grep -q 'Playing' && echo '󰏤' || echo '󰐊'",
+    "interval": 1, "on-click": "playerctl play-pause"
+  },
+  "custom/media-next": { "format": "󰒭", "on-click": "playerctl next" },
+
+  // --- RIGHT (Ordered Metrics) ---
+  "temperature": {
+    "thermal-zone": 2, // Standard for Ryzen laptops
+    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input", // Fallback for Ryzen
+    "critical-threshold": 80,
+    "format": "{temperatureC}°C"
+  },
+
+  "custom/gpu": {
+    "exec": "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null",
+    "interval": 5,
+    "format": "{}°C"
+  },
+
+  "memory": {
+    "format": "{percentage}%",
+    "interval": 3
+  },
+
+  // --- RIGHT (Status) ---
+  "network": { "format-wifi": "    {essid}", "on-click": "kitty -e nmtui" },
+  "wireplumber": { "format": "{icon} {volume}%", "format-icons": ["󰕿", "󰖀", "󰕾"], "on-click": "pavucontrol" },
+  "battery": { "bat": "BAT0", "format": "{icon} {percentage}%", "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"] },
+  "clock": { "format": "󰃭   {:%d-%m-%Y     %H:%M:%S}", "interval": 1, "on-click": "pkill gsimplecal|| gsimplecal"}
+}
