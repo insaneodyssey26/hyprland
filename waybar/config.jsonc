@@ -4,15 +4,15 @@
   "margin-top": 5,
   "margin-left": 10,
   "margin-right": 10,
-  "height": 34,
+  "height": 30,
 
-  "modules-left": ["custom/user", "hyprland/workspaces"],
-  "modules-center": ["custom/media", "custom/media-prev", "custom/media-play", "custom/media-next"],
-  "modules-right": ["temperature", "custom/gpu", "memory", "custom/fan", "network", "wireplumber", "battery", "clock"],
+  "modules-left": ["custom/user", "hyprland/workspaces","custom/thermals","custom/fan"],
+  "modules-center": ["custom/media"],
+  "modules-right": ["memory", "network", "wireplumber", "battery", "clock"],
 
   // --- LEFT ---
   "custom/user": {
-    "format": "󰣇  masum@Arch",
+    "format": "󰣇",
     "tooltip": false
   },
 
@@ -21,44 +21,67 @@
     "on-click": "activate",
     "all-outputs": true,
     "persistent-workspaces": {
-      "*": [1, 2, 3, 4, 5, 6, 7] // 7 persistent clickable dots
+      "*": [1, 2, 3, 4, 5]
     }
   },
 
-  // --- CENTER (Media) ---
+  // --- CENTER ---
   "custom/media": {
     "exec": "playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null",
-    "interval": 1, "max-length": 20, "format": "󰝚 {}"
-  },
-  "custom/media-prev": { "format": "󰒮", "on-click": "playerctl previous" },
-  "custom/media-play": {
-    "exec": "playerctl status 2>/dev/null | grep -q 'Playing' && echo '󰏤' || echo '󰐊'",
-    "interval": 1, "on-click": "playerctl play-pause"
-  },
-  "custom/media-next": { "format": "󰒭", "on-click": "playerctl next" },
-
-  // --- RIGHT (Ordered Metrics) ---
-  "temperature": {
-    "thermal-zone": 2, // Standard for Ryzen laptops
-    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input", // Fallback for Ryzen
-    "critical-threshold": 80,
-    "format": "{temperatureC}°C"
+    "interval": 1,
+    "max-length": 30,
+    "format": "󰝚   {}",
+    "on-click": "playerctl play-pause",
+    "tooltip": false
   },
 
-  "custom/gpu": {
-    "exec": "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null",
+  // --- RIGHT ---
+  "custom/thermals": {
+    "exec": "echo \"$(cat /sys/class/hwmon/hwmon2/temp1_input | cut -c1-2)°C / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°C\"",
     "interval": 5,
-    "format": "{}°C"
+    "format": "   {}",
+    "tooltip": true,
+    "tooltip-format": "CPU / GPU Temperature"
   },
 
   "memory": {
-    "format": "{percentage}%",
+    "format": "󰍛   {percentage}%",
     "interval": 3
   },
 
-  // --- RIGHT (Status) ---
-  "network": { "format-wifi": "    {essid}", "on-click": "kitty -e nmtui" },
-  "wireplumber": { "format": "{icon} {volume}%", "format-icons": ["󰕿", "󰖀", "󰕾"], "on-click": "pavucontrol" },
-  "battery": { "bat": "BAT0", "format": "{icon} {percentage}%", "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"] },
-  "clock": { "format": "󰃭   {:%d-%m-%Y     %H:%M:%S}", "interval": 1, "on-click": "pkill gsimplecal|| gsimplecal"}
+  "custom/fan": {
+    "exec": "echo \"$(cat /sys/class/hwmon/hwmon1/fan1_input) / $(cat /sys/class/hwmon/hwmon7/fan1_input) RPM\"",
+    "interval": 2,
+    "format": "󰈐   {}",
+    "tooltip-format": "CPU / GPU Fan Speed"
+  },
+
+  "network": { 
+    "format-wifi": "    {essid}", 
+    "on-click": "nm-connection-editor" 
+  },
+
+  "wireplumber": { 
+    "format": "{icon}   {volume}%", 
+    "format-icons": ["󰕿", "󰖀", "󰕾"], 
+    "on-click": "pavucontrol" 
+  },
+
+  "battery": {
+    "bat": "BAT1",
+    "adapter": "ACAD",
+    "interval": 2,
+    "states": { "warning": 30, "critical": 15 },
+    "format": "{icon}   {capacity}%",
+    "format-charging": "󱐋   {capacity}%",
+    "format-plugged": "   {capacity}%",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "on-click": "rog-control-center"
+  },
+
+  "clock": { 
+    "format": "󰃭   {:%d-%m-%Y       %H:%M:%S}", 
+    "interval": 1, 
+    "on-click": "pkill gsimplecal || gsimplecal"
+  }
 }

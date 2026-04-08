@@ -1,75 +1,77 @@
 @import "colors.css";
 
 * {
-  /* Using Adwaita Sans for text, FiraCode for icons */
   font-family: "Adwaita Sans", "FiraCode Nerd Font";
-  font-weight: 500;
+  font-weight: 700;
   font-size: 13px;
-  border: none;	
 }
 
 window#waybar {
-  background: rgba(15, 15, 15, 0.6);
-  border-radius: 14px;
+  background: transparent;
 }
 
-/* --- Workspaces --- */
+/* --- Universal Slim Pill Style --- */
+/* The margin here stays 5px to keep your background height consistent */
+#custom-user,
+#custom-thermals, 
+#memory, 
+#custom-fan, 
+#network, 
+#wireplumber, 
+#battery,
+#clock,
+#workspaces,
+#custom-media {
+  background: #0f0f1a;
+  padding: 0px 12px;
+  margin: 5px 3px; 
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Redesigned Arch Section --- */
+#custom-user {
+  font-size: 16px; 
+  color: #ffffff;
+  
+  /* MOVING ICON LEFT: Decreased left padding, increased right padding */
+  padding-left: 12.5px;   
+  padding-right: 16px; 
+  
+  /* Keeping the vertical centering nudge */
+  padding-top: 3px;
+  padding-bottom: 5px;
+  
+  margin-left: 12px;
+}
+
+/* --- Module Colors --- */
+#network, #custom-thermals { color: #3b82f6; }
+#custom-media { color: #a78bfa; }
+#clock { color: #ffffff; }
+#battery { color: #00d2fc; }
+#wireplumber { color: #f9f871; }
+#memory, #custom-fan { color: #8b5cf6; }
+
+/* --- Workspace Precision --- */
+#workspaces {
+  padding: 0px 6px;
+}
+
 #workspaces button {
-  padding: 0 8px;
-  margin: 5px 2px;
-  border-radius: 8px;
-  background: transparent;
-  color: @text; /* Use Matugen text color for better contrast */
+  color: #3b82f6;
+  padding: 0 6px;
+  margin: 0px 2px; 
 }
 
 #workspaces button.active {
-  background: @primary; /* Fixed: changed # to @ */
-  color: @surface;      
-  font-weight: bold;
-}
+  color: #ffffff;
+  background: #3b82f6;
+  padding: 0px 8px;
+  border-radius: 8px;
 
-/* --- The Dynamic Pills --- */
-#custom-user,
-#temperature,
-#memory,
-#custom-gpu,
-#custom-fan,
-#network,
-#clock,
-#custom-media,
-#wireplumber,
-#battery {
-  padding: 2px 12px;
-  margin: 5px;
-  border-radius: 12px;
-  
-  /* These will now change automatically! */
-  background: @primary_alt; 
-  color: @primary; 
-  border: 1px solid rgba(255, 255, 255, 0.1); 
-}
-
-/* Name on the left */
-#custom-user {
-  background: transparent;
-  border: none;
-  font-weight: 700;
-}
-
-/* Media buttons (Now using the dynamic color) */
-#custom-media-prev,
-#custom-media-play,
-#custom-media-next {
-  padding: 5px 6px;
-  margin: 5px 2px;
-  background: transparent;
-  color: @primary;
-}
-
-/* Hover effect */
-#workspaces button:hover,
-#clock:hover,
-#network:hover {
-  background: rgba(255, 255, 255, 0.1); /* Subtle white hover works on any color */
-  color: @primary;
+  /* SHRINKING THE INDICATOR: */
+  /* These margins create the gap so it doesn't touch the top/bottom border */
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
