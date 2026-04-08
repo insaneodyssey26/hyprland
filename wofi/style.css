@@ -1,0 +1,51 @@
+* {
+    font-family: "Adwaita Sans", "FiraCode Nerd Font";
+    font-size: 14px;
+}
+
+window {
+    margin: 0px;
+    border: 1px solid rgba(137, 180, 250, 0.3);
+    background-color: rgba(15, 15, 15, 0.8); /* Adjust 0.8 for more/less transparency */
+    border-radius: 15px;
+}
+
+#outer-box {
+    margin: 10px;
+    background-color: transparent;
+}
+
+#input {
+    margin: 10px;
+    border: none;
+    background-color: rgba(137, 180, 250, 0.1);
+    color: #cdd6f4;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#inner-box {
+    margin: 5px;
+    background-color: transparent;
+}
+
+#text {
+    margin: 5px;
+    color: #cdd6f4;
+}
+
+#entry:selected {
+    background-color: rgba(137, 180, 250, 0.2);
+    border-radius: 10px;
+    outline: none;
+}
+
+#text:selected {
+    color: #89b4fa;
+    font-weight: bold;
+}
+
+/* Scrollbar styling for a cleaner look */
+#scroll {
+    margin-right: 5px;
+}
