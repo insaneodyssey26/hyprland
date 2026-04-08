@@ -1,5 +1,5 @@
 /* Using standard hex for Waybar */
-@define-color primary #ffb599;
-@define-color primary_alt rgba(255, 181, 153, 0.15);
-@define-color surface #1a110e;
-@define-color text #f1dfd9;
+@define-color primary #85d6c1;
+@define-color primary_alt rgba(133, 214, 193, 0.15);
+@define-color surface #0e1513;
+@define-color text #dee4e0;
