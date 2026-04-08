@@ -11,7 +11,6 @@ window#waybar {
 }
 
 /* --- Universal Slim Pill Style --- */
-/* The margin here stays 5px to keep your background height consistent */
 #custom-user,
 #custom-thermals, 
 #memory, 
@@ -23,30 +22,35 @@ window#waybar {
 #workspaces,
 #custom-media {
   background: #0f0f1a;
-  padding: 0px 12px;
+  padding: 0px 14px; /* Slightly wider padding for a cleaner look */
   margin: 5px 3px; 
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* --- Redesigned Arch Section --- */
+/* --- Fixed Colors (Fixes the Gray Text) --- */
+#network {
+  color: #3b82f6;
+  /* Fixed width to match our 22-character JSON limit */
+  min-width: 100px; 
+  padding: 0px 14px;
+}
+
+#custom-thermals { 
+  color: #3b82f6; /* Deep Blue locked in */
+}
+
+/* --- Centered Arch Icon Section --- */
 #custom-user {
-  font-size: 16px; 
-  color: #ffffff;
-  
-  /* MOVING ICON LEFT: Decreased left padding, increased right padding */
-  padding-left: 12.5px;   
-  padding-right: 16px; 
-  
-  /* Keeping the vertical centering nudge */
-  padding-top: 3px;
-  padding-bottom: 5px;
-  
+  font-size: 19px;
+  color: #3b82f6; 
+  background: #0f0f1a; 
+  border-radius: 20px;
+  padding: 3px 14px 5px 10px;
   margin-left: 12px;
 }
 
-/* --- Module Colors --- */
-#network, #custom-thermals { color: #3b82f6; }
+/* --- Other Pill Colors --- */
 #custom-media { color: #a78bfa; }
 #clock { color: #ffffff; }
 #battery { color: #00d2fc; }
@@ -54,10 +58,6 @@ window#waybar {
 #memory, #custom-fan { color: #8b5cf6; }
 
 /* --- Workspace Precision --- */
-#workspaces {
-  padding: 0px 6px;
-}
-
 #workspaces button {
   color: #3b82f6;
   padding: 0 6px;
@@ -69,9 +69,6 @@ window#waybar {
   background: #3b82f6;
   padding: 0px 8px;
   border-radius: 8px;
-
-  /* SHRINKING THE INDICATOR: */
-  /* These margins create the gap so it doesn't touch the top/bottom border */
   margin-top: 4px;
   margin-bottom: 4px;
 }

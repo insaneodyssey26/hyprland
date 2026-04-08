@@ -8,7 +8,7 @@
 
   "modules-left": ["custom/user", "hyprland/workspaces","custom/thermals","custom/fan"],
   "modules-center": ["custom/media"],
-  "modules-right": ["memory", "network", "wireplumber", "battery", "clock"],
+  "modules-right": ["memory", "tray",  "network", "wireplumber", "battery", "clock"],
 
   // --- LEFT ---
   "custom/user": {
@@ -32,6 +32,7 @@
     "max-length": 30,
     "format": "󰝚   {}",
     "on-click": "playerctl play-pause",
+    "escape": true,  // This tells Waybar to handle characters like & safely
     "tooltip": false
   },
 
@@ -49,6 +50,11 @@
     "interval": 3
   },
 
+  "tray": {
+    "icon-size": 18,
+    "spacing": 10
+  },
+
   "custom/fan": {
     "exec": "echo \"$(cat /sys/class/hwmon/hwmon1/fan1_input) / $(cat /sys/class/hwmon/hwmon7/fan1_input) RPM\"",
     "interval": 2,
@@ -56,9 +62,19 @@
     "tooltip-format": "CPU / GPU Fan Speed"
   },
 
-  "network": { 
-    "format-wifi": "    {essid}", 
-    "on-click": "nm-connection-editor" 
+"network": { 
+    "interval": 1,
+    // {essid:.8} tells Waybar: "Show a maximum of 8 characters for the SSID"
+    "format-wifi": "    {essid:.10}  󰓅   {bandwidthTotalBytes}",
+    "format-ethernet": "󰈀    󰓅   {bandwidthTotalBytes}",
+    "format-disconnected": "󰖪    Offline",
+    "tooltip-format": "Full SSID: {essid}\nSignal: {signalStrength}%",
+    "on-click": "nm-connection-editor",
+    
+    // Stability Anchor
+    "min-length": 18,
+    "max-length": 22,
+    "align": 0
   },
 
   "wireplumber": { 
@@ -80,8 +96,11 @@
   },
 
   "clock": { 
-    "format": "󰃭   {:%d-%m-%Y       %H:%M:%S}", 
+    "format": "󰃭   {:%d-%m       %H:%M:%S}", 
     "interval": 1, 
-    "on-click": "pkill gsimplecal || gsimplecal"
+    "on-click": "pkill gsimplecal || gsimplecal",
+    "min-length": 15,
+    "max-length": 21,
+    "align": 0
   }
 }
