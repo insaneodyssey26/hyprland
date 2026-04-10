@@ -2,13 +2,13 @@
   "layer": "top",
   "position": "top",
   "margin-top": 5,
-  "margin-left": 10,
-  "margin-right": 10,
+  "margin-left": 10,  // Keep this at 10
+  "margin-right": 10, // Ensure this is also 10
   "height": 30,
 
-  "modules-left": ["custom/user", "hyprland/workspaces","custom/thermals","custom/fan"],
-  "modules-center": ["custom/media"],
-  "modules-right": ["memory", "tray",  "network", "wireplumber", "battery", "clock"],
+  "modules-left": ["custom/user", "hyprland/workspaces", "custom/thermals", "custom/fan"],
+  "modules-center": ["mpris"], 
+  "modules-right": ["memory", "tray", "network", "wireplumber", "battery", "clock"],
 
   // --- LEFT ---
   "custom/user": {
@@ -25,29 +25,33 @@
     }
   },
 
-  // --- CENTER ---
-  "custom/media": {
-    "exec": "playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null",
-    "interval": 1,
-    "max-length": 30,
-    "format": "󰝚   {}",
-    "on-click": "playerctl play-pause",
-    "escape": true,  // This tells Waybar to handle characters like & safely
-    "tooltip": false
-  },
-
-  // --- RIGHT ---
   "custom/thermals": {
-    "exec": "echo \"$(cat /sys/class/hwmon/hwmon2/temp1_input | cut -c1-2)°C / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°C\"",
+    "exec": "echo \"$(awk '{print substr($1, 1, 2); exit}' /sys/class/hwmon/hwmon*/temp1_input 2>/dev/null)° / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°\"",
     "interval": 5,
     "format": "   {}",
     "tooltip": true,
     "tooltip-format": "CPU / GPU Temperature"
   },
 
+  "custom/fan": {
+    "exec": "cat /sys/class/hwmon/hwmon*/fan1_input 2>/dev/null | xargs | awk '{if($2) print $1\" / \"$2\" RPM\"; else if($1) print $1\" RPM\"; else print \"0 RPM\"}'",
+    "interval": 5, 
+    "format": "󰈐   {}",
+    "tooltip": false
+  },
+
+  // --- CENTER ---
+  "mpris": {
+    "format": "󰝚   {title} - {artist}",
+    "format-paused": "󰏤   {title} - {artist}",
+    "max-length": 40,
+    "tooltip": false
+  },
+
+  // --- RIGHT ---
   "memory": {
     "format": "󰍛   {percentage}%",
-    "interval": 3
+    "interval": 10 
   },
 
   "tray": {
@@ -55,23 +59,13 @@
     "spacing": 10
   },
 
-  "custom/fan": {
-    "exec": "echo \"$(cat /sys/class/hwmon/hwmon1/fan1_input) / $(cat /sys/class/hwmon/hwmon7/fan1_input) RPM\"",
-    "interval": 2,
-    "format": "󰈐   {}",
-    "tooltip-format": "CPU / GPU Fan Speed"
-  },
-
-"network": { 
-    "interval": 1,
-    // {essid:.8} tells Waybar: "Show a maximum of 8 characters for the SSID"
+  "network": { 
+    "interval": 5,
     "format-wifi": "    {essid:.10}  󰓅   {bandwidthTotalBytes}",
     "format-ethernet": "󰈀    󰓅   {bandwidthTotalBytes}",
     "format-disconnected": "󰖪    Offline",
     "tooltip-format": "Full SSID: {essid}\nSignal: {signalStrength}%",
     "on-click": "nm-connection-editor",
-    
-    // Stability Anchor
     "min-length": 18,
     "max-length": 22,
     "align": 0
@@ -79,6 +73,7 @@
 
   "wireplumber": { 
     "format": "{icon}   {volume}%", 
+    "format-muted": "󰖁   Muted",
     "format-icons": ["󰕿", "󰖀", "󰕾"], 
     "on-click": "pavucontrol" 
   },
@@ -86,12 +81,13 @@
   "battery": {
     "bat": "BAT1",
     "adapter": "ACAD",
-    "interval": 2,
+    "interval": 10,
     "states": { "warning": 30, "critical": 15 },
     "format": "{icon}   {capacity}%",
     "format-charging": "󱐋   {capacity}%",
     "format-plugged": "   {capacity}%",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    /* These are the specific horizontal "Font Awesome" style icons */
+    "format-icons": [" ", " ", " ", " ", " "],
     "on-click": "rog-control-center"
   },
 

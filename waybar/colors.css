@@ -1,5 +1,8 @@
-/* Using standard hex for Waybar */
-@define-color primary #85d6c1;
-@define-color primary_alt rgba(133, 214, 193, 0.15);
-@define-color surface #0e1513;
-@define-color text #dee4e0;
+@define-color primary #ffb599;
+@define-color on-primary #552009;
+@define-color secondary #e7beaf;
+@define-color tertiary #d4c78e;
+@define-color surface #1a110e;
+@define-color surface-container-highest #3d322f;
+@define-color outline #a08d86;
+@define-color on-surface #f1dfd9;
