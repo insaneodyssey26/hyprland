@@ -16,7 +16,6 @@
   font-family: "Geist", "FiraCode Nerd Font";
   font-weight: 700;
   font-size: 13px;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 window#waybar {
@@ -83,19 +82,16 @@ window#waybar {
 
 /* --- Upgraded Numbered Workspaces --- */
 #workspaces button {
-  color: @outline; 
+  color: @outline;
   font-weight: 800;
-  padding: 0px 8px;
-  margin: 0px 2px; 
+
+  padding: 0px 10px;
+  margin: 2px 2px;
+
   border-radius: 10px;
   background: transparent;
-  transition: padding 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
-              background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-              margin 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
 
-#workspaces button label {
-  transition: none;
+  transition: background-color 0.25s ease, color 0.2s ease;
 }
 
 #workspaces button:hover {
@@ -103,12 +99,15 @@ window#waybar {
   color: @primary;
 }
 
+/* FIXED ACTIVE */
 #workspaces button.active {
   color: @on-primary;
   background: @primary;
-  padding: 0px 18px; 
+
+  padding: 0px 10px;   /* SAME → no jump */
+  margin: 2px 2px;     /* SAME → no shift */
+
   border-radius: 10px;
-  margin-top: 3px;
-  margin-bottom: 3px;
+
   animation: breathingGlow 2.5s infinite ease-in-out;
 }
