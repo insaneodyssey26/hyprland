@@ -2,13 +2,13 @@
   "layer": "top",
   "position": "top",
   "margin-top": 5,
-  "margin-left": 10,  // Keep this at 10
-  "margin-right": 10, // Ensure this is also 10
+  "margin-left": 10,
+  "margin-right": 10,
   "height": 30,
 
   "modules-left": ["custom/user", "hyprland/workspaces", "custom/thermals", "custom/fan"],
   "modules-center": ["mpris"], 
-  "modules-right": ["memory", "tray", "network", "wireplumber", "battery", "clock"],
+  "modules-right": ["memory", "tray", "network", "wireplumber", "battery", "custom/notification", "clock"],
 
   // --- LEFT ---
   "custom/user": {
@@ -86,9 +86,29 @@
     "format": "{icon}   {capacity}%",
     "format-charging": "󱐋   {capacity}%",
     "format-plugged": "   {capacity}%",
-    /* These are the specific horizontal "Font Awesome" style icons */
     "format-icons": [" ", " ", " ", " ", " "],
     "on-click": "rog-control-center"
+  },
+
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "󰂚<span foreground='#82d5c8'><sup> </sup></span>",
+      "none": "󰂜",
+      "dnd-notification": "󰂛<span foreground='#82d5c8'><sup> </sup></span>",
+      "dnd-none": "󰂛",
+      "inhibited-notification": "󰂚<span foreground='#82d5c8'><sup> </sup></span>",
+      "inhibited-none": "󰂜",
+      "dnd-inhibited-notification": "󰂛<span foreground='#82d5c8'><sup> </sup></span>",
+      "dnd-inhibited-none": "󰂛"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
   },
 
   "clock": { 
