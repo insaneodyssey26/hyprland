@@ -11,34 +11,84 @@
 .control-center {
   background: alpha(@surface, 0.85);
   border: 1px solid alpha(@outline, 0.2);
+  border-radius: 24px;
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Quick Settings Grid --- */
+.widget-buttons-grid {
+  padding: 15px;
+  margin: 15px 15px 5px 15px;
   border-radius: 20px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
+  background: @surface-container-highest;
 }
 
-/* --- Notification Popups --- */
-.notification {
-  background: alpha(@surface, 0.9);
-  border: 1px solid alpha(@primary, 0.3);
+.widget-buttons-grid > flowbox > flowboxchild > button {
+  background: @surface;
   border-radius: 16px;
-  margin: 10px 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  padding: 12px;
+  padding: 14px;
+  margin: 5px;
+  color: @primary;
+  min-width: 75px;
 }
 
-/* --- THE FIX: App Name Visibility --- */
-/* Target the application name label across all states */
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+  background: alpha(@primary, 0.2);
+  box-shadow: 0 4px 12px alpha(@primary, 0.25);
+}
+
+/* --- MPRIS Player --- */
+.widget-mpris {
+  background: @surface-container-highest;
+  border-radius: 20px;
+  margin: 5px 15px 15px 15px;
+  padding: 15px;
+}
+
+.widget-mpris-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: @primary;
+}
+
+.widget-mpris-subtitle {
+  font-size: 12px;
+  color: alpha(@on-surface, 0.7);
+}
+
+/* --- Notifications Header --- */
+.widget-title {
+  margin: 10px 15px;
+}
+
+.widget-title > button {
+  background: @surface-container-highest;
+  color: @primary;
+  border-radius: 12px;
+  padding: 8px 16px;
+}
+
+/* --- Notification Cards --- */
+.notification {
+  background: alpha(@surface, 0.95);
+  border: 1px solid alpha(@primary, 0.25);
+  border-radius: 20px;
+  margin: 10px 15px;
+  padding: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* App Name Styling */
 label.appname,
 .notification-group-label,
 .notification-header label,
 .app-name {
-  display: block !important;
-  color: @primary !important;
-  font-weight: 800 !important;
-  font-size: 10px !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-  margin-bottom: 2px !important;
-  opacity: 1 !important;
+  color: @primary;
+  font-weight: 800;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 6px;
 }
 
 .notification-content {
@@ -46,43 +96,7 @@ label.appname,
 }
 
 .notification-default .notification-content .summary {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   color: @on-surface;
-  margin-bottom: 3px;
-}
-
-.notification-default .notification-content .body {
-  font-size: 12px;
-  font-weight: 500;
-  color: alpha(@on-surface, 0.8);
-}
-
-/* --- Widgets --- */
-.widget-title > button {
-  background: @surface-container-highest;
-  color: @primary;
-  border-radius: 10px;
-  padding: 5px 12px;
-}
-
-.widget-title > button:hover {
-  background: alpha(@primary, 0.15);
-}
-
-.widget-mpris {
-  background: @surface-container-highest;
-  border-radius: 16px;
-  margin: 10px;
-  padding: 10px;
-}
-
-.widget-mpris-title {
-  font-size: 14px;
-  color: @primary;
-}
-
-.widget-mpris-subtitle {
-  font-size: 11px;
-  color: alpha(@on-surface, 0.7);
 }

@@ -1,0 +1,68 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "positionX": "right",
+  "positionY": "top",
+  "control-center-margin-top": 10,
+  "control-center-margin-bottom": 10,
+  "control-center-margin-right": 10,
+  "control-center-margin-left": 10,
+  "control-center-width": 380,
+  "control-center-height": 800,
+  "fit-to-screen": false,
+  "control-center-radius": 24,
+  "notification-window-width": 360,
+  "keyboard-shortcuts": true,
+  "image-visibility": "when-available",
+  "transition-length": 200,
+  "hide-on-clear": false,
+  "hide-on-action": true,
+  "script-fail-notify": true,
+  "group-window-now": false,
+  "widgets": [
+    "buttons-grid",
+    "mpris",
+    "title",
+    "dnd",
+    "notifications"
+  ],
+  "widget-config": {
+    "title": {
+      "text": "Notifications",
+      "clear-all-button": true,
+      "button-text": "Clear All"
+    },
+    "dnd": {
+      "text": "Do Not Disturb"
+    },
+    "mpris": {
+      "image-size": 90,
+      "image-radius": 14
+    },
+    "notifications": {
+      "max-notifications": 8,
+      "timeout": 5,
+      "timeout-low": 3,
+      "timeout-critical": 0
+    },
+    "buttons-grid": {
+      "actions": [
+        {
+          "label": "󰖩",
+          "command": "nm-connection-editor"
+        },
+        {
+          "label": "󰂯",
+          "command": "bluetoothctl show | grep -q 'Powered: yes' && (bluetoothctl power off && notify-send 'Bluetooth' 'Powered Off' -u low) || (bluetoothctl power on && notify-send 'Bluetooth' 'Powered On' -u low)"
+        },
+        {
+          "label": "󰃭",
+          "command": "pkill gsimplecal || GTK_THEME=Adwaita:dark gsimplecal"
+        },
+        {
+          "label": "󰐥",
+          "command": "wlogout"
+        }
+      ]
+    }
+  }
+}

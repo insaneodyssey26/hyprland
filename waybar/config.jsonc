@@ -114,7 +114,7 @@
   "clock": { 
     "format": "󰃭   {:%d-%m       %H:%M:%S}", 
     "interval": 1, 
-    "on-click": "pkill gsimplecal || gsimplecal",
+    "on-click": "pkill gsimplecal || GTK_THEME=Adwaita:dark gsimplecal",
     "min-length": 15,
     "max-length": 21,
     "align": 0
