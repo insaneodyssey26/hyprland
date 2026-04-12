@@ -1,0 +1,50 @@
+@import "colors.css";
+
+* {
+  font-family: "Geist", "FiraCode Nerd Font";
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* The floating notification popups */
+.notification {
+  background: alpha(@surface, 0.9);
+  border: 1px solid alpha(@primary, 0.3);
+  border-radius: 16px;
+  margin: 10px 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 12px;
+}
+
+.notification-content {
+  color: @on-surface;
+}
+
+/* The Control Center Panel */
+.control-center {
+  background: alpha(@surface, 0.85);
+  border: 1px solid alpha(@outline, 0.2);
+  border-radius: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Clear All Button */
+.widget-title>button {
+  background: @surface-container-highest;
+  color: @primary;
+  border-radius: 10px;
+  padding: 5px 12px;
+}
+
+.widget-title>button:hover {
+  background: alpha(@primary, 0.15);
+}
+
+/* MPRIS Player */
+.widget-mpris {
+  background: @surface-container-highest;
+  border-radius: 16px;
+  margin: 10px;
+  padding: 10px;
+}
