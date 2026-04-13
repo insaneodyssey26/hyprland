@@ -35,8 +35,8 @@
       "text": "Do Not Disturb"
     },
     "mpris": {
-      "image-size": 90,
-      "image-radius": 14
+      "image-size": 60,
+      "image-radius": 12
     },
     "notifications": {
       "max-notifications": 8,

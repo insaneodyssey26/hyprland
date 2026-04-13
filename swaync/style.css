@@ -10,43 +10,51 @@
 /* --- Control Center Panel --- */
 .control-center {
   background: alpha(@surface, 0.85);
-  border: 1px solid alpha(@outline, 0.2);
+  border: 1px solid alpha(@primary, 0.15);
   border-radius: 24px;
   box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* --- Quick Settings Grid --- */
+/* --- Quick Settings Row (Android Style) --- */
 .widget-buttons-grid {
-  padding: 15px;
+  padding: 10px 15px;
   margin: 15px 15px 5px 15px;
-  border-radius: 20px;
-  background: @surface-container-highest;
+  background: transparent; /* Removed the heavy grey background */
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button {
-  background: @surface;
-  border-radius: 16px;
-  padding: 14px;
-  margin: 5px;
+  background: alpha(@surface-container-highest, 0.8);
+  border-radius: 100px; /* Fully rounded pill/circle */
+  padding: 12px 24px; /* Wider padding for the pill look */
+  margin: 0 6px; /* Perfect, even gaps between icons */
   color: @primary;
-  min-width: 75px;
+  font-size: 18px; /* Larger, more legible icons */
+  border: 1px solid transparent;
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button:hover {
-  background: alpha(@primary, 0.2);
-  box-shadow: 0 4px 12px alpha(@primary, 0.25);
+  background: alpha(@primary, 0.15);
+  border: 1px solid alpha(@primary, 0.3);
+  box-shadow: 0 4px 12px alpha(@primary, 0.2);
 }
 
-/* --- MPRIS Player --- */
+/* --- MPRIS Player (Compact Mobile Style) --- */
 .widget-mpris {
-  background: @surface-container-highest;
-  border-radius: 20px;
-  margin: 5px 15px 15px 15px;
-  padding: 15px;
+  background: transparent; /* Stripped the grey background */
+  margin: 0px 15px 5px 15px;
+  padding: 5px;
+}
+
+.widget-mpris-player {
+  background: alpha(@surface, 0.6); /* Very subtle card for the player itself */
+  border-radius: 16px;
+  padding: 12px;
+  border: 1px solid alpha(@primary, 0.1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .widget-mpris-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
   color: @primary;
 }
@@ -58,22 +66,31 @@
 
 /* --- Notifications Header --- */
 .widget-title {
-  margin: 10px 15px;
+  margin: 10px 15px 5px 15px;
+  font-size: 16px;
+  color: @on-surface;
 }
 
 .widget-title > button {
-  background: @surface-container-highest;
+  background: alpha(@surface-container-highest, 0.5);
   color: @primary;
   border-radius: 12px;
-  padding: 8px 16px;
+  padding: 6px 14px;
+  font-size: 12px;
+  border: 1px solid transparent;
 }
 
-/* --- Notification Cards --- */
+.widget-title > button:hover {
+  background: alpha(@primary, 0.15);
+  border: 1px solid alpha(@primary, 0.3);
+}
+
+/* --- Notification Cards (Glassmorphism) --- */
 .notification {
   background: alpha(@surface, 0.95);
-  border: 1px solid alpha(@primary, 0.25);
+  border: 1px solid alpha(@primary, 0.15);
   border-radius: 20px;
-  margin: 10px 15px;
+  margin: 8px 15px;
   padding: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
@@ -96,7 +113,7 @@ label.appname,
 }
 
 .notification-default .notification-content .summary {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   color: @on-surface;
-}
+} 
