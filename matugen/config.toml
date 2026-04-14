@@ -20,3 +20,11 @@ output_path = "~/.config/swaync/colors.css"
 [templates.fuzzel]
 input_path = "~/.config/matugen/templates/fuzzel.ini"
 output_path = "~/.config/fuzzel/fuzzel.ini"
+
+[templates.fastfetch_main]
+input_path = "~/.config/matugen/templates/config.jsonc"
+output_path = "~/.config/fastfetch/config.jsonc"
+
+[templates.fastfetch_small]
+input_path = "~/.config/matugen/templates/small.jsonc"
+output_path = "~/.config/fastfetch/small.jsonc"
