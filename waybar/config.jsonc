@@ -57,7 +57,9 @@
 
   "clock": { 
     "format": "󰃭   {:%a, %d-%m   󰥔   %H:%M:%S}", 
-    "interval": 1
+    "interval": 1,
+    "on-click": "kitty --class calendar-overlay --hold -e cal -y",
+    "on-click-right": "kitty --class calendar-overlay -e tty-clock -c -C 5 -t -s"
   },
 
   "custom/user": { "format": "󰣇", "on-click": "swaync-client -t -sw" },
