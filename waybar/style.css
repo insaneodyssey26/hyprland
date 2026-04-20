@@ -1,9 +1,9 @@
 @import "colors.css";
 
-/* --- Global Hierarchy & Typography --- */
+/* --- GLOBAL HIERARCHY --- */
 * {
   font-family: "Geist", "FiraCode Nerd Font";
-  font-weight: 600; /* Senior Semi-bold for clarity */
+  font-weight: 600;
   font-size: 13px;
   transition: none; 
 }
@@ -23,16 +23,50 @@ window#waybar {
   padding: 2px 14px; 
   border-radius: 14px;
   border: 1px solid alpha(@outline, 0.1);
+  min-height: 28px; /* FORCED STABILITY: Prevents vertical jumping */
 }
 
-/* --- CONNECTIVITY: Proper Breathing Space --- */
-#network, #wireplumber, #battery {
-  padding: 0px 10px; /* Internal module spacing to prevent icon/text clash */
+/* --- NO-JITTER ELASTIC WORKSPACES --- */
+#workspaces {
+  padding: 0px;
+  margin: 0px;
 }
 
-/* --- SYSTEM MONITORING: Tighter Gaps --- */
-#memory, #custom-thermals, #custom-fan {
-  padding: 0px 8px;
+#workspaces button {
+  color: transparent; 
+  padding: 0px;
+  margin: 4px 4px; /* Fixed margin to prevent horizontal snapping */
+  border-radius: 12px;
+  background: alpha(@on-surface, 0.2); 
+  min-width: 12px; /* Slightly larger base dot for stability */
+  min-height: 12px;
+  /* Specific transitions only: Prevents 'all' from jittering the layout */
+  transition: min-width 0.4s cubic-bezier(0.33, 1, 0.68, 1), background-color 0.3s ease; 
+}
+
+#workspaces button.occupied {
+  background: alpha(@primary, 0.4);
+  min-width: 12px;
+}
+
+#workspaces button.active {
+  color: @on-primary;
+  background: @primary;
+  min-width: 30px; /* Increased width for a smoother stretch */
+  border-radius: 10px;
+  padding: 0px 6px;
+  font-size: 11px;
+}
+
+/* --- HOVER: Smooth Feedback --- */
+#workspaces button:hover {
+  background: alpha(@primary, 0.6);
+  min-width: 16px; 
+}
+
+/* --- CONNECTIVITY & STATS --- */
+#network, #wireplumber, #battery, #memory, #custom-thermals, #custom-fan {
+  padding: 0px 10px;
 }
 
 #custom-user {
@@ -42,31 +76,17 @@ window#waybar {
   padding-left: 4px;
 }
 
-#mpris { color: @tertiary; }
-#clock { color: @on-surface; }
-
-/* --- Workspaces --- */
-#workspaces button {
-  color: alpha(@on-surface, 0.4);
-  padding: 0px 10px;
-  margin: 2px 2px;
-  border-radius: 10px;
-}
-
-#workspaces button.active {
-  color: @on-primary;
-  background: @primary;
-}
-
-/* --- Theme Coloring --- */
+/* --- MATUGEN COLORING --- */
 #network { color: @secondary; }
 #wireplumber { color: @tertiary; }
 #battery { color: @primary; }
 #custom-thermals { color: @secondary; }
 #memory { color: @tertiary; }
 #custom-fan { color: @on-surface; }
+#mpris { color: @tertiary; }
+#clock { color: @on-surface; }
 
-/* --- Hover State --- */
+/* --- HOVER STATE --- */
 #user-workspaces:hover, #system-stats:hover, #connectivity:hover, #clock:hover, #mpris:hover {
   background: @surface-container-highest;
   border: 1px solid alpha(@primary, 0.3);

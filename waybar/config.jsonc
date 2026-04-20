@@ -26,19 +26,30 @@
   },
 
   // --- MODULE CONFIGS ---
+  "hyprland/workspaces": {
+    "active-only": false,
+    "all-outputs": true,
+    "disable-scroll": false,
+    "on-scroll-up": "hyprctl dispatch workspace -1",
+    "on-scroll-down": "hyprctl dispatch workspace +1",
+    "format": "{name}", 
+    "on-click": "activate",
+    "persistent-workspaces": {
+      "eDP-1": [1, 2, 3, 4, 5] 
+    }
+  },
+
   "network": { 
     "interval": 3,
-    // FIXED: Exactly two spaces between icon and text to prevent overlap
     "format-wifi": "     {bandwidthTotalBytes}",
     "format-ethernet": "󰈀     {bandwidthTotalBytes}",
     "format-disconnected": "󰖪     Offline",
-    "tooltip-format-wifi": "Network: {essid}", // Added this to show the WiFi name on hover
+    "tooltip-format-wifi": "Network: {essid}", // Show WiFi name on hover [cite: 2]
     "tooltip-format-disconnected": "Offline",
     "on-click": "nm-connection-editor" 
   },
 
   "wireplumber": { 
-    // FIXED: Exactly two spaces for a clean, non-overlapping look
     "format": "{icon}   {volume}%", 
     "format-muted": "󰖁   Muted",
     "format-icons": ["󰕿", "󰖀", "󰕾"], 
@@ -48,22 +59,18 @@
   "battery": {
     "bat": "BAT1",
     "interval": 10,
-    // FIXED: Standardized spacing for battery status
     "format": "{icon}   {capacity}%",
     "format-charging": "󱐋   {capacity}%",
     "format-icons": [" ", " ", " ", " ", " "]
   },
 
   "clock": { 
-    // FIXED: Reliable single-bracket format for date, day, and seconds
     "format": "󰃭   {:%a, %d-%m   󰥔   %H:%M:%S}", 
     "interval": 1,
     "tooltip-format": "<tt><small>{calendar}</small></tt>"
   },
 
-  // Remaining modules kept for system stability
   "custom/user": { "format": "󰣇", "on-click": "swaync-client -t -sw" },
-  "hyprland/workspaces": { "format": "{name}", "persistent-workspaces": { "eDP-1": [1, 2, 3, 4, 5] } },
   "mpris": { "format": "󰝚   {title}", "max-length": 40 },
   "memory": { "format": "󰍛   {percentage}%" },
   "custom/thermals": { "format": "   {}", "exec": "echo \"$(awk '{print substr($1, 1, 2); exit}' /sys/class/hwmon/hwmon*/temp1_input 2>/dev/null)° / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°\"" },
