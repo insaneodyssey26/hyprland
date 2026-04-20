@@ -12,8 +12,18 @@ window#waybar {
   background: transparent;
 }
 
-/* --- THE ATOMIC PILL DESIGN --- */
-#user-workspaces,
+/* --- THE ATOMIC PILL DESIGN (Hard-Locked) --- */
+#user-workspaces {
+  background: @surface;
+  margin: 5px 6px;
+  padding: 2px 14px; 
+  border-radius: 14px;
+  border: 1px solid alpha(@outline, 0.1);
+  min-height: 28px;
+  min-width: 165px;
+  transition: border 0.2s ease; /* Prep for minimal hover */
+}
+
 #system-stats,
 #connectivity,
 #clock, 
@@ -23,42 +33,49 @@ window#waybar {
   padding: 2px 14px; 
   border-radius: 14px;
   border: 1px solid alpha(@outline, 0.1);
-  min-height: 28px; /* FORCED STABILITY: Prevents vertical jumping */
+  min-height: 28px;
+  transition: border 0.2s ease; /* Prep for minimal hover */
 }
 
-/* --- NO-JITTER ELASTIC WORKSPACES --- */
+/* --- ANCHOR LOCK --- */
+#custom-user {
+  font-size: 18px;
+  color: @primary;
+  padding-right: 12px;
+  padding-left: 4px;
+  min-width: 24px; 
+}
+
+/* --- THE TITANIUM CAGE --- */
 #workspaces {
   padding: 0px;
   margin: 0px;
+  min-width: 125px; 
 }
 
 #workspaces button {
   color: transparent; 
-  padding: 0px;
-  margin: 4px 4px; /* Fixed margin to prevent horizontal snapping */
+  padding: 0px 4px; 
+  margin: 4px 3px; 
   border-radius: 12px;
   background: alpha(@on-surface, 0.2); 
-  min-width: 12px; /* Slightly larger base dot for stability */
+  min-width: 10px; 
   min-height: 12px;
-  /* Specific transitions only: Prevents 'all' from jittering the layout */
-  transition: min-width 0.4s cubic-bezier(0.33, 1, 0.68, 1), background-color 0.3s ease; 
+  font-size: 11px; 
+  transition: min-width 0.3s cubic-bezier(0.2, 1, 0.3, 1), background-color 0.2s ease; 
 }
 
 #workspaces button.occupied {
   background: alpha(@primary, 0.4);
-  min-width: 12px;
 }
 
 #workspaces button.active {
   color: @on-primary;
   background: @primary;
-  min-width: 30px; /* Increased width for a smoother stretch */
+  min-width: 32px; 
   border-radius: 10px;
-  padding: 0px 6px;
-  font-size: 11px;
 }
 
-/* --- HOVER: Smooth Feedback --- */
 #workspaces button:hover {
   background: alpha(@primary, 0.6);
   min-width: 16px; 
@@ -67,13 +84,6 @@ window#waybar {
 /* --- CONNECTIVITY & STATS --- */
 #network, #wireplumber, #battery, #memory, #custom-thermals, #custom-fan {
   padding: 0px 10px;
-}
-
-#custom-user {
-  font-size: 18px;
-  color: @primary;
-  padding-right: 12px;
-  padding-left: 4px;
 }
 
 /* --- MATUGEN COLORING --- */
@@ -86,8 +96,8 @@ window#waybar {
 #mpris { color: @tertiary; }
 #clock { color: @on-surface; }
 
-/* --- HOVER STATE --- */
+/* --- THE MINIMAL HOVER STATE --- */
 #user-workspaces:hover, #system-stats:hover, #connectivity:hover, #clock:hover, #mpris:hover {
-  background: @surface-container-highest;
-  border: 1px solid alpha(@primary, 0.3);
+  /* No background change. Just a slight firming up of the border outline */
+  border: 1px solid alpha(@outline, 0.4); 
 }
