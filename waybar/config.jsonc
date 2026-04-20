@@ -1,77 +1,44 @@
 {
   "layer": "top",
   "position": "top",
-  "margin-top": 5,
-  "margin-left": 10,
-  "margin-right": 10,
-  "height": 30,
+  "margin-top": 8,
+  "margin-left": 12,
+  "margin-right": 12,
 
-  "modules-left": ["custom/user", "hyprland/workspaces", "custom/thermals", "custom/fan"],
+  "modules-left": ["group/user-workspaces", "group/system-stats"],
   "modules-center": ["mpris"], 
-  "modules-right": ["memory", "tray", "network", "wireplumber", "battery", "custom/notification", "clock"],
+  "modules-right": ["group/connectivity", "clock"],
 
-  // --- LEFT ---
-  "custom/user": {
-    "format": "󰣇",
-    "tooltip": false
+  // --- GROUPS ---
+  "group/user-workspaces": {
+    "orientation": "horizontal",
+    "modules": ["custom/user", "hyprland/workspaces"]
   },
 
-  "hyprland/workspaces": {
-    "format": "{name}",
-    "on-click": "activate",
-    "all-outputs": true,
-    "persistent-workspaces": {
-      "*": [1, 2, 3, 4, 5]
-    }
+  "group/system-stats": {
+    "orientation": "horizontal",
+    "modules": ["memory", "custom/thermals", "custom/fan"]
   },
 
-  "custom/thermals": {
-    "exec": "echo \"$(awk '{print substr($1, 1, 2); exit}' /sys/class/hwmon/hwmon*/temp1_input 2>/dev/null)° / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°\"",
-    "interval": 5,
-    "format": "   {}",
-    "tooltip": true,
-    "tooltip-format": "CPU / GPU Temperature"
+  "group/connectivity": {
+    "orientation": "horizontal",
+    "modules": ["network", "wireplumber", "battery"]
   },
 
-  "custom/fan": {
-    "exec": "cat /sys/class/hwmon/hwmon*/fan1_input 2>/dev/null | xargs | awk '{if($2) print $1\" / \"$2\" RPM\"; else if($1) print $1\" RPM\"; else print \"0 RPM\"}'",
-    "interval": 5, 
-    "format": "󰈐   {}",
-    "tooltip": false
-  },
-
-  // --- CENTER ---
-  "mpris": {
-    "format": "󰝚   {title} - {artist}",
-    "format-paused": "󰏤   {title} - {artist}",
-    "max-length": 40,
-    "tooltip": false
-  },
-
-  // --- RIGHT ---
-  "memory": {
-    "format": "󰍛   {percentage}%",
-    "interval": 10 
-  },
-
-  "tray": {
-    "icon-size": 18,
-    "spacing": 10
-  },
-
+  // --- MODULE CONFIGS ---
   "network": { 
-    "interval": 5,
-    "format-wifi": "    {essid:.10}  󰓅   {bandwidthTotalBytes}",
-    "format-ethernet": "󰈀    󰓅   {bandwidthTotalBytes}",
-    "format-disconnected": "󰖪    Offline",
-    "tooltip-format": "Full SSID: {essid}\nSignal: {signalStrength}%",
-    "on-click": "nm-connection-editor",
-    "min-length": 18,
-    "max-length": 22,
-    "align": 0
+    "interval": 3,
+    // FIXED: Exactly two spaces between icon and text to prevent overlap
+    "format-wifi": "     {bandwidthTotalBytes}",
+    "format-ethernet": "󰈀     {bandwidthTotalBytes}",
+    "format-disconnected": "󰖪     Offline",
+    "tooltip-format-wifi": "Network: {essid}", // Added this to show the WiFi name on hover
+    "tooltip-format-disconnected": "Offline",
+    "on-click": "nm-connection-editor" 
   },
 
   "wireplumber": { 
+    // FIXED: Exactly two spaces for a clean, non-overlapping look
     "format": "{icon}   {volume}%", 
     "format-muted": "󰖁   Muted",
     "format-icons": ["󰕿", "󰖀", "󰕾"], 
@@ -80,43 +47,25 @@
 
   "battery": {
     "bat": "BAT1",
-    "adapter": "ACAD",
     "interval": 10,
-    "states": { "warning": 30, "critical": 15 },
+    // FIXED: Standardized spacing for battery status
     "format": "{icon}   {capacity}%",
     "format-charging": "󱐋   {capacity}%",
-    "format-plugged": "   {capacity}%",
-    "format-icons": [" ", " ", " ", " ", " "],
-    "on-click": "rog-control-center"
-  },
-
-  "custom/notification": {
-    "tooltip": false,
-    "format": "{icon}",
-    "format-icons": {
-      "notification": "󰂚<span foreground='#82d5c8'><sup> </sup></span>",
-      "none": "󰂜",
-      "dnd-notification": "󰂛<span foreground='#82d5c8'><sup> </sup></span>",
-      "dnd-none": "󰂛",
-      "inhibited-notification": "󰂚<span foreground='#82d5c8'><sup> </sup></span>",
-      "inhibited-none": "󰂜",
-      "dnd-inhibited-notification": "󰂛<span foreground='#82d5c8'><sup> </sup></span>",
-      "dnd-inhibited-none": "󰂛"
-    },
-    "return-type": "json",
-    "exec-if": "which swaync-client",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "on-click-right": "swaync-client -d -sw",
-    "escape": true
+    "format-icons": [" ", " ", " ", " ", " "]
   },
 
   "clock": { 
-    "format": "󰃭   {:%d-%m       %H:%M:%S}", 
-    "interval": 1, 
-    "on-click": "pkill gsimplecal || GTK_THEME=Adwaita:dark gsimplecal",
-    "min-length": 15,
-    "max-length": 21,
-    "align": 0
-  }
+    // FIXED: Reliable single-bracket format for date, day, and seconds
+    "format": "󰃭   {:%a, %d-%m   󰥔   %H:%M:%S}", 
+    "interval": 1,
+    "tooltip-format": "<tt><small>{calendar}</small></tt>"
+  },
+
+  // Remaining modules kept for system stability
+  "custom/user": { "format": "󰣇", "on-click": "swaync-client -t -sw" },
+  "hyprland/workspaces": { "format": "{name}", "persistent-workspaces": { "eDP-1": [1, 2, 3, 4, 5] } },
+  "mpris": { "format": "󰝚   {title}", "max-length": 40 },
+  "memory": { "format": "󰍛   {percentage}%" },
+  "custom/thermals": { "format": "   {}", "exec": "echo \"$(awk '{print substr($1, 1, 2); exit}' /sys/class/hwmon/hwmon*/temp1_input 2>/dev/null)° / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°\"" },
+  "custom/fan": { "format": "󰈐   {}", "exec": "cat /sys/class/hwmon/hwmon*/fan1_input 2>/dev/null | xargs | awk '{if($2) print $1\" / \"$2\" RPM\"; else if($1) print $1\" RPM\"; else print \"0 RPM\"}'" }
 }
