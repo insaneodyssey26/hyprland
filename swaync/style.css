@@ -2,118 +2,87 @@
 
 * {
   font-family: "Geist", "FiraCode Nerd Font";
-  font-weight: 700;
-  font-size: 13px;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  font-weight: 600;
+  transition: none;
 }
 
-/* --- Control Center Panel --- */
+/* --- TINTED AMOLED PANEL --- */
 .control-center {
-  background: alpha(@surface, 0.85);
-  border: 1px solid alpha(@primary, 0.15);
-  border-radius: 24px;
-  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.5);
+  background: #020405; 
+  border: 1px solid alpha(@primary, 0.2); 
+  border-radius: 14px;
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.95);
 }
 
-/* --- Quick Settings Row (Android Style) --- */
+/* --- ACTION BAR (Centered & Compact) --- */
 .widget-buttons-grid {
-  padding: 10px 15px;
-  margin: 15px 15px 5px 15px;
-  background: transparent; /* Removed the heavy grey background */
+  padding: 8px;
+  margin: 12px 12px 5px 12px;
+  background: alpha(@surface-container-highest, 0.1); 
+  border-radius: 12px;
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button {
-  background: alpha(@surface-container-highest, 0.8);
-  border-radius: 100px; /* Fully rounded pill/circle */
-  padding: 12px 24px; /* Wider padding for the pill look */
-  margin: 0 6px; /* Perfect, even gaps between icons */
-  color: @primary;
-  font-size: 18px; /* Larger, more legible icons */
-  border: 1px solid transparent;
+  background: #0a0c0d; 
+  border-radius: 10px; 
+  min-width: 58px; 
+  min-height: 52px;
+  margin: 4px;
+  padding: 0; 
+  font-size: 20px;
+  color: @on-surface;
+  border: 1px solid alpha(@outline, 0.05);
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button:hover {
-  background: alpha(@primary, 0.15);
-  border: 1px solid alpha(@primary, 0.3);
-  box-shadow: 0 4px 12px alpha(@primary, 0.2);
+  background: @primary;
+  color: @on-primary;
+  border: 1px solid alpha(@primary, 0.4);
 }
 
-/* --- MPRIS Player (Compact Mobile Style) --- */
-.widget-mpris {
-  background: transparent; /* Stripped the grey background */
-  margin: 0px 15px 5px 15px;
-  padding: 5px;
+/* --- COMPACT HARDWARE SLIDERS --- */
+.widget-volume, .widget-backlight {
+  padding: 4px 14px;
+  margin: 2px 10px;
 }
 
-.widget-mpris-player {
-  background: alpha(@surface, 0.6); /* Very subtle card for the player itself */
-  border-radius: 16px;
-  padding: 12px;
-  border: 1px solid alpha(@primary, 0.1);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+scale trough {
+  background: alpha(@outline, 0.15);
+  border-radius: 8px;
+  min-height: 10px;
 }
 
-.widget-mpris-title {
-  font-size: 14px;
-  font-weight: 800;
-  color: @primary;
+scale highlight {
+  background: @primary;
+  border-radius: 8px;
 }
 
-.widget-mpris-subtitle {
-  font-size: 12px;
-  color: alpha(@on-surface, 0.7);
+scale slider {
+  background: @on-surface;
+  border: 1px solid @primary;
+  border-radius: 100%;
+  min-width: 14px;
+  min-height: 14px;
+  margin: -3px 0; 
 }
 
-/* --- Notifications Header --- */
+/* --- NOTIFICATIONS DENSITY --- */
 .widget-title {
-  margin: 10px 15px 5px 15px;
-  font-size: 16px;
-  color: @on-surface;
-}
-
-.widget-title > button {
-  background: alpha(@surface-container-highest, 0.5);
-  color: @primary;
-  border-radius: 12px;
-  padding: 6px 14px;
-  font-size: 12px;
-  border: 1px solid transparent;
-}
-
-.widget-title > button:hover {
-  background: alpha(@primary, 0.15);
-  border: 1px solid alpha(@primary, 0.3);
-}
-
-/* --- Notification Cards (Glassmorphism) --- */
-.notification {
-  background: alpha(@surface, 0.95);
-  border: 1px solid alpha(@primary, 0.15);
-  border-radius: 20px;
-  margin: 8px 15px;
-  padding: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* App Name Styling */
-label.appname,
-.notification-group-label,
-.notification-header label,
-.app-name {
-  color: @primary;
-  font-weight: 800;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  margin-bottom: 6px;
-}
-
-.notification-content {
-  color: @on-surface;
-}
-
-.notification-default .notification-content .summary {
+  margin: 15px 20px 5px 20px;
   font-size: 14px;
   font-weight: 800;
+  color: @primary;
+}
+
+.notification {
+  background: #0a0c0d; 
+  border: 1px solid alpha(@outline, 0.05);
+  border-radius: 12px;
+  margin: 6px 12px;
+  padding: 12px;
+}
+
+.notification-content .summary {
   color: @on-surface;
-} 
+  font-weight: 800;
+}
