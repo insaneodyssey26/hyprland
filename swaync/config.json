@@ -8,6 +8,7 @@
   "control-center-radius": 14,
   "fit-to-screen": false,
   "transition-length": 200,
+  "notification-2fa-action": false,
   "widgets": [
     "buttons-grid",
     "volume",
