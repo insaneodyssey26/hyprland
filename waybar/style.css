@@ -62,7 +62,7 @@ window#waybar {
   min-width: 10px; 
   min-height: 12px;
   font-size: 11px; 
-  transition: min-width 0.3s cubic-bezier(0.2, 1, 0.3, 1), background-color 0.2s ease; 
+  transition: min-width 0.3s ease-in-out, background-color 0.2s ease; 
 }
 
 #workspaces button.occupied {
