@@ -16,7 +16,7 @@
 
   "group/system-stats": {
     "orientation": "horizontal",
-    "modules": ["memory", "custom/thermals", "custom/fan"]
+    "modules": ["cpu", "memory", "custom/thermals"]
   },
 
   "group/connectivity": {
@@ -32,6 +32,26 @@
     "persistent-workspaces": {
       "eDP-1": [1, 2, 3, 4, 5] 
     }
+  },
+
+  "cpu": {
+    "interval": 5,
+    "format": "   {usage}%",
+    "on-click": "kitty -e btop",
+    "on-click-right": "~/.config/waybar/sys_stats.sh"
+  },
+
+  "memory": { 
+    "format": "󰍛   {percentage}%", 
+    "on-click": "kitty -e btop",
+    "on-click-right": "~/.config/waybar/sys_stats.sh"
+  },
+
+  "custom/thermals": { 
+    "format": "   {}", 
+    "exec": "echo \"$(awk '{print substr($1, 1, 2); exit}' /sys/class/hwmon/hwmon*/temp1_input 2>/dev/null)° / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°\"",
+    "on-click": "kitty -e btop",
+    "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
 
   "network": { 
@@ -63,21 +83,5 @@
   },
 
   "custom/user": { "format": "󰣇", "on-click": "swaync-client -t -sw" },
-  "mpris": { "format": "󰝚   {title}", "max-length": 40 },
-  
-  // --- THE NEW BTOP BINDINGS ---
-  "memory": { 
-    "format": "󰍛   {percentage}%",
-    "on-click": "kitty -e btop"
-  },
-  "custom/thermals": { 
-    "format": "   {}", 
-    "exec": "echo \"$(awk '{print substr($1, 1, 2); exit}' /sys/class/hwmon/hwmon*/temp1_input 2>/dev/null)° / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°\"",
-    "on-click": "kitty -e btop"
-  },
-  "custom/fan": { 
-    "format": "󰈐   {}", 
-    "exec": "cat /sys/class/hwmon/hwmon*/fan1_input 2>/dev/null | xargs | awk '{if($2) print $1\" / \"$2\" RPM\"; else if($1) print $1\" RPM\"; else print \"0 RPM\"}'",
-    "on-click": "kitty -e btop"
-  }
+  "mpris": { "format": "󰝚   {title}", "max-length": 40 }
 }

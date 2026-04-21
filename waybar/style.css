@@ -12,18 +12,8 @@ window#waybar {
   background: transparent;
 }
 
-/* --- THE ATOMIC PILL DESIGN (Hard-Locked) --- */
-#user-workspaces {
-  background: @surface;
-  margin: 5px 6px;
-  padding: 2px 14px; 
-  border-radius: 14px;
-  border: 1px solid alpha(@outline, 0.1);
-  min-height: 28px;
-  min-width: 165px;
-  transition: border 0.2s ease; /* Prep for minimal hover */
-}
-
+/* --- THE 4 ATOMIC PILLS --- */
+#user-workspaces,
 #system-stats,
 #connectivity,
 #clock, 
@@ -34,8 +24,23 @@ window#waybar {
   border-radius: 14px;
   border: 1px solid alpha(@outline, 0.1);
   min-height: 28px;
-  transition: border 0.2s ease; /* Prep for minimal hover */
+  transition: border 0.2s ease; 
 }
+
+/* --- INNER MODULE PADDING (Spacing things evenly inside the pills) --- */
+#cpu, #memory, #custom-thermals, #network, #wireplumber, #battery {
+  padding: 0px 10px;
+}
+
+/* --- MATUGEN COLORING --- */
+#cpu { color: @primary; }
+#memory { color: @tertiary; }
+#network { color: @secondary; }
+#wireplumber { color: @tertiary; }
+#battery { color: @primary; }
+#custom-thermals { color: @secondary; }
+#mpris { color: @tertiary; }
+#clock { color: @on-surface; }
 
 /* --- ANCHOR LOCK --- */
 #custom-user {
@@ -81,23 +86,11 @@ window#waybar {
   min-width: 16px; 
 }
 
-/* --- CONNECTIVITY & STATS --- */
-#network, #wireplumber, #battery, #memory, #custom-thermals, #custom-fan {
-  padding: 0px 10px;
-}
-
-/* --- MATUGEN COLORING --- */
-#network { color: @secondary; }
-#wireplumber { color: @tertiary; }
-#battery { color: @primary; }
-#custom-thermals { color: @secondary; }
-#memory { color: @tertiary; }
-#custom-fan { color: @on-surface; }
-#mpris { color: @tertiary; }
-#clock { color: @on-surface; }
-
 /* --- THE MINIMAL HOVER STATE --- */
-#user-workspaces:hover, #system-stats:hover, #connectivity:hover, #clock:hover, #mpris:hover {
-  /* No background change. Just a slight firming up of the border outline */
+#user-workspaces:hover, 
+#system-stats:hover, 
+#connectivity:hover, 
+#clock:hover, 
+#mpris:hover {
   border: 1px solid alpha(@outline, 0.4); 
 }
