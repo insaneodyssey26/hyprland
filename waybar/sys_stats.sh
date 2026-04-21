@@ -8,12 +8,18 @@ TOP_RAM=$(ps axch -o cmd,%mem --sort=-%mem | head -n 1 | awk '{print $1 " (" $2 
 
 IP=$(ip addr show | grep 'inet ' | grep -v '127.0.0.1' | awk '{print $2}' | cut -d/ -f1 | head -n 1)
 
-MESSAGE="
-󰈐  <b>Fan Speed:</b>   $FAN
+MESSAGE="󰈐  <b>Fan Speed:</b>   $FAN
 󰢮  <b>GPU Usage:</b>   ${GPU}%
 󰋊  <b>Disk (/):</b>    $DISK
 󰓅  <b>CPU Clock:</b>   $CPU_CLOCK
 󰍛  <b>Top RAM:</b>     $TOP_RAM
 󰖩  <b>Local IP:</b>    $IP"
 
-notify-send -a "Waybar" "Hardware Status" "$MESSAGE"
+ACTION=$(notify-send -a "Waybar" "Hardware Status" "$MESSAGE" --action="copy=Copy IP Address")
+
+if [ "$ACTION" == "copy" ]; then
+    # -n prevents copying a new line character at the end
+    echo -n "$IP" | wl-copy
+    # Send a quick confirmation that auto-closes after 2 seconds
+    notify-send -a "Waybar" "Copied!" "IP $IP is in your clipboard." -t 2000
+fi
