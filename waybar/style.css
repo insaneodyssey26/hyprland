@@ -28,7 +28,7 @@ window#waybar {
 }
 
 /* --- INNER MODULE PADDING (Spacing things evenly inside the pills) --- */
-#cpu, #memory, #custom-thermals, #network, #wireplumber, #battery {
+#tray, #cpu, #memory, #custom-thermals, #network, #wireplumber, #battery {
   padding: 0px 10px;
 }
 

@@ -21,7 +21,7 @@
 
   "group/connectivity": {
     "orientation": "horizontal",
-    "modules": ["network", "wireplumber", "battery"]
+    "modules": ["tray", "network", "wireplumber", "battery"]
   },
 
   "hyprland/workspaces": {
@@ -82,6 +82,11 @@
     "interval": 1,
     "on-click": "kitty --class calendar-overlay --hold -e cal -y",
     "on-click-right": "kitty --class calendar-overlay -e tty-clock -c -C 5 -t -s"
+  },
+
+  "tray": {
+    "icon-size": 14,
+    "spacing": 10
   },
 
   "custom/user": { "format": "󰣇", "on-click": "swaync-client -t -sw" },
