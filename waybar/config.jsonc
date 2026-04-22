@@ -35,19 +35,21 @@
   },
 
   "cpu": {
-    "interval": 5,
+    "interval": 3,
     "format": "   {usage}%",
     "on-click": "kitty -e btop",
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
 
   "memory": { 
+    "interval": 3,
     "format": "󰍛   {percentage}%", 
     "on-click": "kitty -e btop",
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
 
-  "custom/thermals": { 
+  "custom/thermals": {
+    "interval": 3, 
     "format": "   {}", 
     "exec": "echo \"$(awk '{print substr($1, 1, 2); exit}' /sys/class/hwmon/hwmon*/temp1_input 2>/dev/null)° / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°\"",
     "on-click": "kitty -e btop",
@@ -69,7 +71,7 @@
 
   "battery": {
     "bat": "BAT1",
-    "interval": 10,
+    "interval": 3,
     "format": "{icon}   {capacity}%",
     "format-icons": [" ", " ", " ", " ", " "],
     "on-click": "rog-control-center"
