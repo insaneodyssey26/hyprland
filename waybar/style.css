@@ -27,7 +27,7 @@ window#waybar {
   transition: border 0.2s ease; 
 }
 
-/* --- INNER MODULE PADDING (Spacing things evenly inside the pills) --- */
+/* --- INNER MODULE PADDING --- */
 #tray, #cpu, #memory, #custom-thermals, #network, #wireplumber, #battery {
   padding: 0px 10px;
 }
@@ -51,7 +51,7 @@ window#waybar {
   min-width: 24px; 
 }
 
-/* --- THE TITANIUM CAGE --- */
+/* --- THE TITANIUM CAGE (WIDER PILL EDITION) --- */
 #workspaces {
   padding: 0px;
   margin: 0px;
@@ -62,9 +62,11 @@ window#waybar {
   color: transparent; 
   padding: 0px 4px; 
   margin: 4px 3px; 
-  border-radius: 12px;
+  /* Increased radius for smooth circular edges */
+  border-radius: 20px;
   background: alpha(@on-surface, 0.2); 
-  min-width: 10px; 
+  /* Increased width from 10px to 22px for the wider pill look */
+  min-width: 16px; 
   min-height: 12px;
   font-size: 11px; 
   transition: min-width 0.3s ease-in-out, background-color 0.2s ease; 
@@ -77,13 +79,14 @@ window#waybar {
 #workspaces button.active {
   color: @on-primary;
   background: @primary;
-  min-width: 32px; 
+  /* Active pill remains the widest */
+  min-width: 35px; 
   border-radius: 10px;
 }
 
 #workspaces button:hover {
   background: alpha(@primary, 0.6);
-  min-width: 16px; 
+  min-width: 28px; 
 }
 
 /* --- THE MINIMAL HOVER STATE --- */
