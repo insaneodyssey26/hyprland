@@ -2,98 +2,130 @@
 
 /* --- GLOBAL HIERARCHY --- */
 * {
-  font-family: "Geist", "FiraCode Nerd Font";
-  font-weight: 600;
-  font-size: 13px;
-  transition: none; 
+    font-family: "Geist", "FiraCode Nerd Font";
+    font-weight: 600;
+    font-size: 13px;
+    transition: none;
 }
 
 window#waybar {
-  background: transparent;
+    background: transparent;
 }
 
 /* --- THE 4 ATOMIC PILLS --- */
 #user-workspaces,
 #system-stats,
 #connectivity,
-#clock, 
+#clock,
 #mpris {
-  background: @surface;
-  margin: 5px 6px;
-  padding: 2px 14px; 
-  border-radius: 14px;
-  border: 1px solid alpha(@outline, 0.1);
-  min-height: 28px;
-  transition: border 0.2s ease; 
+    background: @surface;
+    margin: 5px 6px;
+    padding: 2px 14px;
+    border-radius: 14px;
+    border: 1px solid alpha(@outline, 0.1);
+    min-height: 28px;
+    transition: border 0.2s ease;
 }
 
 /* --- INNER MODULE PADDING --- */
-#tray, #cpu, #memory, #custom-thermals, #network, #wireplumber, #battery {
-  padding: 0px 10px;
+#tray,
+#cpu,
+#memory,
+#custom-thermals,
+#network,
+#wireplumber,
+#battery,
+#custom-keyboard {
+    padding: 0px 10px;
 }
 
 /* --- MATUGEN COLORING --- */
-#cpu { color: @primary; }
-#memory { color: @tertiary; }
-#network { color: @secondary; }
-#wireplumber { color: @tertiary; }
-#battery { color: @primary; }
-#custom-thermals { color: @secondary; }
-#mpris { color: @tertiary; }
-#clock { color: @on-surface; }
+#cpu {
+    color: @primary;
+}
+#memory {
+    color: @tertiary;
+}
+#network {
+    color: @secondary;
+}
+#wireplumber {
+    color: @tertiary;
+}
+#battery {
+    color: @primary;
+}
+#custom-thermals {
+    color: @secondary;
+}
+#mpris {
+    color: @tertiary;
+}
+#clock {
+    color: @on-surface;
+}
 
 /* --- ANCHOR LOCK --- */
 #custom-user {
-  font-size: 18px;
-  color: @primary;
-  padding-right: 12px;
-  padding-left: 4px;
-  min-width: 24px; 
+    font-size: 18px;
+    color: @primary;
+    padding-right: 12px;
+    padding-left: 4px;
+    min-width: 24px;
 }
 
 /* --- THE TITANIUM CAGE (WIDER PILL EDITION) --- */
 #workspaces {
-  padding: 0px;
-  margin: 0px;
-  min-width: 125px; 
+    padding: 0px;
+    margin: 0px;
+    min-width: 125px;
 }
 
 #workspaces button {
-  color: transparent; 
-  padding: 0px 4px; 
-  margin: 4px 3px; 
-  /* Increased radius for smooth circular edges */
-  border-radius: 20px;
-  background: alpha(@on-surface, 0.2); 
-  /* Increased width from 10px to 22px for the wider pill look */
-  min-width: 16px; 
-  min-height: 12px;
-  font-size: 11px; 
-  transition: min-width 0.3s ease-in-out, background-color 0.2s ease; 
+    color: transparent;
+    padding: 0px 4px;
+    margin: 4px 3px;
+    border-radius: 20px;
+    background: alpha(@on-surface, 0.2);
+    min-width: 16px;
+    min-height: 12px;
+    font-size: 11px;
+    transition:
+        min-width 0.3s ease-in-out,
+        background-color 0.2s ease;
 }
 
 #workspaces button.occupied {
-  background: alpha(@primary, 0.4);
+    background: alpha(@primary, 0.4);
 }
 
 #workspaces button.active {
-  color: @on-primary;
-  background: @primary;
-  /* Active pill remains the widest */
-  min-width: 35px; 
-  border-radius: 10px;
+    color: @on-primary;
+    background: @primary;
+    min-width: 35px;
+    border-radius: 10px;
 }
 
 #workspaces button:hover {
-  background: alpha(@primary, 0.6);
-  min-width: 28px; 
+    background: alpha(@primary, 0.6);
+    min-width: 28px;
 }
 
 /* --- THE MINIMAL HOVER STATE --- */
-#user-workspaces:hover, 
-#system-stats:hover, 
-#connectivity:hover, 
-#clock:hover, 
+#user-workspaces:hover,
+#system-stats:hover,
+#connectivity:hover,
+#clock:hover,
 #mpris:hover {
-  border: 1px solid alpha(@outline, 0.4); 
+    border: 1px solid alpha(@outline, 0.4);
+}
+
+/* --- INTEGRATED KEYBOARD ICON --- */
+#custom-keyboard {
+    color: @primary;
+    font-size: 16px;
+}
+
+#custom-keyboard:hover {
+    color: @secondary;
 }

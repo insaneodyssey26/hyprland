@@ -5,8 +5,11 @@
   "margin-left": 12,
   "margin-right": 12,
 
-  "modules-left": ["group/user-workspaces", "group/system-stats"],
-  "modules-center": ["mpris"], 
+  "modules-left": [
+    "group/user-workspaces",
+    "group/system-stats"
+  ],
+  "modules-center": ["mpris"],
   "modules-right": ["group/connectivity", "clock"],
 
   "group/user-workspaces": {
@@ -21,17 +24,23 @@
 
   "group/connectivity": {
     "orientation": "horizontal",
-    "modules": ["tray", "network", "wireplumber", "battery"]
+    "modules": ["tray", "network", "wireplumber", "battery", "custom/keyboard"]
   },
 
   "hyprland/workspaces": {
     "active-only": false,
     "all-outputs": true,
-    "format": "{name}", 
+    "format": "{name}",
     "on-click": "activate",
     "persistent-workspaces": {
-      "eDP-1": [1, 2, 3, 4, 5] 
+      "eDP-1": [1, 2, 3, 4, 5]
     }
+  },
+
+  "custom/keyboard": {
+    "format": " ",
+    "on-click": "~/.config/hypr/scripts/toggle_osk.sh",
+    "tooltip": false
   },
 
   "cpu": {
@@ -41,30 +50,30 @@
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
 
-  "memory": { 
+  "memory": {
     "interval": 3,
-    "format": "󰍛   {percentage}%", 
+    "format": "󰍛   {percentage}%",
     "on-click": "kitty -e btop",
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
 
   "custom/thermals": {
-    "interval": 3, 
-    "format": "   {}", 
+    "interval": 3,
+    "format": "   {}",
     "exec": "echo \"$(awk '{print substr($1, 1, 2); exit}' /sys/class/hwmon/hwmon*/temp1_input 2>/dev/null)° / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°\"",
     "on-click": "kitty -e btop",
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
 
-  "network": { 
+  "network": {
     "interval": 3,
     "format-wifi": "     {bandwidthTotalBytes}",
-    "tooltip-format-wifi": "Network: {essid}", 
-    "on-click": "nm-connection-editor" 
+    "tooltip-format-wifi": "Network: {essid}",
+    "on-click": "nm-connection-editor"
   },
 
-  "wireplumber": { 
-    "format": "{icon}   {volume}%", 
+  "wireplumber": {
+    "format": "{icon}   {volume}%",
     "on-click": "pavucontrol",
     "format-icons": ["󰕿", "󰖀", "󰕾"]
   },
@@ -77,8 +86,8 @@
     "on-click": "rog-control-center"
   },
 
-  "clock": { 
-    "format": "󰃭   {:%a, %d-%m   󰥔   %H:%M:%S}", 
+  "clock": {
+    "format": "󰃭   {:%a, %d-%m   󰥔   %H:%M:%S}",
     "interval": 1,
     "on-click": "kitty --class calendar-overlay --hold -e cal -y",
     "on-click-right": "kitty --class calendar-overlay -e tty-clock -c -C 5 -t -s"
