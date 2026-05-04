@@ -17,9 +17,11 @@ abbr -a remove 'paru -Rns'
 abbr -a orphans 'paru -Rns (pacman -Qtdq)' 
 abbr -a ni 'npm install'         
 abbr -a ns 'npm start'          
+abbr -a nr 'npm run'
 abbr -a nd 'npm run dev'     
 abbr -a ff 'fastfetch'         
 abbr -a af 'fastfetch -c small.jsonc'
+abbr -a c 'clear'
 
 # Initials
 zoxide init fish | source
