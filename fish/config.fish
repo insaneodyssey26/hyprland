@@ -31,6 +31,7 @@ abbr -a gc 'git commit -m'
 abbr -a gl 'git log --oneline --graph --all'
 abbr -a gd 'git diff'
 abbr -a gco 'git checkout'
+abbr -a brave 'brave-origin-beta '
 
 # Initials
 zoxide init fish | source
