@@ -66,8 +66,17 @@ hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { repea
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { repeating = true, locked = true })
 
 -- Power & Locking
-hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock & sleep 2 && hyprctl dispatch dpms off"))
-hl.bind("Pause", hl.dsp.exec_cmd("pidof hyprlock && (sleep 0.5 && hyprctl dispatch dpms off)"), { locked = true })
+hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock & sleep 1"), {
+    on_complete = hl.dsp.dpms({ action = "off" })
+})
+
+-- Pause (Page Break): Native DPMS with 500ms safety timer
+hl.bind("Pause", function()
+    hl.timer(function()
+        hl.dispatch(hl.dsp.dpms({ action = "off" }))
+    end, { timeout = 500, type = "oneshot" })
+end, { locked = true })
+
 hl.bind("SUPER + Escape", hl.dsp.exec_cmd("~/.config/hypr/scripts/power.sh"))
 
 -- Scripts & Utilities

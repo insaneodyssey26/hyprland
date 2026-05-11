@@ -52,21 +52,37 @@ hl.config({
 })
 
 -- -----------------------------------------------------
--- ANIMATIONS
+-- LEGACY PARITY ANIMATIONS (Replicated from .conf)
 -- -----------------------------------------------------
+hl.config({ animations = { enabled = true } })
+
+-- Replicating 'myBezier, 0.05, 0.9, 0.1, 1.05'
+hl.curve("myBezier", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.05} } })
+
+-- 1. Windows (Replicating exact .conf behavior)
+hl.animation({ leaf = "windows",     enabled = true, speed = 6, bezier = "myBezier", style = "slide" })
+hl.animation({ leaf = "windowsOut",  enabled = true, speed = 6, bezier = "myBezier", style = "popin 80%" })
+hl.animation({ leaf = "windowsMove", enabled = true, speed = 5, bezier = "myBezier" })
+
+-- 2. Fade
+hl.animation({ leaf = "fade",        enabled = true, speed = 4, bezier = "default" })
+
+-- 3. Workspaces
+hl.animation({ leaf = "workspaces",  enabled = true, speed = 5, bezier = "myBezier", style = "slidefade 20%" })
+
+-- 4. Premium Layer Extensions (Kept your requested blur/rules)
 hl.config({
-    animations = {
-        enabled = true,
-        -- Beziers are now defined inside this table
-        bezier = {
-            ["myBezier"] = { 0.05, 0.9, 0.1, 1.05 }
-        },
-        animation = {
-            "windows, 1, 6, myBezier, slide",
-            "windowsOut, 1, 6, myBezier, popin 80%",
-            "fade, 1, 4, default",
-            "workspaces, 1, 5, myBezier, slidefade 20%",
-        }
+    layerrule = {
+        "blur, fuzzel",
+        "ignorealpha 0.5, fuzzel",
+        "animation popin 80%, fuzzel",
+        
+        "blur, osk",
+        "blur, wayboard",
+        "ignorealpha 0.5, osk",
+        "ignorealpha 0.5, wayboard",
+        "animation slide bottom, osk",
+        "animation slide bottom, wayboard"
     }
 })
 
