@@ -1,11 +1,8 @@
 -- -----------------------------------------------------
--- MONITORS
+-- COLORS
 -- -----------------------------------------------------
-hl.monitor({ 
-    output = "eDP-1", 
-    mode = "1920x1080@144", 
-    position = "0x0", 
-    scale = 1 
-})
+-- Transferred from legacy colors.conf
+_G.color_primary = "rgb(d1bcfd)"
+_G.color_surface = "rgb(141218)"
 
 return true
