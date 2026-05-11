@@ -88,7 +88,7 @@ hl.bind("SUPER + P", hl.dsp.exec_cmd("~/.config/hypr/scripts/project_launcher.sh
 hl.bind("SUPER + K", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_osk.sh"))
 hl.bind("SUPER + period", hl.dsp.exec_cmd("bemoji -p fuzzel"))
 hl.bind("SUPER + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
-hl.bind("SUPER + H", hl.dsp.exec_cmd("pkill -USR1 waybar"))
+hl.bind("SUPER + H", hl.dsp.exec_cmd("pgrep -x waybar && pkill waybar || waybar &"))
 hl.bind("SUPER + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/fuzzel_sys.sh"))
 
 -- Themes

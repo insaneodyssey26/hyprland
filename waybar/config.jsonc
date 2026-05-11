@@ -9,13 +9,15 @@
     "group/user-workspaces",
     "group/system-stats"
   ],
-  "modules-center": ["mpris"],
-  "modules-right": ["group/connectivity", "clock"],
 
   "group/user-workspaces": {
     "orientation": "horizontal",
     "modules": ["custom/user", "hyprland/workspaces"]
   },
+  "modules-center": ["mpris"],
+  "modules-right": ["group/connectivity", "clock"],
+
+
 
   "group/system-stats": {
     "orientation": "horizontal",
