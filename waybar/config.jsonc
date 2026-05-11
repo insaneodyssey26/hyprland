@@ -33,7 +33,7 @@
     "active-only": false,
     "all-outputs": true,
     "format": "{name}",
-    "on-click": "activate",
+    "on-click": "hyprctl dispatch 'workspace {id}'",
     "persistent-workspaces": {
       "eDP-1": [1, 2, 3, 4, 5]
     }

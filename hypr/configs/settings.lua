@@ -93,6 +93,7 @@ hl.config({
     dwindle = {
         preserve_split = true,
     },
+    -- (Gestures moved to keywords for v0.55.0 stability)
     misc = {
         force_default_wallpaper = 0,
         mouse_move_enables_dpms = true,
@@ -105,16 +106,8 @@ hl.config({
 })
 
 -- -----------------------------------------------------
--- PERSISTENT WORKSPACES (v0.55.0 Requirement)
+-- PERSISTENT WORKSPACES
 -- -----------------------------------------------------
-hl.config({
-    workspace = {
-        "1, monitor:eDP-1, persistent:true",
-        "2, monitor:eDP-1, persistent:true",
-        "3, monitor:eDP-1, persistent:true",
-        "4, monitor:eDP-1, persistent:true",
-        "5, monitor:eDP-1, persistent:true",
-    }
-})
+-- (Moved to hyprland.lua for absolute persistence)
 
 return true
