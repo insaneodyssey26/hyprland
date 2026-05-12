@@ -1,5 +1,5 @@
 {
-  "layer": "top",
+  "layer": "overlay",
   "position": "top",
   "margin-top": 3,
   "margin-left": 12,
@@ -16,8 +16,6 @@
   },
   "modules-center": ["mpris"],
   "modules-right": ["group/connectivity", "clock"],
-
-
 
   "group/system-stats": {
     "orientation": "horizontal",
@@ -100,6 +98,11 @@
     "spacing": 10
   },
 
-  "custom/user": { "format": "󰣇", "on-click": "swaync-client -t -sw" },
+  "custom/user": { 
+    "format": "󰣇", 
+    "on-click": "pkill fuzzel || fuzzel",
+    "on-click-right": "swaync-client -t -sw",
+    "tooltip": false 
+  },
   "mpris": { "format": "󰝚   {title}", "max-length": 40 }
 }

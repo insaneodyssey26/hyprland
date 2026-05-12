@@ -121,7 +121,6 @@ window#waybar {
     border: 1px solid alpha(@outline, 0.4);
 }
 
-/* --- INTEGRATED KEYBOARD ICON --- */
 #custom-keyboard {
     color: @primary;
     font-size: 16px;
