@@ -3,6 +3,8 @@
 -- -----------------------------------------------------
 hl.bind("SUPER + T", hl.dsp.exec_cmd(terminal))
 hl.bind("SUPER + D", hl.dsp.exec_cmd(menu))
+hl.bind("SUPER + G", hl.dsp.exec_cmd("~/.config/hypr/scripts/file_search.sh"))
+hl.bind("SUPER + SHIFT + D", hl.dsp.exec_cmd("~/.config/hypr/scripts/file_search.sh"))
 hl.bind("SUPER + Q", hl.dsp.window.close())
 hl.bind("SUPER + B", hl.dsp.exec_cmd("brave-origin-beta"))
 hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("brave-origin-beta --disable-gpu-compositing"))
@@ -87,7 +89,7 @@ hl.bind("SUPER + V", hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist 
 hl.bind("SUPER + X", hl.dsp.exec_cmd("~/.config/hypr/scripts/kill_task.sh"))
 hl.bind("SUPER + P", hl.dsp.exec_cmd("~/.config/hypr/scripts/project_launcher.sh"))
 hl.bind("SUPER + K", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_osk.sh"))
-hl.bind("SUPER + period", hl.dsp.exec_cmd("bemoji -p fuzzel"))
+hl.bind("SUPER + period", hl.dsp.exec_cmd("bemoji -p 'fuzzel -p \"Emojis: \"'"))
 hl.bind("SUPER + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
 hl.bind("SUPER + H", hl.dsp.exec_cmd("pgrep -x waybar && pkill waybar || waybar &"))
 hl.bind("SUPER + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/fuzzel_sys.sh"))

@@ -75,7 +75,11 @@ hl.config({
     layerrule = {
         "blur, fuzzel",
         "ignorealpha 0.5, fuzzel",
-        "animation popin 80%, fuzzel",
+        "animation popin 10%, fuzzel",
+        "shadow 1, fuzzel",
+        "shadow_range 100, fuzzel",
+        "shadow_render_power 4, fuzzel",
+        "col.shadow_inactive " .. _G.color_primary_rgba .. ", fuzzel",
         
         "blur, osk",
         "blur, wayboard",
@@ -104,10 +108,5 @@ hl.config({
         vfr = true,
     }
 })
-
--- -----------------------------------------------------
--- PERSISTENT WORKSPACES
--- -----------------------------------------------------
--- (Moved to hyprland.lua for absolute persistence)
 
 return true
