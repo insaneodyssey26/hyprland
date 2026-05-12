@@ -1,5 +1,5 @@
 {
-  "layer": "overlay",
+  "layer": "top",
   "position": "top",
   "margin-top": 3,
   "margin-left": 12,
@@ -69,7 +69,7 @@
     "interval": 3,
     "format-wifi": "     {bandwidthTotalBytes}",
     "tooltip-format-wifi": "Network: {essid}",
-    "on-click": "nm-connection-editor"
+    "on-click": "kitty -e nmtui"
   },
 
   "wireplumber": {
@@ -104,5 +104,11 @@
     "on-click-right": "swaync-client -t -sw",
     "tooltip": false 
   },
-  "mpris": { "format": "󰝚   {title}", "max-length": 40 }
+  "mpris": { 
+    "format": "󰝚   {title}", 
+    "max-length": 40,
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous"
+  }
 }

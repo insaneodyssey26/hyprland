@@ -23,8 +23,8 @@ hl.config({
     general = {
         gaps_in = 6,
         gaps_out = 8,
-        border_size = 1,
-        ["col.active_border"] = "rgba(82d5c833)",
+        border_size = 0,
+        ["col.active_border"] = "rgba(00000000)",
         ["col.inactive_border"] = "rgba(00000000)",
         layout = "dwindle",
     },
@@ -35,9 +35,9 @@ hl.config({
 
         shadow = {
             enabled = true,
-            range = 30,
-            render_power = 3,
-            color = "rgba(0e1513ee)",
+            range = 50,
+            render_power = 4,
+            color = "rgba(00000099)",
             color_inactive = "rgba(00000066)",
         },
 
