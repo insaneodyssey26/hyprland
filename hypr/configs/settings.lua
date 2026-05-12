@@ -85,8 +85,9 @@ hl.config({
         "blur, wayboard",
         "ignorealpha 0.5, osk",
         "ignorealpha 0.5, wayboard",
-        "animation slide bottom, osk",
-        "animation slide bottom, wayboard"
+        "animation slide bottom, wayboard",
+        "blur, swaync",
+        "ignorealpha 0.6, swaync"
     }
 })
 

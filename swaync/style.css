@@ -1,88 +1,141 @@
 @import "colors.css";
 
+/* --- DESIGN TOKENS --- */
+@define-color amoled-black #000000;
+@define-color base-bg #000000; 
+@define-color card-bg #000000; 
+@define-color border-color alpha(@primary, 0.15); /* Matugen-integrated subtle border */
+
 * {
-  font-family: "Geist", "FiraCode Nerd Font";
+  font-family: "Geist", "Inter", "FiraCode Nerd Font";
   font-weight: 600;
-  transition: none;
+  transition: none; /* Snappy instant feedback */
 }
 
-/* --- TINTED AMOLED PANEL --- */
+/* --- MAIN PANEL (Architectural Sidebar) --- */
 .control-center {
-  background: #020405; 
-  border: 1px solid alpha(@primary, 0.2); 
+  background: @base-bg; 
+  border: 1px solid @border-color; 
   border-radius: 14px;
-  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.95);
+  box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.95);
+  margin: 10px;
 }
 
-/* --- ACTION BAR (Centered & Compact) --- */
-.widget-buttons-grid {
-  padding: 8px;
-  margin: 12px 12px 5px 12px;
-  background: alpha(@surface-container-highest, 0.1); 
-  border-radius: 12px;
+/* Fix for the internal list background */
+.control-center list,
+.control-center scrolledwindow {
+  background: transparent;
 }
 
-.widget-buttons-grid > flowbox > flowboxchild > button {
-  background: #0a0c0d; 
-  border-radius: 10px; 
-  min-width: 58px; 
-  min-height: 52px;
-  margin: 4px;
-  padding: 0; 
-  font-size: 20px;
+/* --- HEADER SECTION --- */
+.widget-title {
+  margin: 20px 25px 10px 25px;
+}
+
+.widget-title > label {
+  font-size: 16px;
+  font-weight: 800;
+  color: @primary;
+  letter-spacing: -0.5px;
+}
+
+.widget-title > button {
+  background: @card-bg;
   color: @on-surface;
-  border: 1px solid alpha(@outline, 0.05);
+  border-radius: 10px;
+  padding: 4px 12px;
+  border: 1px solid @border-color;
+  font-size: 13px;
 }
 
-.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+.widget-title > button:hover {
   background: @primary;
   color: @on-primary;
-  border: 1px solid alpha(@primary, 0.4);
+  border-color: @primary;
 }
 
-/* --- COMPACT HARDWARE SLIDERS --- */
-.widget-volume, .widget-backlight {
-  padding: 4px 14px;
-  margin: 2px 10px;
+/* --- DND WIDGET (Focus Toggle) --- */
+.widget-dnd {
+  margin: 0 25px 15px 25px;
+  padding: 8px 12px;
+  background: @card-bg;
+  border-radius: 12px;
+  border: 1px solid @border-color;
 }
 
-scale trough {
-  background: alpha(@outline, 0.15);
-  border-radius: 8px;
-  min-height: 10px;
+.widget-dnd > switch {
+  background: @card-bg;
+  border-radius: 20px;
+  border: 1px solid @border-color;
 }
 
-scale highlight {
+.widget-dnd > switch:checked {
   background: @primary;
-  border-radius: 8px;
-}
-
-scale slider {
-  background: @on-surface;
   border: 1px solid @primary;
-  border-radius: 100%;
-  min-width: 14px;
-  min-height: 14px;
-  margin: -3px 0; 
 }
 
-/* --- NOTIFICATIONS DENSITY --- */
-.widget-title {
-  margin: 15px 20px 5px 20px;
-  font-size: 14px;
+/* --- MEDIA PLAYER (Pitch Black Glass) --- */
+.widget-mpris {
+  padding: 15px;
+  margin: 0 20px 15px 20px;
+  background: @card-bg;
+  border-radius: 14px;
+  border: 1px solid @border-color;
+}
+
+.widget-mpris-title {
+  font-size: 15px;
   font-weight: 800;
   color: @primary;
 }
 
+.widget-mpris-subtitle {
+  font-size: 12px;
+  color: @on-surface;
+  opacity: 0.8;
+}
+
+/* Media Controls Customization */
+.widget-mpris > box > button {
+  background: transparent;
+  color: @on-surface;
+  font-size: 18px;
+  padding: 8px;
+}
+
+.widget-mpris > box > button:hover {
+  color: @primary;
+}
+
+/* --- NOTIFICATIONS (High-Density Cards) --- */
 .notification {
-  background: #0a0c0d; 
-  border: 1px solid alpha(@outline, 0.05);
-  border-radius: 12px;
-  margin: 6px 12px;
-  padding: 12px;
+  background: @card-bg; 
+  border: 1px solid @border-color;
+  border-radius: 14px;
+  margin: 6px 15px;
+  padding: 12px 18px; /* Balanced horizontal padding */
+}
+
+.notification:hover {
+  border-color: alpha(@primary, 0.4);
 }
 
 .notification-content .summary {
-  color: @on-surface;
+  color: @primary;
   font-weight: 800;
+  font-size: 18px; /* Elegant prominent heading */
+  margin-bottom: 4px;
+}
+
+.notification-content .body {
+  color: @on-surface;
+  font-weight: 600;
+  font-size: 15px; /* Clean, professional body text */
+  line-height: 1.4;
+}
+
+/* Floating Notification Specifics (Popups) */
+.notification.floating {
+  background: @base-bg;
+  border: 1px solid @border-color;
 }
