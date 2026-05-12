@@ -28,3 +28,7 @@ output_path = "~/.config/fastfetch/config.jsonc"
 [templates.fastfetch_small]
 input_path = "~/.config/matugen/templates/small.jsonc"
 output_path = "~/.config/fastfetch/small.jsonc"
+
+[templates.nemo]
+input_path = "~/.config/matugen/templates/nemo.css"
+output_path = "~/.config/gtk-3.0/colors.css"

@@ -1,0 +1,78 @@
+@define-color primary {{colors.primary.default.hex}};
+@define-color on_primary {{colors.on_primary.default.hex}};
+@define-color secondary {{colors.secondary.default.hex}};
+@define-color surface {{colors.surface.default.hex}};
+@define-color on_surface {{colors.on_surface.default.hex}};
+@define-color outline {{colors.outline.default.hex}};
+@define-color surface_container {{colors.surface_container.default.hex}};
+
+/* Force dark backgrounds on the entire window structure */
+NemoWindow,
+.nemo-window {
+    background-color: @surface;
+    color: @on_surface;
+}
+
+/* 1. Menubar (File, Edit, View...) */
+.nemo-window menubar,
+.nemo-window menubar menuitem {
+    background-color: @surface;
+    color: @on_surface;
+}
+
+/* 2. Toolbar & Path Bar */
+.nemo-window .toolbar.primary-toolbar,
+.nemo-window .primary-toolbar,
+.nemo-window .nemo-pathbar,
+.nemo-window .nemo-pathbar-button-stack {
+    background-color: @surface;
+    background-image: none;
+    border: 0;
+    box-shadow: none;
+}
+
+/* 3. Sidebar */
+.nemo-window .sidebar,
+.nemo-window .sidebar .view,
+.nemo-window .sidebar scrolledwindow {
+    background-color: @surface;
+    color: @on_surface;
+    border: 0;
+}
+
+/* 4. Selection Highlights */
+.nemo-window .view:selected,
+.nemo-window .sidebar .view:selected,
+.nemo-window .view:selected:focus {
+    background-color: @primary;
+    color: @on_primary;
+}
+
+/* 5. Path Bar Buttons & Icons */
+.nemo-window .path-bar button,
+.nemo-window .toolbar button {
+    background-image: none;
+    background-color: transparent;
+    color: @on_surface;
+    border: 0;
+    box-shadow: none;
+}
+
+.nemo-window .path-bar button:hover,
+.nemo-window .toolbar button:hover {
+    background-color: @surface_container;
+}
+
+/* 6. Main View Background */
+.nemo-window .view,
+.nemo-window scrolledwindow {
+    background-color: @surface;
+    color: @on_surface;
+}
+
+/* 7. Statusbar (Bottom) */
+.nemo-window statusbar {
+    background-color: @surface;
+    color: @on_surface;
+    border-top: 1px solid @outline;
+}
