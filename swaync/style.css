@@ -64,14 +64,25 @@
 }
 
 .widget-dnd > switch {
-  background: @card-bg;
+  background: alpha(@on-surface, 0.1);
   border-radius: 20px;
-  border: 1px solid @border-color;
+  border: 1px solid alpha(@on-surface, 0.2);
+  min-height: 24px;
+}
+
+.widget-dnd > switch slider {
+  background: @on-surface;
+  border-radius: 20px;
+  margin: 2px;
 }
 
 .widget-dnd > switch:checked {
   background: @primary;
   border: 1px solid @primary;
+}
+
+.widget-dnd > switch:checked slider {
+  background: @on-primary;
 }
 
 /* --- MEDIA PLAYER (Pitch Black Glass) --- */

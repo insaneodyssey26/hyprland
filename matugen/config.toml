@@ -14,7 +14,7 @@ input_path = '~/.config/matugen/templates/kitty.conf'
 output_path = '~/.config/kitty/colors.conf'
 
 [templates.swaync]
-input_path = "~/.config/waybar/colors.css" 
+input_path = "~/.config/matugen/templates/waybar.css" 
 output_path = "~/.config/swaync/colors.css"
 
 [templates.fuzzel]
