@@ -95,6 +95,7 @@ hl.bind("SUPER + H", hl.dsp.exec_cmd("pgrep -x waybar && pkill waybar || waybar 
 hl.bind("SUPER + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/fuzzel_sys.sh"))
 
 -- Themes
-hl.bind("SUPER + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/random-wall.fish"))
+hl.bind("SUPER + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper-picker.sh"))
+hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/random-wall.sh"))
 
 return true
