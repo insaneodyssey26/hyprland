@@ -2,23 +2,23 @@
   "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
   "logo": {
         "source": "arch_small",
-        "padding": { "top": 2, "left": 1 },
+        "padding": { "top": 1, "left": 1 },
         "color": {
-            "1": "{{colors.primary.default.hex}}", 
-            "2": "{{colors.secondary.default.hex}}"
+            "1": "#1793d1", 
+            "2": "#1793d1"
         }
     },
   "display": { "separator": " " },
   "modules": [
-    { "type": "custom", "key": "╭───────────╮", "keyColor": "{{colors.outline.default.hex}}" },
+    { "type": "custom", "key": "╭───────────╮", "keyColor": "{{colors.primary.default.hex}}" },
 
     { "type": "os",       "key": "│ 󰏖 os      │", "keyColor": "{{colors.primary.default.hex}}" },
-    { "type": "kernel",   "key": "│  kernel  │", "keyColor": "{{colors.secondary.default.hex}}" },
-    { "type": "uptime",   "key": "│ 󰅐 uptime  │", "keyColor": "{{colors.tertiary.default.hex}}" },
+    { "type": "kernel",   "key": "│  kernel  │", "keyColor": "{{colors.primary.default.hex}}" },
+    { "type": "uptime",   "key": "│ 󰅐 uptime  │", "keyColor": "{{colors.primary.default.hex}}" },
     { "type": "terminal", "key": "│  term    │", "keyColor": "{{colors.primary.default.hex}}" },
-    { "type": "shell",    "key": "│  shell   │", "keyColor": "{{colors.secondary.default.hex}}" },
-    { "type": "packages", "key": "│ 󰏖 pkgs    │", "keyColor": "{{colors.tertiary.default.hex}}" },
+    { "type": "shell",    "key": "│  shell   │", "keyColor": "{{colors.primary.default.hex}}" },
+    { "type": "packages", "key": "│ 󰏖 pkgs    │", "keyColor": "{{colors.primary.default.hex}}" },
 
-    { "type": "custom", "key": "╰───────────╯", "keyColor": "{{colors.outline.default.hex}}" }
+    { "type": "custom", "key": "╰───────────╯", "keyColor": "{{colors.primary.default.hex}}" }
   ]
 }
