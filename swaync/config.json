@@ -21,6 +21,8 @@
   "widgets": [
     "title",
     "mpris",
+    "volume",
+    "backlight",
     "dnd",
     "notifications"
   ],
@@ -34,7 +36,7 @@
       "text": "Do Not Disturb"
     },
     "mpris": {
-      "image-size": 110,
+      "image-size": 80,
       "image-radius": 18
     },
     "notifications": {
@@ -42,6 +44,13 @@
       "timeout": 6,
       "timeout-low": 2,
       "timeout-critical": 0
+    },
+    "volume": {
+      "label": "󰕾 "
+    },
+    "backlight": {
+      "label": "󰃠 ",
+      "device": "nvidia_0"
     }
   }
 }

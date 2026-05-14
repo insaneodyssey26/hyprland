@@ -87,21 +87,21 @@
 
 /* --- MEDIA PLAYER (Pitch Black Glass) --- */
 .widget-mpris {
-  padding: 15px;
-  margin: 0 20px 15px 20px;
+  padding: 10px;
+  margin: 0 20px 10px 20px;
   background: @card-bg;
   border-radius: 14px;
   border: 1px solid @border-color;
 }
 
 .widget-mpris-title {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 800;
-  color: @primary;
+  color: @on-surface;
 }
 
 .widget-mpris-subtitle {
-  font-size: 12px;
+  font-size: 11px;
   color: @on-surface;
   opacity: 0.8;
 }
@@ -110,7 +110,7 @@
 .widget-mpris > box > button {
   background: transparent;
   color: @on-surface;
-  font-size: 18px;
+  font-size: 24px;
   padding: 8px;
 }
 
@@ -134,7 +134,7 @@
 .notification-content .summary {
   color: @primary;
   font-weight: 800;
-  font-size: 18px; /* Elegant prominent heading */
+  font-size: 24px; /* Elegant prominent heading */
   margin-bottom: 4px;
 }
 
@@ -149,4 +149,39 @@
 .notification.floating {
   background: @base-bg;
   border: 1px solid @border-color;
+}
+
+/* --- SLIDERS (Sleek Interactive Controls) --- */
+.widget-volume, .widget-backlight {
+  background: @card-bg;
+  border-radius: 14px;
+  border: 1px solid @border-color;
+  margin: 0 20px 15px 20px;
+  padding: 15px 20px;
+}
+
+.widget-volume trough, .widget-backlight trough {
+  background: alpha(@on-surface, 0.1);
+  border-radius: 20px;
+  min-height: 12px;
+  min-width: 100px;
+}
+
+.widget-volume slider, .widget-backlight slider {
+  background: @primary;
+  border-radius: 20px;
+  min-height: 20px;
+  min-width: 20px;
+  margin: -4px 0;
+}
+
+.widget-volume highlight, .widget-backlight highlight {
+  background: @primary;
+  border-radius: 20px;
+}
+
+.widget-volume label, .widget-backlight label {
+  font-size: 24px;
+  color: @primary;
+  margin-right: 15px;
 }
