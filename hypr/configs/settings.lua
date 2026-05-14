@@ -31,7 +31,7 @@ hl.config({
     decoration = {
         rounding = 15,
         active_opacity = 1.0,
-        inactive_opacity = 0.92,
+        inactive_opacity = 0.95,
 
         shadow = {
             enabled = true,
@@ -65,7 +65,7 @@ hl.animation({ leaf = "windowsOut",  enabled = true, speed = 6, bezier = "myBezi
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 5, bezier = "myBezier" })
 
 -- 2. Fade
-hl.animation({ leaf = "fade",        enabled = true, speed = 4, bezier = "default" })
+hl.animation({ leaf = "fade",        enabled = true, speed = 5, bezier = "default" })
 
 -- 3. Workspaces
 hl.animation({ leaf = "workspaces",  enabled = true, speed = 5, bezier = "myBezier", style = "slidefade 20%" })
