@@ -15,11 +15,4 @@ MESSAGE="󰈐  <b>Fan Speed:</b>   $FAN
 󰍛  <b>Top RAM:</b>     $TOP_RAM
 󰖩  <b>Local IP:</b>    $IP"
 
-ACTION=$(notify-send -a "Waybar" "Hardware Status" "$MESSAGE" --action="copy=Copy IP Address")
-
-if [ "$ACTION" == "copy" ]; then
-    # -n prevents copying a new line character at the end
-    echo -n "$IP" | wl-copy
-    # Send a quick confirmation that auto-closes after 2 seconds
-    notify-send -a "Waybar" "Copied!" "IP $IP is in your clipboard." -t 2000
-fi
+notify-send -a "Waybar" "Hardware Status" "$MESSAGE"
