@@ -33,7 +33,7 @@
 }
 
 .widget-title > label {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   color: @primary;
   letter-spacing: -0.5px;
@@ -45,7 +45,7 @@
   border-radius: 10px;
   padding: 4px 12px;
   border: 1px solid @border-color;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .widget-title > button:hover {
@@ -95,7 +95,7 @@
 }
 
 .widget-mpris-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   color: @on-surface;
 }
@@ -134,14 +134,14 @@
 .notification-content .summary {
   color: @primary;
   font-weight: 800;
-  font-size: 24px; /* Elegant prominent heading */
+  font-size: 15px;
   margin-bottom: 4px;
 }
 
 .notification-content .body {
   color: @on-surface;
   font-weight: 600;
-  font-size: 15px; /* Clean, professional body text */
+  font-size: 14px;
   line-height: 1.4;
 }
 
