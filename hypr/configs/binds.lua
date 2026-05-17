@@ -2,6 +2,7 @@
 -- APPS & CORE BINDS
 -- -----------------------------------------------------
 hl.bind("SUPER + T", hl.dsp.exec_cmd(terminal))
+hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("foot"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd(menu))
 hl.bind("SUPER + G", hl.dsp.exec_cmd("~/.config/hypr/scripts/file_search.sh"))
 hl.bind("SUPER + SHIFT + D", hl.dsp.exec_cmd("~/.config/hypr/scripts/file_search.sh"))
