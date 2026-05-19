@@ -50,11 +50,11 @@ fi
 
 # 3. AUR Helper (paru) Installation
 if ! command -v paru >/dev/null 2>&1; then
-    info "Installing AUR helper (paru-bin)..."
+    info "Installing AUR helper (paru)..."
     sudo pacman -S --needed --noconfirm base-devel git
     
     BUILD_DIR=$(mktemp -d)
-    git clone https://aur.archlinux.org/paru-bin.git "$BUILD_DIR"
+    git clone https://aur.archlinux.org/paru.git "$BUILD_DIR"
     (
         cd "$BUILD_DIR" || exit 1
         makepkg -si --noconfirm
