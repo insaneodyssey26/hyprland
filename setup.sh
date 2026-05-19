@@ -66,7 +66,7 @@ fi
 
 # 4. Package Installation
 # Exact package names currently running on the system
-PACKAGES="hyprland waybar-git swaync fuzzel hypridle-git hyprlock matugen-bin kitty foot fish eza bat fzf zoxide yazi nautilus brave-origin-beta-bin qalculate-gtk rnote bemoji-git grimblast-git satty fastfetch"
+PACKAGES="hyprland waybar-git swaync fuzzel hypridle-git hyprlock matugen-bin kitty foot fish eza bat fzf zoxide yazi nautilus brave-origin-beta-bin qalculate-gtk rnote bemoji-git grimblast-git satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire wireplumber qt5-wayland qt6-wayland brightnessctl"
 
 info "Installing packages (this may take some time)..."
 paru -S --needed $PACKAGES
@@ -102,6 +102,23 @@ for folder in $CONFIG_FOLDERS; do
     info "Symlinking '$folder' to '$DEST'..."
     ln -sf "$SRC" "$DEST"
 done
+
+# Deploy starship.toml file
+SRC_STARSHIP="$WORKSPACE/starship.toml"
+DEST_STARSHIP="$HOME/.config/starship.toml"
+if [ -f "$SRC_STARSHIP" ]; then
+    if [ -f "$DEST_STARSHIP" ]; then
+        if [ -L "$DEST_STARSHIP" ]; then
+            rm "$DEST_STARSHIP"
+        else
+            BACKUP_NAME="${DEST_STARSHIP}.bak_$(date +%Y%m%d_%H%M%S)"
+            info "Backing up existing starship.toml to '$BACKUP_NAME'..."
+            mv "$DEST_STARSHIP" "$BACKUP_NAME"
+        fi
+    fi
+    info "Symlinking 'starship.toml' to '$DEST_STARSHIP'..."
+    ln -sf "$SRC_STARSHIP" "$DEST_STARSHIP"
+fi
 
 # 6. Initialize Theme Generation
 info "Generating default theme using Matugen..."

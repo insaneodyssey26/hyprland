@@ -1,0 +1,114 @@
+# Use the Cyberdream-inspired palette
+palette = 'cyberdream'
+
+format = """
+[╭](bold overlay1)$os$username\
+$directory\
+$git_branch\
+$git_status\
+$git_commit\
+$time\
+\n$character\
+$conda\
+$python\
+"""
+
+# ============= Modules ================
+
+[username]
+show_always = true
+style_user = "fg:text bold"
+style_root = "fg:red bold"
+format = '[ $user ]($style)'
+
+[os]
+disabled = false
+style = "fg:color_pink bold"
+format = "([ $symbol ]($style))"
+
+[os.symbols]
+Windows = ""
+Ubuntu = ""
+Debian = ""
+Arch = ""
+Manjaro = ""
+Linux = ""
+Macos = ""
+Unknown = ""
+
+[directory]
+style = "fg:color_blue bold"
+format = '( in [ $path ]($style))'
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music"     = " "
+"Pictures"  = " "
+
+[git_branch]
+style = "fg:color_yellow"
+disabled = false
+symbol = ""
+format = '( on [$symbol $branch]($style))'
+
+[git_status]
+disabled = false
+style = "fg:color_orange"
+format = ' <([$all_status]($style))>'
+
+[git_commit]
+disabled = false
+only_detached = false
+format = ' [ $hash](fg:color_pink)'
+commit_hash_length = 6
+tag_disabled = false
+
+[time]
+disabled = false
+time_format = "%R"
+style = "fg:color_aqua"
+format = '  [$time]($style)'
+
+[character]
+# Connectors now use the lightened overlay1 defined below
+format = "[╰─$symbol](fg:overlay1) "
+success_symbol = '[](fg:text bold)'
+error_symbol   = '[](fg:red bold)'
+
+# ======= Programs environments ========
+
+[python]
+disabled = false
+symbol = ""
+format = '([$symbol $virtualenv](fg:color_yellow)) > '
+
+[conda]
+disabled = false
+format = '([$symbol $environment](fg:color_green)) > '
+
+# ============= Visuals ================
+
+[palettes.cyberdream]
+# High-contrast text
+text      = '#ffffff'
+# BUMPED: Lightened from #242937 to #626b80 for AMOLED visibility
+overlay1  = '#626b80' 
+
+# Background & UI Colors
+color_bg0 = '#000000'
+color_bg1 = '#0f1117'
+color_bg3 = '#242937'
+color_fg0 = '#ffffff'
+
+# Cyberdream Colors
+color_blue   = '#5ea1ff'
+color_aqua   = '#5ef1ff'
+color_green  = '#5eff6c'
+color_orange = '#ffb65e'
+color_red    = '#ff6e5e'
+color_yellow = '#f1ff5e'
+color_pink   = '#ff5ea0'
+red          = '#ff6e5e'
