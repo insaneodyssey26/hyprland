@@ -14,12 +14,7 @@ abbr -a grep 'grep --color=auto'
 abbr -a i 'sudo pacman -S'     
 abbr -a pi 'paru -S'         
 abbr -a rmv 'paru -Rns'      
-# System Maintenance Cleanups
-abbr -a clean-orphans 'pacman -Qtdq | xargs -r sudo pacman -Rns'
-abbr -a clean-cache 'paru -Scc; and sudo rm -rf /var/cache/pacman/pkg/download-*'
-abbr -a clean-logs 'sudo journalctl --vacuum-time=7d'
-abbr -a clean-user-cache 'rm -rf ~/.cache/*'
-abbr -a sysclean 'pacman -Qtdq | xargs -r sudo pacman -Rns; paru -Scc; sudo rm -rf /var/cache/pacman/pkg/download-*; sudo journalctl --vacuum-time=7d; rm -rf ~/.cache/*'
+abbr -a orphans 'paru -Rns (pacman -Qtdq)' 
 abbr -a ni 'npm install'         
 abbr -a ns 'npm start'          
 abbr -a nr 'npm run'
@@ -61,6 +56,24 @@ function done
     git commit -m "$argv"
     git push
 end
+
+function sysclean
+    echo -e "\033[0;34m[1/4] Removing orphan packages...\033[0m"
+    pacman -Qtdq | xargs -r sudo pacman -Rns
+
+    echo -e "\n\033[0;34m[2/4] Cleaning package caches (pacman & paru)...\033[0m"
+    paru -Scc --noconfirm
+    sudo sh -c 'rm -rf /var/cache/pacman/pkg/download-*'
+
+    echo -e "\n\033[0;34m[3/4] Vacuuming system logs (keeping 7 days)...\033[0m"
+    sudo journalctl --vacuum-time=7d
+
+    echo -e "\n\033[0;34m[4/4] Clearing user-space render cache (~/.cache)...\033[0m"
+    rm -rf ~/.cache/*
+
+    echo -e "\n\033[0;32m[SUCCESS] System cleanup completed successfully!\033[0m"
+end
+
 alias theme="bash ~/.config/hypr/scripts/theme.sh"
 
 # --- MATUGEN COLOR SYNC ---
