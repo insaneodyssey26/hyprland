@@ -105,7 +105,7 @@ done
 
 # 6. Initialize Theme Generation
 info "Generating default theme using Matugen..."
-DEFAULT_WALLPAPER="$HOME/hyprland/assets/arch.png"
+DEFAULT_WALLPAPER="$WORKSPACE/assets/arch_logo.png"
 if [ -f "$DEFAULT_WALLPAPER" ]; then
     matugen image "$DEFAULT_WALLPAPER" -m dark --type scheme-fidelity --fallback-color '#6d6d6d' --source-color-index 0
 else
