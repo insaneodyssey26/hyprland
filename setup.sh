@@ -69,7 +69,7 @@ fi
 PACKAGES="hyprland waybar-git swaync fuzzel hypridle-git hyprlock matugen-bin kitty foot fish eza bat fzf zoxide yazi nautilus brave-origin-beta-bin qalculate-gtk rnote bemoji-git grimblast-git satty"
 
 info "Installing packages (this may take some time)..."
-paru -S --needed --noconfirm $PACKAGES
+paru -S --needed $PACKAGES
 
 # 5. Configuration Deployment (Symlinking)
 info "Deploying configurations..."
