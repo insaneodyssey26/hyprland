@@ -66,7 +66,7 @@ fi
 
 # 4. Package Installation
 # Exact package names currently running on the system
-PACKAGES="hyprland waybar-git swaync fuzzel hypridle-git hyprlock matugen-bin kitty foot fish eza bat fzf zoxide yazi nautilus brave-origin-beta-bin qalculate-gtk rnote bemoji-git grimblast-git satty"
+PACKAGES="hyprland waybar-git swaync fuzzel hypridle-git hyprlock matugen-bin kitty foot fish eza bat fzf zoxide yazi nautilus brave-origin-beta-bin qalculate-gtk rnote bemoji-git grimblast-git satty fastfetch"
 
 info "Installing packages (this may take some time)..."
 paru -S --needed $PACKAGES
@@ -76,10 +76,10 @@ info "Deploying configurations..."
 mkdir -p "$HOME/.config"
 
 # List of folders to deploy
-CONFIG_FOLDERS="hypr kitty waybar swaync matugen foot"
+CONFIG_FOLDERS="hypr kitty waybar swaync matugen foot fastfetch fish fuzzel gtk-3.0 reflector"
 
 for folder in $CONFIG_FOLDERS; do
-    SRC="$HOME/hyprland/$folder"
+    SRC="$WORKSPACE/$folder"
     DEST="$HOME/.config/$folder"
     
     if [ ! -d "$SRC" ]; then
@@ -110,6 +110,13 @@ if [ -f "$DEFAULT_WALLPAPER" ]; then
     matugen image "$DEFAULT_WALLPAPER" -m dark --type scheme-fidelity --fallback-color '#6d6d6d' --source-color-index 0
 else
     info "Warning: Default wallpaper asset not found. Matugen initial colors skipped."
+fi
+
+# 7. Set Default Shell
+if [ "$SHELL" != "/usr/bin/fish" ]; then
+    info "Setting default shell to fish..."
+    # chsh will run interactively to prompt for password
+    chsh -s /usr/bin/fish
 fi
 
 info "Installation and setup completed successfully."
