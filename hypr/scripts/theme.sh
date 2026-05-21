@@ -32,7 +32,7 @@ awww img "$WALLPAPER" --transition-type "$RANDOM_ANIM" --transition-fps 144 --tr
 matugen image "$WALLPAPER" -m dark --type scheme-fidelity --fallback-color '#6d6d6d' --source-color-index 0
 
 # 5. Reload Components
-killall waybar && waybar & disown
+pkill -USR2 waybar
 hyprctl reload
 swaync-client -rs
 
