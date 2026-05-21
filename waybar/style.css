@@ -12,12 +12,13 @@ window#waybar {
     background: transparent;
 }
 
-/* --- THE 4 ATOMIC PILLS --- */
+/* --- THE ATOMIC PILLS --- */
 #user-workspaces,
 #system-stats,
 #connectivity,
 #clock,
-#mpris {
+#mpris,
+#tray {
     background: @surface;
     margin: 5px 6px;
     padding: 2px 14px;
@@ -28,14 +29,14 @@ window#waybar {
 }
 
 /* --- INNER MODULE PADDING --- */
-#tray,
 #cpu,
 #memory,
 #custom-thermals,
 #network,
 #wireplumber,
 #battery,
-#custom-keyboard {
+#custom-keyboard,
+#custom-power {
     padding: 0px 10px;
 }
 
@@ -63,6 +64,14 @@ window#waybar {
 }
 #clock {
     color: @on-surface;
+}
+/* --- POWER BUTTON (INTEGRATED) --- */
+#custom-power {
+    color: @tertiary;
+    font-size: 14px;
+}
+#custom-power:hover {
+    color: @primary;
 }
 
 /* --- ANCHOR LOCK --- */
@@ -111,18 +120,18 @@ window#waybar {
     min-width: 28px;
 }
 
-/* --- THE MINIMAL HOVER STATE --- */
 #user-workspaces:hover,
 #system-stats:hover,
 #connectivity:hover,
 #clock:hover,
-#mpris:hover {
+#mpris:hover,
+#tray:hover {
     border: 1px solid alpha(@outline, 0.4);
 }
 
 #custom-keyboard {
     color: @primary;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #custom-keyboard:hover {

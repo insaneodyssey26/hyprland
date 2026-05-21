@@ -15,7 +15,7 @@
     "modules": ["custom/user", "hyprland/workspaces"]
   },
   "modules-center": ["mpris"],
-  "modules-right": ["group/connectivity", "clock"],
+  "modules-right": ["tray", "group/connectivity", "clock"],
 
   "group/system-stats": {
     "orientation": "horizontal",
@@ -24,7 +24,7 @@
 
   "group/connectivity": {
     "orientation": "horizontal",
-    "modules": ["tray", "network", "wireplumber", "battery", "custom/keyboard"]
+    "modules": ["network", "wireplumber", "battery", "custom/keyboard", "custom/power"]
   },
 
   "hyprland/workspaces": {
@@ -58,9 +58,9 @@
   },
 
   "custom/thermals": {
-    "interval": 3,
+    "interval": 4,
     "format": "   {}",
-    "exec": "echo \"$(awk '{print substr($1, 1, 2); exit}' /sys/class/hwmon/hwmon*/temp1_input 2>/dev/null)° / $(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null)°\"",
+    "exec": "echo $(cat /sys/class/hwmon/$(grep -l k10temp /sys/class/hwmon/hwmon*/name | cut -d/ -f5)/temp1_input | cut -c1-2)° C",
     "on-click": "kitty -e btop",
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
@@ -110,5 +110,10 @@
     "on-click": "playerctl play-pause",
     "on-scroll-up": "playerctl next",
     "on-scroll-down": "playerctl previous"
+  },
+  "custom/power": {
+    "format": "",
+    "on-click": "~/.config/hypr/scripts/power.sh",
+    "tooltip": false
   }
 }

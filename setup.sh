@@ -66,7 +66,7 @@ fi
 
 # 4. Package Installation
 # Exact package names currently running on the system
-PACKAGES="hyprland waybar-git swaync fuzzel hypridle-git hyprlock matugen-bin kitty foot fish eza bat fzf zoxide yazi nautilus brave-origin-beta-bin qalculate-gtk rnote bemoji-git grimblast-git satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire wireplumber qt5-wayland qt6-wayland brightnessctl"
+PACKAGES="hyprland waybar-git swaync fuzzel hypridle-git hyprlock matugen-bin kitty foot fish eza bat fzf zoxide yazi nautilus brave-origin-beta-bin gnome-calculator rnote bemoji-git grimblast-git satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire wireplumber qt5-wayland qt6-wayland brightnessctl"
 
 info "Installing packages (this may take some time)..."
 paru -S --needed $PACKAGES

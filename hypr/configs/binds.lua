@@ -10,7 +10,7 @@ hl.bind("SUPER + B", hl.dsp.exec_cmd("brave-origin-beta"))
 hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("brave-origin-beta --disable-gpu-compositing"))
 hl.bind("SUPER + E", hl.dsp.exec_cmd("nautilus"))
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("kitty -e yazi"))
-hl.bind("SUPER + C", hl.dsp.exec_cmd("qalculate-gtk"))
+hl.bind("SUPER + C", hl.dsp.exec_cmd("gnome-calculator"))
 hl.bind("SUPER + R", hl.dsp.exec_cmd("rnote"))
 hl.bind("SUPER + Y", hl.dsp.exec_cmd("bash -c 'color=$(hyprpicker -a); notify-send \"Color Picked\" \"$color\" -t 2000'"))
 
