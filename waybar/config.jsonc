@@ -24,7 +24,7 @@
 
   "group/connectivity": {
     "orientation": "horizontal",
-    "modules": ["network", "wireplumber", "battery", "custom/keyboard"]
+    "modules": ["group/wifi", "wireplumber", "battery", "custom/keyboard"]
   },
 
   "hyprland/workspaces": {
@@ -65,11 +65,33 @@
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
 
+  "group/wifi": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 400,
+      "transition-left-to-right": true
+    },
+    "modules": [
+      "network",
+      "network#ssid"
+    ]
+  },
+
   "network": {
-    "interval": 3,
+    "interval": 2,
     "format-wifi": "     {bandwidthTotalBytes}",
-    "tooltip-format-wifi": "Network: {essid}",
-    "on-click": "kitty -e nmtui"
+    "format-ethernet": "󰈀     {bandwidthTotalBytes}",
+    "format-disconnected": "󰖪",
+    "on-click": "kitty -e nmtui",
+    "tooltip": false
+  },
+
+  "network#ssid": {
+    "interval": 5,
+    "format-wifi": "({essid})",
+    "format-ethernet": "({ifname})",
+    "format-disconnected": "Disconnected",
+    "tooltip": false
   },
 
   "wireplumber": {

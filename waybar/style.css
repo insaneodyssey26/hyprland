@@ -243,6 +243,33 @@ window#waybar {
     color: #ed8796; /* Soft red for shutdown */
 }
 
+/* --- WIFI DRAWER SEAMLESS INTEGRATION --- */
+#wifi {
+    background: transparent;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#wifi #network {
+    background: transparent;
+    border: none;
+    padding: 0px 2px 0px 6px;
+    margin: 0px;
+    box-shadow: none;
+    color: @secondary;
+}
+
+#wifi #network-ssid {
+    background: transparent;
+    border: none;
+    padding: 0px 6px 0px 2px;
+    margin: 0px;
+    box-shadow: none;
+    color: alpha(@on-surface, 0.7);
+    font-weight: 600;
+}
+
 /* --- TOOLTIP REDESIGN --- */
 tooltip {
     background: alpha(@surface, 0.9);
