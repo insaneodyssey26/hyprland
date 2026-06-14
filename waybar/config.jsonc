@@ -14,7 +14,7 @@
     "orientation": "horizontal",
     "modules": ["custom/user", "hyprland/workspaces"]
   },
-  "modules-center": ["mpris"],
+  "modules-center": ["group/music"],
   "modules-right": ["tray", "group/connectivity", "clock"],
 
   "group/system-stats": {
@@ -90,7 +90,8 @@
     "format": "󰃭   {:%a, %d-%m   󰥔   %H:%M:%S}",
     "interval": 1,
     "on-click": "kitty --class calendar-overlay --hold -e cal -y",
-    "on-click-right": "kitty --class calendar-overlay -e tty-clock -c -C 5 -t -s"
+    "on-click-right": "kitty --class calendar-overlay -e tty-clock -c -C 5 -t -s",
+    "tooltip": false
   },
 
   "tray": {
@@ -104,12 +105,48 @@
     "on-click-right": "swaync-client -t -sw",
     "tooltip": false 
   },
+  "group/music": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 400,
+      "transition-left-to-right": true
+    },
+    "modules": [
+      "mpris",
+      "mpris#artist",
+      "custom/media-prev",
+      "custom/media-play",
+      "custom/media-next"
+    ]
+  },
   "mpris": { 
-    "format": "󰝚   {title}", 
+    "format": "󰝚   {title}",
     "max-length": 40,
     "on-click": "playerctl play-pause",
-    "on-scroll-up": "playerctl next",
-    "on-scroll-down": "playerctl previous"
+    "tooltip": false
+  },
+  "mpris#artist": {
+    "format": "by {artist}",
+    "artist-len": 15,
+    "max-length": 20,
+    "tooltip": false
+  },
+  "custom/media-prev": {
+    "format": "󰒮",
+    "on-click": "playerctl previous",
+    "tooltip": false
+  },
+  "custom/media-play": {
+    "format": "{}",
+    "exec": "playerctl status 2>/dev/null | grep -q Playing && echo '󰏤' || echo '󰐊'",
+    "interval": 1,
+    "on-click": "playerctl play-pause",
+    "tooltip": false
+  },
+  "custom/media-next": {
+    "format": "󰒭",
+    "on-click": "playerctl next",
+    "tooltip": false
   },
   "custom/power": {
     "format": "",
