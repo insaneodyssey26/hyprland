@@ -5,7 +5,6 @@
     font-family: "Geist", "GeistMono Nerd Font";
     font-weight: 600;
     font-size: 13px;
-    transition: none;
 }
 
 window#waybar {
@@ -18,6 +17,8 @@ window#waybar {
 #connectivity,
 #clock,
 #mpris,
+#music,
+#power,
 #tray {
     background: @surface;
     margin: 5px 6px;
@@ -25,13 +26,13 @@ window#waybar {
     border-radius: 14px;
     border: 1px solid alpha(@outline, 0.1);
     min-height: 28px;
-    transition: border 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* --- INNER MODULE PADDING --- */
 #cpu,
 #memory,
-#custom-thermals,
+#temperature,
 #network,
 #wireplumber,
 #battery,
@@ -56,8 +57,11 @@ window#waybar {
 #battery {
     color: @primary;
 }
-#custom-thermals {
+#temperature {
     color: @secondary;
+}
+#temperature.critical {
+    color: #ed8796;
 }
 #mpris {
     color: @tertiary;
@@ -125,8 +129,9 @@ window#waybar {
 #connectivity:hover,
 #clock:hover,
 #mpris:hover,
+#music:hover,
 #tray:hover {
-    border: 1px solid alpha(@outline, 0.4);
+    border: 1px solid alpha(@primary, 0.4);
 }
 
 #custom-keyboard {
@@ -136,4 +141,148 @@ window#waybar {
 
 #custom-keyboard:hover {
     color: @secondary;
+}
+
+/* --- MUSIC DRAWER SEAMLESS INTEGRATION --- */
+#music {
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
+#music #mpris,
+#music #mpris-artist,
+#music #custom-media-prev,
+#music #custom-media-play,
+#music #custom-media-next {
+    background: transparent;
+    border: none;
+    padding: 0px 6px;
+    margin: 0px;
+    box-shadow: none;
+}
+
+#music #mpris {
+    color: @tertiary;
+    font-weight: 600;
+}
+
+#music #mpris-artist {
+    color: alpha(@on-surface, 0.6);
+    font-size: 11px;
+    font-weight: 500;
+    padding-left: 2px;
+    padding-right: 8px;
+}
+
+#music #custom-media-prev,
+#music #custom-media-play,
+#music #custom-media-next {
+    color: alpha(@on-surface, 0.7);
+    font-size: 13px;
+    transition: color 0.2s ease;
+}
+
+#music #custom-media-prev:hover,
+#music #custom-media-play:hover,
+#music #custom-media-next:hover {
+    color: @primary;
+}
+
+/* --- POWER DRAWER SEAMLESS INTEGRATION --- */
+#power {
+    padding: 2px 10px 2px 6px;
+}
+
+#power revealer {
+    margin: 0;
+    padding: 0;
+}
+
+#power #custom-power,
+#power #custom-lock,
+#power #custom-suspend,
+#power #custom-logout,
+#power #custom-reboot,
+#power #custom-shutdown {
+    background: transparent;
+    border: none;
+    padding: 0px 6px;
+    margin: 0px;
+    box-shadow: none;
+}
+
+#power #custom-power {
+    color: @tertiary;
+    font-size: 14px;
+}
+
+#power #custom-lock,
+#power #custom-suspend,
+#power #custom-logout,
+#power #custom-reboot,
+#power #custom-shutdown {
+    color: alpha(@on-surface, 0.7);
+    font-size: 16px;
+    transition: color 0.2s ease;
+}
+
+#power #custom-lock:hover {
+    color: #eed49f; /* Soft yellow for lock */
+}
+
+#power #custom-suspend:hover {
+    color: #8aadf4; /* Soft blue for suspend */
+}
+
+#power #custom-logout:hover {
+    color: #f5bde6; /* Soft pink for logout */
+}
+
+#power #custom-reboot:hover {
+    color: #a6da95; /* Soft green for reboot */
+}
+
+#power #custom-shutdown:hover {
+    color: #ed8796; /* Soft red for shutdown */
+}
+
+/* --- WIFI DRAWER SEAMLESS INTEGRATION --- */
+#wifi {
+    background: transparent;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#wifi #network {
+    background: transparent;
+    border: none;
+    padding: 0px 2px 0px 6px;
+    margin: 0px;
+    box-shadow: none;
+    color: @secondary;
+}
+
+#wifi #network-ssid {
+    background: transparent;
+    border: none;
+    padding: 0px 6px 0px 2px;
+    margin: 0px;
+    box-shadow: none;
+    color: alpha(@on-surface, 0.7);
+    font-weight: 600;
+}
+
+/* --- TOOLTIP REDESIGN --- */
+tooltip {
+    background: alpha(@surface, 0.9);
+    border: 1px solid alpha(@outline, 0.2);
+    border-radius: 10px;
+    padding: 8px 12px;
+}
+
+tooltip label {
+    color: @on-surface;
+    font-family: "Geist";
+    font-size: 12px;
 }
