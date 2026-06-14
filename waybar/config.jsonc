@@ -14,17 +14,17 @@
     "orientation": "horizontal",
     "modules": ["custom/user", "hyprland/workspaces"]
   },
-  "modules-center": ["group/music"],
-  "modules-right": ["tray", "group/connectivity", "clock", "group/power"],
+  "modules-center": ["mpris"],
+  "modules-right": ["tray", "group/connectivity", "clock"],
 
   "group/system-stats": {
     "orientation": "horizontal",
-    "modules": ["cpu", "memory", "temperature"]
+    "modules": ["cpu", "memory", "custom/thermals"]
   },
 
   "group/connectivity": {
     "orientation": "horizontal",
-    "modules": ["group/wifi", "wireplumber", "battery", "custom/keyboard"]
+    "modules": ["network", "wireplumber", "battery", "custom/keyboard", "custom/power"]
   },
 
   "hyprland/workspaces": {
@@ -57,44 +57,19 @@
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
 
-  "temperature": {
-    "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
-    "input-filename": "temp1_input",
-    "critical-threshold": 80,
-    "format": "   {temperatureC}°C",
-    "format-critical": "   {temperatureC}°C",
+  "custom/thermals": {
     "interval": 4,
+    "format": "   {}",
+    "exec": "echo $(cat /sys/class/hwmon/$(grep -l k10temp /sys/class/hwmon/hwmon*/name | cut -d/ -f5)/temp1_input | cut -c1-2)° C",
     "on-click": "kitty -e btop",
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
 
-  "group/wifi": {
-    "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 400,
-      "transition-left-to-right": true
-    },
-    "modules": [
-      "network",
-      "network#ssid"
-    ]
-  },
-
   "network": {
-    "interval": 2,
+    "interval": 3,
     "format-wifi": "     {bandwidthTotalBytes}",
-    "format-ethernet": "󰈀     {bandwidthTotalBytes}",
-    "format-disconnected": "󰖪",
-    "on-click": "kitty -e nmtui",
-    "tooltip": false
-  },
-
-  "network#ssid": {
-    "interval": 5,
-    "format-wifi": "({essid})",
-    "format-ethernet": "({ifname})",
-    "format-disconnected": "Disconnected",
-    "tooltip": false
+    "tooltip-format-wifi": "Network: {essid}",
+    "on-click": "kitty -e nmtui"
   },
 
   "wireplumber": {
@@ -115,8 +90,7 @@
     "format": "󰃭   {:%a, %d-%m   󰥔   %H:%M:%S}",
     "interval": 1,
     "on-click": "kitty --class calendar-overlay --hold -e cal -y",
-    "on-click-right": "kitty --class calendar-overlay -e tty-clock -c -C 5 -t -s",
-    "tooltip": false
+    "on-click-right": "kitty --class calendar-overlay -e tty-clock -c -C 5 -t -s"
   },
 
   "tray": {
@@ -130,98 +104,16 @@
     "on-click-right": "swaync-client -t -sw",
     "tooltip": false 
   },
-  "group/music": {
-    "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 400,
-      "transition-left-to-right": true
-    },
-    "modules": [
-      "mpris",
-      "mpris#artist",
-      "custom/media-prev",
-      "custom/media-play",
-      "custom/media-next"
-    ]
-  },
   "mpris": { 
-    "format": "󰝚   {title}",
+    "format": "󰝚   {title}", 
     "max-length": 40,
     "on-click": "playerctl play-pause",
-    "tooltip": false
-  },
-  "mpris#artist": {
-    "format": "by {artist}",
-    "artist-len": 15,
-    "max-length": 20,
-    "tooltip": false
-  },
-  "custom/media-prev": {
-    "format": "󰒮",
-    "on-click": "playerctl previous",
-    "tooltip": false
-  },
-  "custom/media-play": {
-    "format": "{}",
-    "exec": "playerctl status 2>/dev/null | grep -q Playing && echo '󰏤' || echo '󰐊'",
-    "interval": 1,
-    "on-click": "playerctl play-pause",
-    "tooltip": false
-  },
-  "custom/media-next": {
-    "format": "󰒭",
-    "on-click": "playerctl next",
-    "tooltip": false
-  },
-  "group/power": {
-    "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 400,
-      "transition-left-to-right": false
-    },
-    "modules": [
-      "custom/power",
-      "custom/lock",
-      "custom/suspend",
-      "custom/logout",
-      "custom/reboot",
-      "custom/shutdown"
-    ]
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous"
   },
   "custom/power": {
     "format": "",
-    "on-click": "pkill fuzzel || ~/.config/hypr/scripts/power.sh",
-    "tooltip": true,
-    "tooltip-format": "Power Options"
-  },
-  "custom/lock": {
-    "format": "󰌾",
-    "on-click": "loginctl lock-session",
-    "tooltip": true,
-    "tooltip-format": "Lock Screen"
-  },
-  "custom/suspend": {
-    "format": "󰤄",
-    "on-click": "systemctl suspend",
-    "tooltip": true,
-    "tooltip-format": "Suspend"
-  },
-  "custom/logout": {
-    "format": "󰍃",
-    "on-click": "loginctl terminate-user $USER",
-    "tooltip": true,
-    "tooltip-format": "Log Out"
-  },
-  "custom/reboot": {
-    "format": "󰜉",
-    "on-click": "systemctl reboot",
-    "tooltip": true,
-    "tooltip-format": "Reboot"
-  },
-  "custom/shutdown": {
-    "format": "󰐥",
-    "on-click": "systemctl poweroff",
-    "tooltip": true,
-    "tooltip-format": "Shut Down"
+    "on-click": "~/.config/hypr/scripts/power.sh",
+    "tooltip": false
   }
 }
