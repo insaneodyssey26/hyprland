@@ -22,7 +22,7 @@ hl.config({
 hl.config({
     general = {
         gaps_in = 6,
-        gaps_out = { top = 8, right = 14, bottom = 14, left = 14 },
+        gaps_out = 8,
         border_size = 0,
         ["col.active_border"] = "rgba(00000000)",
         ["col.inactive_border"] = "rgba(00000000)",
@@ -37,14 +37,14 @@ hl.config({
             enabled = true,
             range = 80,
             render_power = 4,
-            color = "rgba(000000df)",
-            color_inactive = "rgba(00000080)",
+            color = "rgba(000000cc)",
+            color_inactive = "rgba(00000066)",
         },
 
         blur = {
             enabled = true,
-            size = 10,
-            passes = 3,
+            size = 6,
+            passes = 2,
             new_optimizations = true,
             ignore_opacity = true,
         },
