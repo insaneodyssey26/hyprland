@@ -15,7 +15,7 @@
     "modules": ["custom/user", "hyprland/workspaces"]
   },
   "modules-center": ["group/music"],
-  "modules-right": ["tray", "group/connectivity", "clock"],
+  "modules-right": ["tray", "group/connectivity", "clock", "group/power"],
 
   "group/system-stats": {
     "orientation": "horizontal",
@@ -24,7 +24,7 @@
 
   "group/connectivity": {
     "orientation": "horizontal",
-    "modules": ["network", "wireplumber", "battery", "custom/keyboard", "custom/power"]
+    "modules": ["network", "wireplumber", "battery", "custom/keyboard"]
   },
 
   "hyprland/workspaces": {
@@ -148,9 +148,55 @@
     "on-click": "playerctl next",
     "tooltip": false
   },
+  "group/power": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 400,
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/power",
+      "custom/lock",
+      "custom/suspend",
+      "custom/logout",
+      "custom/reboot",
+      "custom/shutdown"
+    ]
+  },
   "custom/power": {
     "format": "",
-    "on-click": "~/.config/hypr/scripts/power.sh",
-    "tooltip": false
+    "on-click": "pkill fuzzel || ~/.config/hypr/scripts/power.sh",
+    "tooltip": true,
+    "tooltip-format": "Power Options"
+  },
+  "custom/lock": {
+    "format": "󰌾",
+    "on-click": "loginctl lock-session",
+    "tooltip": true,
+    "tooltip-format": "Lock Screen"
+  },
+  "custom/suspend": {
+    "format": "󰤄",
+    "on-click": "systemctl suspend",
+    "tooltip": true,
+    "tooltip-format": "Suspend"
+  },
+  "custom/logout": {
+    "format": "󰍃",
+    "on-click": "loginctl terminate-user $USER",
+    "tooltip": true,
+    "tooltip-format": "Log Out"
+  },
+  "custom/reboot": {
+    "format": "󰜉",
+    "on-click": "systemctl reboot",
+    "tooltip": true,
+    "tooltip-format": "Reboot"
+  },
+  "custom/shutdown": {
+    "format": "󰐥",
+    "on-click": "systemctl poweroff",
+    "tooltip": true,
+    "tooltip-format": "Shut Down"
   }
 }
