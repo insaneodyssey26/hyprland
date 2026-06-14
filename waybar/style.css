@@ -32,7 +32,7 @@ window#waybar {
 /* --- INNER MODULE PADDING --- */
 #cpu,
 #memory,
-#custom-thermals,
+#temperature,
 #network,
 #wireplumber,
 #battery,
@@ -57,8 +57,11 @@ window#waybar {
 #battery {
     color: @primary;
 }
-#custom-thermals {
+#temperature {
     color: @secondary;
+}
+#temperature.critical {
+    color: #ed8796;
 }
 #mpris {
     color: @tertiary;

@@ -19,7 +19,7 @@
 
   "group/system-stats": {
     "orientation": "horizontal",
-    "modules": ["cpu", "memory", "custom/thermals"]
+    "modules": ["cpu", "memory", "temperature"]
   },
 
   "group/connectivity": {
@@ -57,10 +57,13 @@
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
 
-  "custom/thermals": {
+  "temperature": {
+    "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
+    "input-filename": "temp1_input",
+    "critical-threshold": 80,
+    "format": "   {temperatureC}°C",
+    "format-critical": "   {temperatureC}°C",
     "interval": 4,
-    "format": "   {}",
-    "exec": "echo $(cat /sys/class/hwmon/$(grep -l k10temp /sys/class/hwmon/hwmon*/name | cut -d/ -f5)/temp1_input | cut -c1-2)° C",
     "on-click": "kitty -e btop",
     "on-click-right": "~/.config/waybar/sys_stats.sh"
   },
