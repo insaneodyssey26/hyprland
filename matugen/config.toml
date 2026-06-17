@@ -47,3 +47,7 @@ output_path = "~/.config/foot/colors.ini"
 [templates.zsh]
 input_path = "~/.config/matugen/templates/colors.zsh"
 output_path = "~/.config/zsh/colors.zsh"
+
+[templates.cava]
+input_path = "~/.config/matugen/templates/cava.ini"
+output_path = "~/.config/cava/themes/matugen"
