@@ -84,7 +84,8 @@
     "interval": 2,
     "format-wifi": "     {bandwidthTotalBytes}",
     "format-ethernet": "󰈀     {bandwidthTotalBytes}",
-    "format-disconnected": "󰖪",
+    "format-disconnected": "󰖪 ",
+    "format-disabled": "󰖪 ",
     "on-click": "kitty -e nmtui",
     "tooltip": false
   },
@@ -94,6 +95,7 @@
     "format-wifi": "({essid})",
     "format-ethernet": "({ifname})",
     "format-disconnected": "Disconnected",
+    "format-disabled": "Disabled",
     "tooltip": false
   },
 
