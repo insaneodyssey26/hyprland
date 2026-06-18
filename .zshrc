@@ -68,7 +68,14 @@ abbreviations=(
     gd      'git diff'
     gco     'git checkout'
     brave   'brave-origin-beta '
+
+    # Docker
+    dkillall 'docker ps -q | xargs -r docker kill'           # Instantly kill all running containers
+    drun     'docker run --rm -it'                           # Run container with auto-cleanup (--rm)
+    dcdown   'docker compose down -v --remove-orphans'       # Safe teardown (remove volumes/networks)
+    dprune   'docker system prune -a --volumes -f'           # Deep prune (wipe images, cache, volumes)
 )
+
 
 expand-abbreviation() {
     if [[ "$LBUFFER" =~ '[a-zA-Z0-9_-]+$' ]]; then

@@ -33,6 +33,12 @@ abbr -a gd 'git diff'
 abbr -a gco 'git checkout'
 abbr -a brave 'brave-origin-beta '
 
+# Docker
+abbr -a dkillall 'docker ps -q | xargs -r docker kill'           # Instantly kill all running containers
+abbr -a drun     'docker run --rm -it'                           # Run container with auto-cleanup (--rm)
+abbr -a dcdown   'docker compose down -v --remove-orphans'       # Safe teardown (remove volumes/networks)
+abbr -a dprune   'docker system prune -a --volumes -f'           # Deep prune (wipe images, cache, volumes)
+
 # Initials
 zoxide init fish | source
 starship init fish | source
