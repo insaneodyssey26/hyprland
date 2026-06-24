@@ -37,6 +37,7 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 bindkey '^I' autosuggest-accept
 bindkey '^?' backward-delete-char
 bindkey '^H' backward-kill-word
+bindkey '^[[3~' delete-char
 
 # Fish-style Abbreviations
 typeset -A abbreviations
