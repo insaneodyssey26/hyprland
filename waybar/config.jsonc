@@ -31,7 +31,10 @@
     "active-only": false,
     "all-outputs": true,
     "format": "{name}",
-    "on-click": "hyprctl dispatch 'workspace {id}'",
+    "on-scroll-up": "hyprctl dispatch \"hl.dsp.focus({workspace='+1'})\"",
+    "on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({workspace='-1'})\"",
+    "on-click": "hyprctl dispatch \"hl.dsp.focus({workspace='+1'})\"",
+    "on-click-right": "hyprctl dispatch \"hl.dsp.focus({workspace='-1'})\"",
     "persistent-workspaces": {
       "eDP-1": [1, 2, 3, 4, 5]
     }
