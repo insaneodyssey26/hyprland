@@ -26,7 +26,11 @@ hl.config({
         border_size = 0,
         ["col.active_border"] = "rgba(00000000)",
         ["col.inactive_border"] = "rgba(00000000)",
-        layout = "dwindle",
+        layout = "scrolling",
+    },
+    scrolling = {
+        column_width = 1.0, -- Full width
+        fullscreen_on_one_column = true,
     },
     decoration = {
         rounding = 15,
@@ -58,17 +62,21 @@ hl.config({ animations = { enabled = true } })
 
 -- Replicating 'myBezier, 0.05, 0.9, 0.1, 1.05'
 hl.curve("myBezier", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.05} } })
+-- Smooth layout transition
+hl.curve("smoothLinear", { type = "bezier", points = { {0.25, 1}, {0.5, 1} } })
+-- Subtle spring curve
+hl.curve("myBezierSoft", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.02} } })
 
 -- 1. Windows (Replicating exact .conf behavior)
 hl.animation({ leaf = "windows",     enabled = true, speed = 6, bezier = "myBezier", style = "slide" })
 hl.animation({ leaf = "windowsOut",  enabled = true, speed = 6, bezier = "myBezier", style = "popin 80%" })
-hl.animation({ leaf = "windowsMove", enabled = true, speed = 5, bezier = "myBezier" })
+hl.animation({ leaf = "windowsMove", enabled = true, speed = 5, bezier = "myBezierSoft" })
 
 -- 2. Fade
 hl.animation({ leaf = "fade",        enabled = true, speed = 5, bezier = "default" })
 
 -- 3. Workspaces
-hl.animation({ leaf = "workspaces",  enabled = true, speed = 5, bezier = "myBezier", style = "slidefade 20%" })
+hl.animation({ leaf = "workspaces",  enabled = true, speed = 5, bezier = "myBezierSoft", style = "slidefade 20%" })
 
 -- 4. Premium Layer Extensions (Kept your requested blur/rules)
 hl.config({

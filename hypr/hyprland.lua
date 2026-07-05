@@ -24,9 +24,26 @@ for i = 1, 5 do
 end
 
 -- 2. Native Gestures (Official v0.55.0 Syntax)
--- These must be OUTSIDE of hl.config
+-- Workspace swipe
 hl.gesture({
     fingers = 3,
     direction = "horizontal",
     action = "workspace"
+})
+
+-- Window swipe
+hl.gesture({
+    fingers = 4,
+    direction = "left",
+    action = function()
+        hl.dispatch(hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_right"))
+    end
+})
+
+hl.gesture({
+    fingers = 4,
+    direction = "right",
+    action = function()
+        hl.dispatch(hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_left"))
+    end
 })

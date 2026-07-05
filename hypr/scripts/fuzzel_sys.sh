@@ -20,8 +20,15 @@ bt=$(cat /tmp/bt_stat)
 fw=$(cat /tmp/fw_stat)
 cam=$(cat /tmp/cam_stat)
 
-options="󰓃    Speaker: $spk\n    Mic: $mic\n󰖔    Night Light: $sunset\n    WiFi: $wifi\n    Bluetooth: $bt\n󰒓    Firewall: $fw\n󰄀    Camera: $cam"
-chosen=$(echo -e "$options" | fuzzel --dmenu -p "System Controls   " --lines=7 --font="Geist:weight=bold:size=9")
+layout_val=$(hyprctl getoption general:layout | grep "str:" | awk '{print $2}')
+if [ "$layout_val" = "scrolling" ]; then
+    layout_mode="Scrolling"
+else
+    layout_mode="Tiling"
+fi
+
+options="󰓃    Speaker: $spk\n    Mic: $mic\n󰖔    Night Light: $sunset\n    WiFi: $wifi\n    Bluetooth: $bt\n󰒓    Firewall: $fw\n󰄀    Camera: $cam\n󰕰    Layout: $layout_mode"
+chosen=$(echo -e "$options" | fuzzel --dmenu -p "System Controls   " --lines=8)
 
 case "$chosen" in
     *Speaker*)
@@ -68,5 +75,8 @@ case "$chosen" in
         else
             sudo modprobe uvcvideo; notify-send -a "Waybar" "Privacy" "Camera Hardware Enabled" -t 2000
         fi
+        ;;
+    *Layout*)
+        bash ~/.config/hypr/scripts/toggle_scroll_mode.sh
         ;;
 esac

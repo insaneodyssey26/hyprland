@@ -17,20 +17,21 @@ hl.bind("SUPER + Y", hl.dsp.exec_cmd("bash -c 'color=$(hyprpicker -a); notify-se
 -- -----------------------------------------------------
 -- NAVIGATION & WINDOW MGMT
 -- -----------------------------------------------------
--- Using the exact v0.55.0 syntax for focus
-hl.bind("SUPER + left",  hl.dsp.focus({ direction = "left" }))
-hl.bind("SUPER + right", hl.dsp.focus({ direction = "right" }))
+-- Focus
+hl.bind("SUPER + left",  hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_left"))
+hl.bind("SUPER + right", hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_right"))
 hl.bind("SUPER + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind("SUPER + down",  hl.dsp.focus({ direction = "down" }))
 
--- Window Movement
-hl.bind("SUPER + SHIFT + left",  hl.dsp.window.move({ direction = "left" }))
-hl.bind("SUPER + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
+-- Move
+hl.bind("SUPER + SHIFT + left",  hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh move_left"))
+hl.bind("SUPER + SHIFT + right", hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh move_right"))
 hl.bind("SUPER + SHIFT + up",    hl.dsp.window.move({ direction = "up" }))
 hl.bind("SUPER + SHIFT + down",  hl.dsp.window.move({ direction = "down" }))
 
 hl.bind("SUPER + F", hl.dsp.window.fullscreen())
 hl.bind("SUPER + SPACE", hl.dsp.window.float({ action = "toggle" }))
+hl.bind("SUPER + M", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_scroll_mode.sh"))
 
 -- Resizing (relative = true → delta pixels, not absolute)
 hl.bind("SUPER + CTRL + right", function() hl.dispatch(hl.dsp.window.resize({ x = 20,  y = 0,   relative = true })) end, { repeating = true })
@@ -85,11 +86,11 @@ hl.bind("SUPER + Escape", hl.dsp.exec_cmd("~/.config/hypr/scripts/power.sh"))
 -- Scripts & Utilities
 hl.bind("PRINT", hl.dsp.exec_cmd("grimblast --freeze copysave screen ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"))
 hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("grimblast --freeze save active - | satty --filename -"))
-hl.bind("SUPER + V", hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"))
+hl.bind("SUPER + V", hl.dsp.exec_cmd("cliphist list | fuzzel --config $HOME/.config/fuzzel/fuzzel.ini --dmenu | cliphist decode | wl-copy"))
 hl.bind("SUPER + X", hl.dsp.exec_cmd("~/.config/hypr/scripts/kill_task.sh"))
 hl.bind("SUPER + P", hl.dsp.exec_cmd("~/.config/hypr/scripts/project_launcher.sh"))
 hl.bind("SUPER + K", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_osk.sh"))
-hl.bind("SUPER + period", hl.dsp.exec_cmd("bemoji -p 'fuzzel -p \"Emojis: \"'"))
+hl.bind("SUPER + period", hl.dsp.exec_cmd("bemoji -p 'fuzzel --config $HOME/.config/fuzzel/fuzzel.ini -p \"Emojis: \"'"))
 hl.bind("SUPER + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
 hl.bind("SUPER + H", hl.dsp.exec_cmd("/home/masum/.config/hypr/scripts/toggle_waybar.sh"))
 hl.bind("SUPER + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/fuzzel_sys.sh"))
