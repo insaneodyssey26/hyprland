@@ -33,7 +33,7 @@
     "format": "{name}",
     "on-scroll-up": "hyprctl dispatch \"hl.dsp.focus({workspace='+1'})\"",
     "on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({workspace='-1'})\"",
-    "on-click": "hyprctl dispatch \"hl.dsp.focus({workspace='+1'})\"",
+    "on-click": "hyprctl dispatch \"hl.dsp.focus({workspace='{name}'})\"",
     "on-click-right": "hyprctl dispatch \"hl.dsp.focus({workspace='-1'})\"",
     "persistent-workspaces": {
       "eDP-1": [1, 2, 3, 4, 5]
@@ -117,7 +117,7 @@
   },
 
   "clock": {
-    "format": "󰃭   {:%a, %d-%m   󰥔   %H:%M:%S}",
+    "format": "   {:%a, %d %b      %H:%M:%S}",
     "interval": 1,
     "on-click": "kitty --class calendar-overlay --hold -e cal -y",
     "on-click-right": "kitty --class calendar-overlay -e tty-clock -c -C 5 -t -s",

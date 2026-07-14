@@ -29,7 +29,7 @@ hl.config({
         layout = "scrolling",
     },
     scrolling = {
-        column_width = 1.0, -- Full width
+        column_width = 0.5,
         fullscreen_on_one_column = true,
     },
     decoration = {
@@ -56,7 +56,7 @@ hl.config({
 })
 
 -- -----------------------------------------------------
--- LEGACY PARITY ANIMATIONS (Replicated from .conf)
+-- ANIMATIONS
 -- -----------------------------------------------------
 hl.config({ animations = { enabled = true } })
 
@@ -67,7 +67,7 @@ hl.curve("smoothLinear", { type = "bezier", points = { {0.25, 1}, {0.5, 1} } })
 -- Subtle spring curve
 hl.curve("myBezierSoft", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.02} } })
 
--- 1. Windows (Replicating exact .conf behavior)
+-- 1. Windows
 hl.animation({ leaf = "windows",     enabled = true, speed = 6, bezier = "myBezier", style = "slide" })
 hl.animation({ leaf = "windowsOut",  enabled = true, speed = 6, bezier = "myBezier", style = "popin 80%" })
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 5, bezier = "myBezierSoft" })
@@ -78,7 +78,7 @@ hl.animation({ leaf = "fade",        enabled = true, speed = 5, bezier = "defaul
 -- 3. Workspaces
 hl.animation({ leaf = "workspaces",  enabled = true, speed = 5, bezier = "myBezierSoft", style = "slidefade 20%" })
 
--- 4. Premium Layer Extensions (Kept your requested blur/rules)
+-- 4. Layer Extensions
 hl.config({
     layerrule = {
         "blur, fuzzel",
@@ -89,6 +89,8 @@ hl.config({
         "shadow_render_power 4, fuzzel",
         "col.shadow_inactive " .. _G.color_primary_rgba .. ", fuzzel",
         
+        "blur, waybar",
+        "ignorealpha 0.05, waybar",
         "blur, osk",
         "blur, wayboard",
         "ignorealpha 0.5, osk",

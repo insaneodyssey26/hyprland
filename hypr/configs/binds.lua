@@ -45,9 +45,11 @@ hl.bind("SUPER + ALT + left",  function() hl.dispatch(hl.dsp.window.move({ x = -
 hl.bind("SUPER + ALT + up",    function() hl.dispatch(hl.dsp.window.move({ x = 0,   y = -20, relative = true })) end, { repeating = true })
 hl.bind("SUPER + ALT + down",  function() hl.dispatch(hl.dsp.window.move({ x = 0,   y = 20,  relative = true })) end, { repeating = true })
 
--- Mouse binds (Exact v0.55.0 syntax)
+-- Mouse binds
 hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
+hl.bind("SUPER + mouse_down", hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_right"))
+hl.bind("SUPER + mouse_up", hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_left"))
 
 -- -----------------------------------------------------
 -- WORKSPACES
