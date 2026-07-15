@@ -33,22 +33,22 @@ hl.config({
         fullscreen_on_one_column = true,
     },
     decoration = {
-        rounding = 15,
+        rounding = 20,
         active_opacity = 1.0,
         inactive_opacity = 0.95,
 
         shadow = {
             enabled = true,
-            range = 80,
-            render_power = 4,
-            color = "rgba(000000df)",
-            color_inactive = "rgba(00000080)",
+            range = 30,
+            render_power = 3,
+            color = "rgba(00000099)",
+            color_inactive = "rgba(00000066)",
         },
 
         blur = {
             enabled = true,
-            size = 3,
-            passes = 2,
+            size = 5,
+            passes = 3,
             new_optimizations = true,
             ignore_opacity = true,
             noise = 0.0117,

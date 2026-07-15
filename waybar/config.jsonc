@@ -146,7 +146,7 @@
       "mpris",
       "mpris#artist",
       "custom/media-prev",
-      "custom/media-play",
+      "mpris#play",
       "custom/media-next"
     ]
   },
@@ -167,10 +167,13 @@
     "on-click": "playerctl previous",
     "tooltip": false
   },
-  "custom/media-play": {
-    "format": "{}",
-    "exec": "playerctl status 2>/dev/null | grep -q Playing && echo '󰏤' || echo '󰐊'",
-    "interval": 1,
+  "mpris#play": {
+    "format": "{status_icon}",
+    "status-icons": {
+      "playing": "󰏤",
+      "paused": "󰐊",
+      "stopped": "󰐊"
+    },
     "on-click": "playerctl play-pause",
     "tooltip": false
   },
