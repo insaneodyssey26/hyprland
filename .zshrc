@@ -36,8 +36,10 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 
 bindkey '^I' autosuggest-accept
 bindkey '^?' backward-delete-char
-bindkey '^H' backward-kill-word
-bindkey '^[[3~' delete-char
+bindkey '^H' backward-kill-word      # Ctrl+Backspace
+bindkey '^W' backward-kill-word      # Ctrl+W (also backward delete word)
+bindkey '^[[3~' delete-char          # Delete
+bindkey '^[[3;5~' kill-word          # Ctrl+Delete (delete word forward)
 
 # Fish-style Abbreviations
 typeset -A abbreviations
@@ -158,7 +160,7 @@ alias theme="bash ~/.config/hypr/scripts/theme.sh"
 
 source ~/.config/zsh/colors.zsh 2>/dev/null || true
 
-export FZF_DEFAULT_OPTS="--color=fg:-1,bg:-1,hl:$color_primary,fg+:-1,bg+:-1,hl+:$color_primary --color=info:$color_primary,prompt:$color_primary,pointer:$color_primary,marker:$color_primary,spinner:$color_primary,header:$color_primary --inline-info --height=40% --reverse --border=rounded"
+export FZF_DEFAULT_OPTS="--color=fg:-1,bg:-1,hl:$color_primary,fg+:-1,bg+:-1,hl+:$color_primary --color=info:$color_primary,prompt:$color_primary,pointer:$color_primary,marker:$color_primary,spinner:$color_primary,header:$color_primary --inline-info --height=40% --reverse --border=rounded --bind 'ctrl-h:backward-kill-word,ctrl-delete:kill-word'"
 
 zi() {
     local result
@@ -168,7 +170,41 @@ zi() {
     fi
 }
 
+# Fzf Configuration
+# -----------------
+export FZF_DEFAULT_COMMAND="fd --type f --follow --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type d --follow --exclude .git"
+
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons --color=always {}' --preview-window=right:50%"
+export FZF_CTRL_R_OPTS="--preview 'echo {} | bat --color=always -p -l sh' --preview-window=down:3:wrap"
 
 # Ctrl+P binds to file search preview (since Kitty uses Ctrl+T for new tabs)
 bindkey '^P' fzf-file-widget
+
+# Interactive Zoxide prompt (Ctrl+F)
+bindkey -s '^F' 'zi\n'
+
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/fvm/default/bin:$PATH"
+
+# Yazi file manager wrapper (syncs working directory on exit)
+yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+# Fuzzy file editor using Vim
+fe() {
+    local file
+    file=$(fzf --query="$1" --select-1 --exit-0 --preview 'bat -n --color=always {}')
+    [ -n "$file" ] && vim "$file"
+}
+
+# Fuzzy edit shortcut (Ctrl+O)
+bindkey -s '^O' 'fe\n'

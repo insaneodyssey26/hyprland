@@ -9,12 +9,12 @@ SELECTED_NAME=$(find "$DIR1" "$DIR2" -mindepth 1 -maxdepth 1 -type d 2>/dev/null
 if [ -n "$SELECTED_NAME" ]; then
     PROJECT_PATH=$(find "$DIR1" "$DIR2" -mindepth 1 -maxdepth 1 -type d -name "$SELECTED_NAME" 2>/dev/null | head -n 1)
     
-    EDITOR=$(echo -e "VS Code\nZed" | fuzzel --dmenu -p "Editor: " --lines=2 --font="Geist:weight=bold:size=10")
+    EDITOR=$(echo -e "Antigravity\nZed" | fuzzel --dmenu -p "Editor: " --lines=2 --font="Geist:weight=bold:size=10")
     
     case "$EDITOR" in
-        "VS Code")
-            code "$PROJECT_PATH" &
-            notify-send -a "Waybar" "VS Code" "Opening $SELECTED_NAME"
+        "Antigravity")
+            antigravity-ide "$PROJECT_PATH" &
+            notify-send -a "Waybar" "Antigravity" "Opening $SELECTED_NAME"
             ;;
         "Zed")
             zeditor "$PROJECT_PATH" &
