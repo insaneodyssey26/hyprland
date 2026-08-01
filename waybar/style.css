@@ -11,6 +11,13 @@ window#waybar {
     background: transparent;
 }
 
+.modules-left, .modules-center, .modules-right {
+    background: rgba(10, 10, 10, 0.82);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0px 4px;
+}
+
 /* --- THE ATOMIC PILLS --- */
 #user-workspaces,
 #system-stats,
@@ -20,11 +27,11 @@ window#waybar {
 #music,
 #power,
 #tray {
-    background: @surface;
-    margin: 5px 6px;
-    padding: 2px 14px;
-    border-radius: 14px;
-    border: 1px solid alpha(@outline, 0.1);
+    background: transparent;
+    margin: 2px 2px;
+    padding: 0px 4px;
+    border-radius: 0px;
+    border: none;
     min-height: 28px;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -42,40 +49,33 @@ window#waybar {
 }
 
 /* --- MATUGEN COLORING --- */
-#cpu {
-    color: @primary;
+#cpu, #memory, #network, #wireplumber, #battery, #temperature, #mpris {
+    color: #d4d4d4;
 }
-#memory {
-    color: @tertiary;
-}
-#network {
-    color: @secondary;
-}
-#wireplumber {
-    color: @tertiary;
-}
-#battery {
-    color: @primary;
-}
-#temperature {
-    color: @secondary;
-}
+
 #temperature.critical {
     color: #ed8796;
 }
-#mpris {
-    color: @tertiary;
-}
+
 #clock {
-    color: @on-surface;
+    color: #d4d4d4;
+    font-size: 13.5px;
+    font-weight: 600;
+    min-width: 180px;
 }
 /* --- POWER BUTTON (INTEGRATED) --- */
 #custom-power {
-    color: @tertiary;
+    color: #ff5555;
+    background: rgba(85, 28, 28, 0.8);
     font-size: 14px;
+    border-radius: 12px;
+    margin: 3px 6px;
+    padding: 0px 10px;
+    min-height: 22px;
 }
 #custom-power:hover {
-    color: @primary;
+    background: #ff5555;
+    color: #3a1a1a;
 }
 
 /* --- ANCHOR LOCK --- */
@@ -94,22 +94,19 @@ window#waybar {
 }
 
 #workspaces button {
-    color: alpha(@on-surface, 0.5);
+    color: #a0a0a0;
+    font-size: 11px;
     padding: 0px 4px;
     margin: 4px 3px;
-    border-radius: 20px;
-    background: alpha(@on-surface, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
     min-width: 16px;
     min-height: 12px;
-    font-size: 11px;
-    transition:
-        min-width 0.3s ease-in-out,
-        background-color 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 #workspaces button.occupied {
-    background: alpha(@primary, 0.4);
-    color: alpha(@on-surface, 0.8);
+    background: rgba(255, 255, 255, 0.4);
 }
 
 #workspaces button.active {
@@ -120,27 +117,17 @@ window#waybar {
 }
 
 #workspaces button:hover {
-    background: alpha(@primary, 0.6);
+    background: rgba(255, 255, 255, 0.6);
     min-width: 28px;
 }
 
-#user-workspaces:hover,
-#system-stats:hover,
-#connectivity:hover,
-#clock:hover,
-#mpris:hover,
-#music:hover,
-#tray:hover {
-    border: 1px solid alpha(@primary, 0.4);
-}
-
 #custom-keyboard {
-    color: @primary;
+    color: #d4d4d4;
     font-size: 14px;
 }
 
 #custom-keyboard:hover {
-    color: @secondary;
+    color: #ffffff;
 }
 
 
@@ -153,7 +140,7 @@ window#waybar {
 #music #mpris,
 #music #mpris-artist,
 #music #custom-media-prev,
-#music #custom-media-play,
+#music #mpris-play,
 #music #custom-media-next {
     background: transparent;
     border: none;
@@ -163,7 +150,7 @@ window#waybar {
 }
 
 #music #mpris {
-    color: @tertiary;
+    color: #d4d4d4;
     font-weight: 600;
 }
 
@@ -176,7 +163,7 @@ window#waybar {
 }
 
 #music #custom-media-prev,
-#music #custom-media-play,
+#music #mpris-play,
 #music #custom-media-next {
     color: alpha(@on-surface, 0.7);
     font-size: 13px;
@@ -184,14 +171,19 @@ window#waybar {
 }
 
 #music #custom-media-prev:hover,
-#music #custom-media-play:hover,
+#music #mpris-play:hover,
 #music #custom-media-next:hover {
-    color: @primary;
+    color: #ffffff;
 }
 
 /* --- POWER DRAWER SEAMLESS INTEGRATION --- */
 #power {
-    padding: 2px 10px 2px 6px;
+    padding: 0px 10px 0px 0px;
+    margin-left: 0px;
+}
+#connectivity {
+    padding-right: 4px;
+    margin-right: 0px;
 }
 
 #power revealer {
@@ -213,8 +205,12 @@ window#waybar {
 }
 
 #power #custom-power {
-    color: @tertiary;
+    color: #ff5555;
+    background: transparent;
+    border: none;
     font-size: 14px;
+    padding: 0px 6px;
+    margin: 0px;
 }
 
 #power #custom-lock,
@@ -261,7 +257,7 @@ window#waybar {
     padding: 0px 6px;
     margin: 0px;
     box-shadow: none;
-    color: @secondary;
+    color: #d4d4d4;
 }
 
 #wifi #network-ssid {
