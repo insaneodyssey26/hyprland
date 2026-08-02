@@ -34,17 +34,17 @@ abbr -a gco 'git checkout'
 abbr -a brave 'brave-origin-beta '
 
 # Docker
-abbr -a dkillall 'docker ps -q | xargs -r docker kill'           # Instantly kill all running containers
-abbr -a drun     'docker run --rm -it'                           # Run container with auto-cleanup (--rm)
-abbr -a dcdown   'docker compose down -v --remove-orphans'       # Safe teardown (remove volumes/networks)
-abbr -a dprune   'docker system prune -a --volumes -f'           # Deep prune (wipe images, cache, volumes)
+abbr -a dkillall 'docker ps -q | xargs -r docker kill'           
+abbr -a drun     'docker run --rm -it'                           
+abbr -a dcdown   'docker compose down -v --remove-orphans'       
+abbr -a dprune   'docker system prune -a --volumes -f'           
 
 # Initials
 zoxide init fish | source
 starship init fish | source
 fzf --fish | source
 
-# 5. Global Variable for 'cd' -> 'z' behavior
+# Global Variable for 'cd' -> 'z' behavior
 alias cd='z'
 
 # Keybindings
@@ -57,7 +57,7 @@ function gac
     git commit -m "$argv"
 end
 
-function done
+function donee
     git add --all
     git commit -m "$argv"
     git push
@@ -83,23 +83,45 @@ end
 alias theme="bash ~/.config/hypr/scripts/theme.sh"
 
 # --- MATUGEN COLOR SYNC ---
-source ~/.config/fish/colors.fish
+source ~/.config/fish/colors.fish 2>/dev/null || true
 
-# --- FZF PREMIUM THEME ---
-set -x FZF_DEFAULT_OPTS "--color=fg:-1,bg:-1,hl:$color_primary,fg+:-1,bg+:-1,hl+:$color_primary --color=info:$color_primary,prompt:$color_primary,pointer:$color_primary,marker:$color_primary,spinner:$color_primary,header:$color_primary --inline-info --height=40% --reverse --border=rounded"
+# --- FZF CONFIGURATION ---
+set -x FZF_DEFAULT_OPTS "--color=fg:-1,bg:-1,hl:$color_primary,fg+:-1,bg+:-1,hl+:$color_primary --color=info:$color_primary,prompt:$color_primary,pointer:$color_primary,marker:$color_primary,spinner:$color_primary,header:$color_primary --inline-info --height=40% --reverse --border=rounded --bind 'ctrl-h:backward-kill-word,ctrl-delete:kill-word'"
+set -x FZF_DEFAULT_COMMAND "fd --type f --follow --exclude .git"
+set -x FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
+set -x FZF_ALT_C_COMMAND "fd --type d --follow --exclude .git"
 
-# --- SUPER-JUMP (zoxide + fzf + eza preview) ---
+set -x FZF_CTRL_T_OPTS "--preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+set -x FZF_ALT_C_OPTS "--preview 'eza --tree --level=2 --icons --color=always {}' --preview-window=right:50%"
+set -x FZF_CTRL_R_OPTS "--preview 'echo {} | bat --color=always -p -l sh' --preview-window=down:3:wrap"
+
+# Interactive Zoxide prompt (Ctrl+F)
 function zi
     set -l result (zoxide query -i $argv)
     if test -n "$result"
         cd "$result"
     end
 end
+bind \cf 'zi; commandline -f repaint'
 
-# Enhanced fzf directory search with eza preview
-# Press CTRL+Alt+F to search files with a preview!
-set -x FZF_DEFAULT_COMMAND "fd --type f --strip-cwd-prefix --hidden --follow --exclude .git"
-set -x FZF_CTRL_P_COMMAND "$FZF_DEFAULT_COMMAND"
-set -x FZF_CTRL_P_OPTS "--preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+# Yazi file manager wrapper (syncs working directory on exit)
+function yy
+    set tmp (mktemp -t "yazi-cwd.XXXXXX")
+    yazi $argv --cwd-file="$tmp"
+    if set cwd (command cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+        cd -- "$cwd"
+    end
+    rm -f -- "$tmp"
+end
 
+# Fuzzy file editor using Vim
+function fe
+    set -l file (fzf --query="$argv" --select-1 --exit-0 --preview 'bat -n --color=always {}')
+    if test -n "$file"
+        vim "$file"
+    end
+end
+bind \co 'fe; commandline -f repaint'
+
+# Bind Ctrl+P to FZF file widget
 bind \cp fzf-file-widget

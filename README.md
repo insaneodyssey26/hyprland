@@ -122,6 +122,20 @@ graph TD
 | `Pause` | Display Sleep | Turn off display (DPMS Off) |
 | `SUPER + Escape` | Power Menu | Open logout/shutdown menu |
 
+### Terminal & Zsh
+
+| Shortcut | Action | Description |
+| :--- | :--- | :--- |
+| `z <query>` | Zoxide Jump | Smart directory navigation |
+| `Ctrl + F` | Zoxide Menu | Interactive directory jumper |
+| `Alt + C` | Fuzzy Directory | Fzf directory search with eza tree preview |
+| `Ctrl + P` | Fuzzy File Path | Fzf file search that pastes the path to terminal |
+| `Ctrl + O` | Fuzzy Edit (`fe`) | Find file and immediately open in Vim |
+| `Ctrl + R` | Fuzzy History | Search command history with syntax highlighted previews |
+| `yy` | Yazi Wrapper | Launch Yazi and sync working directory upon exit |
+| `Ctrl + Delete` | Word Delete | Delete word forward (works inside fzf too) |
+| `Ctrl + Alt + T` | Nautilus Terminal | Spawns Kitty inside the current Nautilus folder |
+
 ---
 
 ## Installation
@@ -155,3 +169,31 @@ After installation, start the session:
 ```bash
 Hyprland
 ```
+
+---
+
+## Personalization Guide (Things you MUST change)
+
+Because these dotfiles are highly optimized for my specific workflow and hardware, there are a few hardcoded elements you must update for your own system:
+
+### 1. Dual-Boot Hard Drive Paths
+My `file_search.sh` and `project_launcher.sh` scripts scan specific Windows partition mounts. If you don't have a dual-boot setup, or your mounts are named differently, these will fail to find anything.
+* **Fix**: Open `~/.config/hypr/scripts/project_launcher.sh` and `~/.config/hypr/scripts/file_search.sh` and change the `DIR1`/`DIR2` and `search_paths` variables to point to your actual project and file directories.
+
+### 2. Lockscreen Battery Monitor
+My `hyprlock.conf` manually pulls the battery percentage from `/sys/class/power_supply/BAT1/capacity`. Many laptops map their battery to `BAT0`. If your battery percentage is blank on the lockscreen, this is why.
+* **Fix**: Open `~/.config/hypr/hyprlock.conf` and change `BAT1` to `BAT0`.
+
+### 3. Lockscreen Name
+The lockscreen greeting is hardcoded to display my name ("Masum").
+* **Fix**: Open `~/.config/hypr/hyprlock.conf`, search for `text = Masum` under the User Name group, and change it to `$USER` or your own name.
+
+### 4. Waybar Hardware Sensors
+My Waybar configuration (`config.jsonc`) has several hardware-specific hardcodes:
+* **CPU Temp**: It uses a direct PCI hardware path (`/sys/devices/pci0000:00/0000:00:18.3/hwmon`) to fetch temps. This will break on other motherboards.
+* **Battery**: It expects the battery to be `BAT1` and clicking the battery icon attempts to open `rog-control-center` (an ASUS specific app).
+* **Fix**: Open `~/.config/waybar/config.jsonc`. Under the `temperature` module, delete the `hwmon-path-abs` line entirely so Waybar auto-detects it. Under `battery`, change `BAT1` to `BAT0` and change the `on-click` to your own power manager.
+
+### 5. Monitor Configuration
+My monitor configuration explicitly hardcodes my laptop screen (`eDP-1`) to run at 144Hz.
+* **Fix**: Open `~/.config/hypr/configs/monitors.lua` and change `eDP-1` to your monitor's name (run `hyprctl monitors` to find it), or just use `,preferred,auto,auto` to make it universal.

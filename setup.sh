@@ -66,7 +66,7 @@ fi
 
 # 4. Package Installation
 # Exact package names currently running on the system
-PACKAGES="hyprland waybar-git swaync fuzzel hypridle-git hyprlock matugen-bin kitty foot fish eza bat fzf zoxide yazi nautilus brave-origin-beta-bin gnome-calculator rnote bemoji-git grimblast-git satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire wireplumber qt5-wayland qt6-wayland brightnessctl"
+PACKAGES="hyprland waybar-git swaync fuzzel hypridle-git hyprlock matugen-bin kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf zoxide yazi nautilus nautilus-open-any-terminal brave-origin-beta-bin gnome-calculator rnote bemoji-git grimblast-git satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire wireplumber qt5-wayland qt6-wayland brightnessctl"
 
 info "Installing packages (this may take some time)..."
 paru -S --needed $PACKAGES
@@ -120,6 +120,23 @@ if [ -f "$SRC_STARSHIP" ]; then
     ln -sf "$SRC_STARSHIP" "$DEST_STARSHIP"
 fi
 
+# Deploy .zshrc
+SRC_ZSHRC="$WORKSPACE/.zshrc"
+DEST_ZSHRC="$HOME/.zshrc"
+if [ -f "$SRC_ZSHRC" ]; then
+    if [ -f "$DEST_ZSHRC" ]; then
+        if [ -L "$DEST_ZSHRC" ]; then
+            rm "$DEST_ZSHRC"
+        else
+            BACKUP_NAME="${DEST_ZSHRC}.bak_$(date +%Y%m%d_%H%M%S)"
+            info "Backing up existing .zshrc to '$BACKUP_NAME'..."
+            mv "$DEST_ZSHRC" "$BACKUP_NAME"
+        fi
+    fi
+    info "Symlinking '.zshrc' to '$DEST_ZSHRC'..."
+    ln -sf "$SRC_ZSHRC" "$DEST_ZSHRC"
+fi
+
 # 6. Initialize Theme Generation
 info "Generating default theme using Matugen..."
 DEFAULT_WALLPAPER="$WORKSPACE/assets/arch_logo.png"
@@ -130,10 +147,10 @@ else
 fi
 
 # 7. Set Default Shell
-if [ "$SHELL" != "/usr/bin/fish" ]; then
-    info "Setting default shell to fish..."
+if [ "$SHELL" != "/usr/bin/zsh" ]; then
+    info "Setting default shell to zsh..."
     # chsh will run interactively to prompt for password
-    chsh -s /usr/bin/fish
+    chsh -s /usr/bin/zsh
 fi
 
 info "Installation and setup completed successfully."
