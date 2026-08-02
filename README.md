@@ -7,15 +7,10 @@ A customized, Wayland-centric desktop environment built on Arch Linux. Features 
 ## Previews
 
 ### Desktop
-<!-- Replace with showcase screenshots -->
-![Desktop Showcase](assets/showcase.png)
+![Desktop Showcase](assets/desktop.png)
 
-### Colors & Components
-![Component Showcase](assets/components_showcase.png)
-
-### Video Walkthrough
-<!-- Replace with video recording path/URL -->
-[Walkthrough Video](assets/walkthrough.mp4)
+### Theme & Components
+![UI Components](assets/ui_components.png)
 
 ---
 
