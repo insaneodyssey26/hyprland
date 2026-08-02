@@ -2,6 +2,9 @@
 
 A customized, Wayland-centric desktop environment built on Arch Linux. Features dynamic wallpaper-based color generation, a Wayland utility suite, and an optimized terminal environment using Zsh and Fish.
 
+## All configurations live on the web:
+> **[hyprland.masumali.me](https://hyprland.masumali.me)**  |  *(Source code: [hyprland-website](https://github.com/insaneodyssey26/hyprland-website))*
+
 ---
 
 ## Previews
@@ -58,17 +61,17 @@ graph TD
 
 | Component | Software | Directory / Config | Description |
 | :--- | :--- | :--- | :--- |
-| **Window Manager** | Hyprland | [hypr/](file:///home/masum/hyprland/hypr) | Lua layouts, gestures, rules, and keybinds. |
-| **Status Bar** | Waybar | [waybar/](file:///home/masum/hyprland/waybar) | Modular status bar styled via Matugen. |
-| **Application Launcher** | Fuzzel | [fuzzel/](file:///home/masum/hyprland/fuzzel) | Fast, minimal Wayland-native launcher. |
-| **Notifications** | SwayNC | [swaync/](file:///home/masum/hyprland/swaync) | Custom notification center daemon. |
-| **Theming Engine** | Matugen | [matugen/](file:///home/masum/hyprland/matugen) | Wallpaper color scheme generator and template parser. |
-| **Terminals** | Kitty & Foot | [kitty/](file:///home/masum/hyprland/kitty), [foot/](file:///home/masum/hyprland/foot) | High-performance, GPU-accelerated terminal emulators. |
-| **Shells** | Zsh & Fish | [.zshrc](file:///home/masum/hyprland/.zshrc), [fish/](file:///home/masum/hyprland/fish) | Configured with auto-suggestions and synchronized aliases. |
-| **Shell Prompt** | Starship | [starship.toml](file:///home/masum/hyprland/starship.toml) | Modern, cross-shell prompt theme. |
+| **Window Manager** | Hyprland | [hypr/](hypr/) | Lua layouts, gestures, rules, and keybinds. |
+| **Status Bar** | Waybar | [waybar/](waybar/) | Modular status bar styled via Matugen. |
+| **Application Launcher** | Fuzzel | [fuzzel/](fuzzel/) | Fast, minimal Wayland-native launcher. |
+| **Notifications** | SwayNC | [swaync/](swaync/) | Custom notification center daemon. |
+| **Theming Engine** | Matugen | [matugen/](matugen/) | Wallpaper color scheme generator and template parser. |
+| **Terminals** | Kitty & Foot | [kitty/](kitty/), [foot/](foot/) | High-performance, GPU-accelerated terminal emulators. |
+| **Shells** | Zsh & Fish | [.zshrc](.zshrc), [fish/](fish/) | Configured with auto-suggestions and synchronized aliases. |
+| **Shell Prompt** | Starship | [starship.toml](starship.toml) | Modern, cross-shell prompt theme. |
 | **File Manager** | Nautilus & Yazi | System Packages | Graphical file manager (Nautilus) and terminal file manager (Yazi). |
-| **Lock Screen** | Hyprlock | [hyprlock.conf](file:///home/masum/hyprland/hypr/hyprlock.conf) | Fast, secure session locker. |
-| **Visualizer** | Cava | [cava/](file:///home/masum/hyprland/cava) | Audio spectrum visualizer. |
+| **Lock Screen** | Hyprlock | [hyprlock.conf](hypr/hyprlock.conf) | Fast, secure session locker. |
+| **Visualizer** | Cava | [cava/](cava/) | Audio spectrum visualizer. |
 
 ---
 
