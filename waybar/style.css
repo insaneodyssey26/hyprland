@@ -2,7 +2,7 @@
 
 /* --- GLOBAL HIERARCHY --- */
 * {
-    font-family: "Geist", "GeistMono Nerd Font";
+    font-family: "Geist", "Symbols Nerd Font", "LiterationMono Nerd Font";
     font-weight: 600;
     font-size: 13px;
 }
@@ -133,8 +133,8 @@ window#waybar {
 
 /* --- MUSIC DRAWER SEAMLESS INTEGRATION --- */
 #music {
-    padding-right: 12px;
-    padding-left: 12px;
+    padding-right: 4px;
+    padding-left: 8px;
 }
 
 #music #mpris,

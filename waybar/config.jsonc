@@ -86,8 +86,8 @@
 
   "network": {
     "interval": 2,
-    "format-wifi": "     {bandwidthTotalBytes}",
-    "format-ethernet": "󰈀     {bandwidthTotalBytes}",
+    "format-wifi": "   {bandwidthTotalBytes}",
+    "format-ethernet": "󰈀   {bandwidthTotalBytes}",
     "format-disconnected": "󰖪 ",
     "format-disabled": "󰖪 ",
     "on-click": "kitty -e nmtui",
