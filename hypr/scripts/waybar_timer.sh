@@ -60,26 +60,26 @@ case "$1" in
             if [ "$MODE" = "stopwatch" ]; then
                 DIFF=$((NOW - LAST_UPDATE + ELAPSED))
                 DISP=$(format_time $DIFF)
-                echo "{\"text\": \"󰥔  $DISP\", \"tooltip\": \"Stopwatch: $DISP\nLeft-click: Pause | Right-click: Reset\", \"class\": \"running\"}"
+                echo "{\"text\": \"󰥔  $DISP\", \"tooltip\": \"Stopwatch: $DISP\nLeft-click: Pause | Right-click: Menu\", \"class\": \"running\"}"
             elif [ "$MODE" = "timer" ]; then
                 REMAINING=$((END_TIME - NOW))
                 if [ $REMAINING -le 0 ]; then
                     STATUS="finished"
                     save_state
                     notify-send -u critical -t 8000 "Timer Finished" "Your countdown has reached zero."
-                    echo "{\"text\": \"󰔛  00:00\", \"tooltip\": \"Timer Finished!\nLeft/Right-click: Reset\", \"class\": \"finished\"}"
+                    echo "{\"text\": \"󰔛  00:00\", \"tooltip\": \"Timer Finished!\nLeft-click: Clear | Right-click: Menu\", \"class\": \"finished\"}"
                 else
                     DISP=$(format_time $REMAINING)
-                    echo "{\"text\": \"󱎫  $DISP\", \"tooltip\": \"Timer: $DISP remaining\nLeft-click: Pause | Right-click: Reset | Scroll: +/- 1m\", \"class\": \"running\"}"
+                    echo "{\"text\": \"󱎫  $DISP\", \"tooltip\": \"Timer: $DISP remaining\nLeft-click: Pause | Right-click: Menu | Scroll: +/- 1m\", \"class\": \"running\"}"
                 fi
             fi
         elif [ "$STATUS" = "paused" ]; then
             DISP=$(format_time $ELAPSED)
-            echo "{\"text\": \"󰏤  $DISP\", \"tooltip\": \"Paused: $DISP\nLeft-click: Resume | Right-click: Reset\", \"class\": \"paused\"}"
+            echo "{\"text\": \"󰏤  $DISP\", \"tooltip\": \"Paused: $DISP\nLeft-click: Resume | Right-click: Menu\", \"class\": \"paused\"}"
         elif [ "$STATUS" = "finished" ]; then
-            echo "{\"text\": \"󰔛  00:00\", \"tooltip\": \"Timer Finished!\nLeft/Right-click: Reset\", \"class\": \"finished\"}"
+            echo "{\"text\": \"󰔛  00:00\", \"tooltip\": \"Timer Finished!\nLeft-click: Clear | Right-click: Menu\", \"class\": \"finished\"}"
         else
-            echo "{\"text\": \"󱎫\", \"tooltip\": \"Timer / Stopwatch\nLeft-click: Menu | Right-click: Stopwatch\", \"class\": \"stopped\"}"
+            echo "{\"text\": \"󱎫\", \"tooltip\": \"Timer / Stopwatch\nLeft/Right-click: Menu\", \"class\": \"stopped\"}"
         fi
         ;;
 
@@ -176,26 +176,27 @@ case "$1" in
         CHOICE=$(echo -e "$OPTS" | fuzzel --config "$HOME/.config/fuzzel/fuzzel.ini" --dmenu -p "Timer  " --lines=7 --width=32)
 
         if [ -n "$CHOICE" ]; then
-            case "$CHOICE" in
-                *"25m"*)
+            FIRST_WORD=$(echo "$CHOICE" | awk '{print $1}')
+            case "$FIRST_WORD" in
+                "25m")
                     "$0" start_timer 1500
                     ;;
-                *"15m"*)
+                "15m")
                     "$0" start_timer 900
                     ;;
-                *"5m"*)
+                "5m")
                     "$0" start_timer 300
                     ;;
-                *"45m"*)
+                "45m")
                     "$0" start_timer 2700
                     ;;
-                *"60m"*)
+                "60m")
                     "$0" start_timer 3600
                     ;;
-                *"Stopwatch"*)
+                "0m")
                     "$0" start_stopwatch
                     ;;
-                *"stop"*|*"Reset"*)
+                "stop")
                     "$0" reset
                     ;;
                 *)

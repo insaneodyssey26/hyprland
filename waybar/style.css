@@ -1,6 +1,5 @@
 @import "colors.css";
 
-/* --- GLOBAL HIERARCHY --- */
 * {
     font-family: "Geist", "Symbols Nerd Font";
     font-weight: 600;
@@ -17,7 +16,6 @@ window#waybar {
     padding: 0px;
 }
 
-/* --- THE ATOMIC PILLS --- */
 #left-main,
 #custom-timer,
 #clock,
@@ -31,7 +29,6 @@ window#waybar {
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- INNER MODULE PADDING --- */
 #cpu,
 #memory,
 #temperature,
@@ -43,15 +40,19 @@ window#waybar {
     padding: 0px 10px;
 }
 
-/* --- MATUGEN COLORING --- */
 #cpu, #memory, #network, #wireplumber, #battery, #temperature, #mpris, #custom-timer {
     color: #d4d4d4;
 }
 
 #temperature {
-    border-left: 1px solid rgba(255, 255, 255, 0.12);
-    padding: 0px 8px;
-    margin-left: 4px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45));
+    background-position: left center;
+    background-size: 1px 12px;
+    background-repeat: no-repeat;
+    padding: 0px 10px 0px 12px;
+    margin: 0px 2px 0px 4px;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 #temperature.critical {
@@ -83,7 +84,7 @@ window#waybar {
     min-width: 180px;
     padding: 0px 10px;
 }
-/* --- POWER BUTTON (INTEGRATED) --- */
+
 #custom-power {
     color: #ff5555;
     background: rgba(85, 28, 28, 0.8);
@@ -98,18 +99,33 @@ window#waybar {
     color: #3a1a1a;
 }
 
-/* --- ANCHOR LOCK --- */
 #custom-user {
     font-size: 18px;
     color: @primary;
-    border-right: 1px solid rgba(255, 255, 255, 0.12);
-    padding-left: 8px;
-    padding-right: 10px;
-    margin-right: 4px;
-    min-width: 24px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45));
+    background-position: right center;
+    background-size: 1px 12px;
+    background-repeat: no-repeat;
+    padding-left: 10px;
+    padding-right: 12px;
+    margin: 0px 4px 0px 0px;
 }
 
-/* --- THE TITANIUM CAGE (WIDER PILL EDITION) --- */
+#custom-hostname {
+    font-family: "Maple Mono NF", monospace;
+    font-style: normal;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: @primary;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45));
+    background-position: right center;
+    background-size: 1px 12px;
+    background-repeat: no-repeat;
+    padding-left: 6px;
+    padding-right: 12px;
+    margin: 0px 4px 0px 0px;
+}
+
 #workspaces {
     padding: 0px;
     margin: 0px;
@@ -143,7 +159,48 @@ window#waybar {
     min-width: 28px;
 }
 
+#wireplumber {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45));
+    background-position: left center;
+    background-size: 1px 12px;
+    background-repeat: no-repeat;
+    padding: 0px 10px 0px 12px;
+    margin: 0px 2px;
+}
+
+#wireplumber.muted {
+    color: #ed8796;
+}
+
+#battery {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45));
+    background-position: left center;
+    background-size: 1px 12px;
+    background-repeat: no-repeat;
+    padding: 0px 10px 0px 12px;
+    margin: 0px 2px;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #a6da95;
+}
+
+#battery.warning:not(.charging):not(.plugged) {
+    color: #eed49f;
+}
+
+#battery.critical:not(.charging):not(.plugged) {
+    color: #ed8796;
+}
+
 #custom-keyboard {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45));
+    background-position: left center;
+    background-size: 1px 12px;
+    background-repeat: no-repeat;
+    padding: 0px 10px 0px 10px;
+    margin: 0px;
     color: #d4d4d4;
     font-size: 14px;
 }
@@ -152,11 +209,14 @@ window#waybar {
     color: #ffffff;
 }
 
-
-/* --- MUSIC DRAWER SEAMLESS INTEGRATION --- */
 #music {
-    padding-right: 4px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45));
+    background-position: right center;
+    background-size: 1px 12px;
+    background-repeat: no-repeat;
+    padding-right: 12px;
     padding-left: 8px;
+    margin: 0px 2px;
 }
 
 #music #mpris,
@@ -174,6 +234,14 @@ window#waybar {
 #music #mpris {
     color: #d4d4d4;
     font-weight: 600;
+}
+
+#music #mpris.Playing {
+    color: @primary;
+}
+
+#music #mpris.Paused {
+    color: alpha(@on-surface, 0.5);
 }
 
 #music #mpris-artist {
@@ -198,13 +266,16 @@ window#waybar {
     color: #ffffff;
 }
 
-/* --- POWER DRAWER SEAMLESS INTEGRATION --- */
 #power {
-    padding: 0px 10px 0px 0px;
-    margin-left: 0px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45));
+    background-position: left center;
+    background-size: 1px 12px;
+    background-repeat: no-repeat;
+    padding: 0px 8px 0px 8px;
+    margin: 0px;
 }
 #connectivity {
-    padding-right: 4px;
+    padding-right: 0px;
     margin-right: 0px;
 }
 
@@ -246,26 +317,25 @@ window#waybar {
 }
 
 #power #custom-lock:hover {
-    color: #eed49f; /* Soft yellow for lock */
+    color: #eed49f;
 }
 
 #power #custom-suspend:hover {
-    color: #8aadf4; /* Soft blue for suspend */
+    color: #8aadf4;
 }
 
 #power #custom-logout:hover {
-    color: #f5bde6; /* Soft pink for logout */
+    color: #f5bde6;
 }
 
 #power #custom-reboot:hover {
-    color: #a6da95; /* Soft green for reboot */
+    color: #a6da95;
 }
 
 #power #custom-shutdown:hover {
-    color: #ed8796; /* Soft red for shutdown */
+    color: #ed8796;
 }
 
-/* --- WIFI DRAWER SEAMLESS INTEGRATION --- */
 #wifi {
     background: transparent;
     border: none;
@@ -292,7 +362,11 @@ window#waybar {
     font-weight: 600;
 }
 
-/* --- TOOLTIP REDESIGN --- */
+#wifi #network.disconnected,
+#wifi #network.disabled {
+    color: #ed8796;
+}
+
 tooltip {
     background: alpha(@surface, 0.9);
     border: 1px solid alpha(@outline, 0.2);

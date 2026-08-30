@@ -13,7 +13,7 @@
 
   "group/left-main": {
     "orientation": "horizontal",
-    "modules": ["custom/user", "hyprland/workspaces", "temperature"]
+    "modules": ["custom/user", "custom/hostname", "hyprland/workspaces", "temperature"]
   },
 
   "modules-center": ["clock"],
@@ -36,14 +36,21 @@
     "on-scroll-up": "hyprctl dispatch \"hl.dsp.focus({workspace='+1'})\"",
     "on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({workspace='-1'})\"",
     "on-click": "hyprctl dispatch \"hl.dsp.focus({workspace='{name}'})\"",
-    "on-click-right": "hyprctl dispatch \"hl.dsp.focus({workspace='-1'})\"",
-    "persistent-workspaces": {
-      "eDP-1": [1, 2, 3, 4, 5]
+    "on-click-right": "hyprctl dispatch \"hl.dsp.focus({workspace='-1'})\""
+  },
+
+  "hyprland/window": {
+    "format": "{}",
+    "max-length": 32,
+    "separate-outputs": true,
+    "tooltip": false,
+    "rewrite": {
+      "^$": "Desktop"
     }
   },
 
   "custom/keyboard": {
-    "format": " ",
+    "format": "",
     "on-click": "~/.config/hypr/scripts/toggle_osk.sh",
     "tooltip": false
   },
@@ -106,6 +113,7 @@
 
   "wireplumber": {
     "format": "{icon}   {volume}%",
+    "format-muted": "󰝟   muted",
     "on-click": "pavucontrol",
     "format-icons": ["󰕿", "󰖀", "󰕾"]
   },
@@ -113,7 +121,13 @@
   "battery": {
     "bat": "BAT1",
     "interval": 3,
+    "states": {
+      "warning": 40,
+      "critical": 15
+    },
     "format": "{icon}   {capacity}%",
+    "format-charging": "󱐋   {capacity}%",
+    "format-plugged": "   {capacity}%",
     "format-icons": [" ", " ", " ", " ", " "],
     "on-click": "rog-control-center"
   },
@@ -136,6 +150,12 @@
     "on-click": "pkill fuzzel || fuzzel",
     "on-click-right": "swaync-client -t -sw",
     "tooltip": false 
+  },
+  "custom/hostname": {
+    "format": "masum@Arch",
+    "on-click": "pkill fuzzel || fuzzel",
+    "on-click-right": "swaync-client -t -sw",
+    "tooltip": false
   },
   "group/music": {
     "orientation": "horizontal",
@@ -241,8 +261,7 @@
     "signal": 8,
     "format": "{}",
     "on-click": "~/.config/hypr/scripts/waybar_timer.sh toggle",
-    "on-click-right": "~/.config/hypr/scripts/waybar_timer.sh reset",
-    "on-click-middle": "~/.config/hypr/scripts/waybar_timer.sh menu",
+    "on-click-right": "~/.config/hypr/scripts/waybar_timer.sh menu",
     "on-scroll-up": "~/.config/hypr/scripts/waybar_timer.sh adjust 60",
     "on-scroll-down": "~/.config/hypr/scripts/waybar_timer.sh adjust -60"
   }
