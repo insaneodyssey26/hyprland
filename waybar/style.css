@@ -12,26 +12,21 @@ window#waybar {
 }
 
 .modules-left, .modules-center, .modules-right {
-    background: rgba(10, 10, 10, 0.82);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 0px 4px;
+    background: transparent;
+    border: none;
+    padding: 0px;
 }
 
 /* --- THE ATOMIC PILLS --- */
-#user-workspaces,
-#system-stats,
-#connectivity,
+#left-main,
+#custom-timer,
 #clock,
-#mpris,
-#music,
-#power,
-#tray {
-    background: transparent;
-    margin: 2px 2px;
-    padding: 0px 4px;
-    border-radius: 0px;
-    border: none;
+#right-main {
+    background: rgba(10, 10, 10, 0.82);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 2px 4px;
+    margin: 2px 4px;
     min-height: 28px;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -49,11 +44,35 @@ window#waybar {
 }
 
 /* --- MATUGEN COLORING --- */
-#cpu, #memory, #network, #wireplumber, #battery, #temperature, #mpris {
+#cpu, #memory, #network, #wireplumber, #battery, #temperature, #mpris, #custom-timer {
     color: #d4d4d4;
 }
 
+#temperature {
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0px 8px;
+    margin-left: 4px;
+}
+
 #temperature.critical {
+    color: #ed8796;
+}
+
+#custom-timer {
+    padding: 0px 14px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#custom-timer.running {
+    color: @primary;
+}
+
+#custom-timer.paused {
+    color: #eed49f;
+}
+
+#custom-timer.finished {
     color: #ed8796;
 }
 
@@ -62,6 +81,7 @@ window#waybar {
     font-size: 13.5px;
     font-weight: 600;
     min-width: 180px;
+    padding: 0px 10px;
 }
 /* --- POWER BUTTON (INTEGRATED) --- */
 #custom-power {
@@ -82,8 +102,10 @@ window#waybar {
 #custom-user {
     font-size: 18px;
     color: @primary;
-    padding-right: 12px;
-    padding-left: 4px;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    padding-left: 8px;
+    padding-right: 10px;
+    margin-right: 4px;
     min-width: 24px;
 }
 

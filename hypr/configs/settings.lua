@@ -22,7 +22,7 @@ hl.config({
 hl.config({
     general = {
         gaps_in = 5,
-        gaps_out = { top = 5, right = 10, bottom = 10, left = 10 },
+        gaps_out = { top = 4, right = 10, bottom = 8, left = 10 },
         border_size = 0,
         ["col.active_border"] = "rgba(00000000)",
         ["col.inactive_border"] = "rgba(00000000)",
@@ -33,7 +33,7 @@ hl.config({
         fullscreen_on_one_column = true,
     },
     decoration = {
-        rounding = 20,
+        rounding = 15,
         active_opacity = 1.0,
         inactive_opacity = 0.95,
 

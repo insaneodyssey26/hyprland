@@ -1,26 +1,27 @@
 {
   "layer": "top",
   "position": "top",
-  "margin-top": 6,
+  "margin-top": 5,
   "margin-bottom": 4,
-  "margin-left": 12,
-  "margin-right": 12,
+  "margin-left": 10,
+  "margin-right": 10,
 
   "modules-left": [
-    "group/user-workspaces",
-    "group/system-stats"
+    "group/left-main",
+    "custom/timer"
   ],
 
-  "group/user-workspaces": {
+  "group/left-main": {
     "orientation": "horizontal",
-    "modules": ["custom/user", "hyprland/workspaces"]
+    "modules": ["custom/user", "hyprland/workspaces", "temperature"]
   },
-  "modules-center": ["clock"],
-  "modules-right": ["group/music", "tray", "group/connectivity", "group/power"],
 
-  "group/system-stats": {
+  "modules-center": ["clock"],
+  "modules-right": ["group/right-main"],
+
+  "group/right-main": {
     "orientation": "horizontal",
-    "modules": ["cpu", "memory", "temperature"]
+    "modules": ["group/music", "tray", "group/connectivity", "group/power"]
   },
 
   "group/connectivity": {
@@ -65,8 +66,8 @@
     "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
     "input-filename": "temp1_input",
     "critical-threshold": 80,
-    "format": "   {temperatureC}°C",
-    "format-critical": "   {temperatureC}°C",
+    "format": "{temperatureC}°C",
+    "format-critical": "{temperatureC}°C",
     "interval": 4,
     "on-click": "kitty -e btop",
     "on-click-right": "~/.config/waybar/sys_stats.sh"
@@ -232,5 +233,17 @@
     "on-click": "systemctl poweroff",
     "tooltip": true,
     "tooltip-format": "Shut Down"
+  },
+  "custom/timer": {
+    "exec": "~/.config/hypr/scripts/waybar_timer.sh print",
+    "return-type": "json",
+    "interval": 1,
+    "signal": 8,
+    "format": "{}",
+    "on-click": "~/.config/hypr/scripts/waybar_timer.sh toggle",
+    "on-click-right": "~/.config/hypr/scripts/waybar_timer.sh reset",
+    "on-click-middle": "~/.config/hypr/scripts/waybar_timer.sh menu",
+    "on-scroll-up": "~/.config/hypr/scripts/waybar_timer.sh adjust 60",
+    "on-scroll-down": "~/.config/hypr/scripts/waybar_timer.sh adjust -60"
   }
 }
