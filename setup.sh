@@ -146,6 +146,21 @@ if [ -f "$SRC_ZSHRC" ]; then
     ln -sf "$SRC_ZSHRC" "$DEST_ZSHRC"
 fi
 
+# Deploy .bashrc
+SRC_BASHRC="$WORKSPACE/.bashrc"
+DEST_BASHRC="$HOME/.bashrc"
+if [ -f "$SRC_BASHRC" ]; then
+    if [ -f "$DEST_BASHRC" ]; then
+        if [ -L "$DEST_BASHRC" ]; then
+            rm "$DEST_BASHRC"
+        else
+            BACKUP_NAME="${DEST_BASHRC}.bak_$(date +%Y%m%d_%H%M%S)"
+            mv "$DEST_BASHRC" "$BACKUP_NAME"
+        fi
+    fi
+    ln -sf "$SRC_BASHRC" "$DEST_BASHRC"
+fi
+
 # 6. Initialize User Directories, ZRAM, & Systemd Services
 info "Configuring ZRAM Swap and Systemd services..."
 xdg-user-dirs-update 2>/dev/null || true
