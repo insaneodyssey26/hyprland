@@ -1,0 +1,79 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "ui_font_family": ".ZedSans",
+  "cli_default_open_behavior": "existing_window",
+  "project_panel": {
+    "dock": "left",
+  },
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  "git_panel": {
+    "dock": "left",
+  },
+  "buffer_font_weight": 500.0,
+  "agent_buffer_font_size": 15.0,
+  "proxy": "",
+  "agent_ui_font_size": 17.0,
+  "ui_font_weight": 400.0,
+  "agent": {
+    "dock": "right",
+    "default_profile": "write",
+    "default_model": {
+      "effort": "high",
+      "provider": "copilot_chat",
+      "model": "gemini-3-flash-preview",
+      "enable_thinking": true,
+    },
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "edit_predictions": {
+    "provider": "copilot",
+  },
+  "session": {
+    "trust_all_worktrees": true,
+  },
+  "terminal": {
+    "font_size": 16.0,
+    "font_family": "Maple Mono NF",
+    "font_weight": 500.0
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+  "base_keymap": "VSCode",
+  "cursor_blink": true,
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000,
+    },
+  },
+  "buffer_font_fallbacks": ["Droid Sans Mono", "monospace"],
+  "buffer_font_family": "Maple Mono NF",
+  "agent_servers": {
+    },
+  "icon_theme": {
+    "mode": "system",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)",
+  },
+  "ui_font_size": 18.0,
+  "buffer_font_size": 17.0,
+  "theme": {
+    "mode": "dark",
+    "light": "Ayu Light",
+    "dark": "GitHub Dark",
+  },
+}

@@ -1,0 +1,108 @@
+{
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "workbench.startupEditor": "none",
+    "editor.fontFamily": "'Maple Mono NF', 'Droid Sans Mono', monospace",
+    "editor.fontWeight": "500",
+    "terminal.integrated.fontWeight": "500",
+    "workbench.colorTheme": "GitHub Dark Default",
+    "files.autoSave": "afterDelay",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.cursorBlinking": "expand",
+    "telemetry.telemetryLevel": "off",
+    "mdb.sendTelemetry": false,
+    "telemetry.feedback.enabled": false,
+    "explorer.confirmDelete": false,
+    "chat.tools.terminal.autoApprove": {
+        "npm run build": true,
+        "cp": true,
+        "./gradlew": true,
+        "/^npm run compile$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "npm update": true,
+        "sed": true,
+        "npm test": true,
+        "npm run dev": true,
+        "/^npx tsc --noEmit$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    },
+    "chat.agent.maxRequests": 100,
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+    "traceMap.geminiApiKey": "AIzaSyBxOkaKABWnX7xsmDksjjnV34mZf7pqOG4",
+    "whatTheCode.geminiApiKey": "AIzaSyDluwTwheBX9ICHTbWfbYJD2vlbks5saDs",
+    "whatTheCode.privacyMode": true,
+    "chat.tools.urls.autoApprove": {
+        "https://beyondchats.com": {
+            "approveRequest": true,
+            "approveResponse": false
+        }
+    },
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "/usr/bin/bash",
+            "icon": "terminal-bash"
+        },
+        "zsh": {
+            "path": "zsh"
+        },
+        "fish": {
+            "path": "/usr/bin/fish"
+        },
+        "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+        },
+        "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+        },
+        "ghostty": {
+            "path": "/usr/bin/ghostty",
+            "args": [
+                "--is-integrated"
+            ]
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "fish",
+    "terminal.integrated.fontFamily": "Maple Mono NF",
+    "terminal.integrated.initialHint": false,
+    "workbench.settings.applyToAllProfiles": [
+
+
+
+    ],
+    "workbench.activityBar.location": "top",
+    "terminal.integrated.fontLigatures.enabled": true,
+    "chat.viewSessions.orientation": "stacked",
+    "editor.fontLigatures": true,
+    "code-runner.runInTerminal": true,
+    "telemetry.editStats.details.enabled": false,
+    "telemetry.editStats.enabled": false,
+    "code-runner.enableAppInsights": false,
+    "workbench.iconTheme": "vscode-jetbrains-icon-theme-2023-dark",
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.cursorWidth": 2,
+    "chat.titleBar.openInAgentsWindow.enabled": false,
+    "workbench.browser.showInTitleBar": false,
+    "editor.wordWrap": "on",
+    "cph.general.defaultLanguage": "cpp",
+    "markdown.preview.fontFamily": "Geist, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif",
+    "leetcode.defaultLanguage": "cpp",
+    "editor.fontSize": 14.5,
+    "leetcode.hint.configWebviewMarkdown": false,
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+    "leetcode.hint.commandShortcut": false,
+    "leetcode.workspaceFolder": "/home/masum/Windows/Repositories/dsa-extension",
+    "leetcode.hint.commentDescription": false,
+    "workbench.experimental.modernUI": true,
+    "update.showReleaseNotes": false
+}
