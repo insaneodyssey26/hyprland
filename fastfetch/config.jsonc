@@ -23,7 +23,6 @@
         { "key": "│  kernel  │", "type": "kernel", "keyColor": "#b3cad9" },
         { "key": "│  wm      │", "type": "wm", "keyColor": "#b3cad9" },
         { "key": "│  term    │", "type": "terminal", "keyColor": "#b3cad9" },
-        { "key": "│  font    │", "type": "terminalfont", "keyColor": "#b3cad9" },
         { "key": "│  shell   │", "type": "shell", "keyColor": "#b3cad9" },
         
         { "key": "├───────────┤", "type": "custom", "keyColor": "#b3cad9" }, 

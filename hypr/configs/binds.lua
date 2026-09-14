@@ -71,10 +71,7 @@ hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SOURC
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { repeating = true, locked = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { repeating = true, locked = true })
 
--- Power & Locking
-hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock & sleep 1"), {
-    on_complete = hl.dsp.dpms({ action = "off" })
-})
+hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock"))
 
 -- Pause (Page Break): Native DPMS with 500ms safety timer
 hl.bind("Pause", function()

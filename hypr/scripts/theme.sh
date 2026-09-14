@@ -28,7 +28,7 @@ echo "$RANDOM_ANIM" > "$LAST_ANIM_FILE"
 # 3. Trigger Wallpaper Transition
 awww img "$WALLPAPER" --transition-type "$RANDOM_ANIM" --transition-fps 144 --transition-step 25 --transition-duration 1.5
 
-# 4. Generate Colors with Matugen
+ln -sf "$WALLPAPER" "$HOME/.current_wallpaper"
 matugen image "$WALLPAPER" -m dark --type scheme-fidelity --fallback-color '#6d6d6d' --source-color-index 0
 
 # 5. Reload Components

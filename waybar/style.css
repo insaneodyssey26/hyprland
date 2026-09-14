@@ -115,7 +115,7 @@ window#waybar {
     font-family: "Maple Mono NF", monospace;
     font-style: normal;
     font-size: 14.5px;
-    font-weight: 700;
+    font-weight: 800;
     color: @primary;
     background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45));
     background-position: right center;
@@ -150,7 +150,7 @@ window#waybar {
 #workspaces button.active {
     color: @on-primary;
     background: @primary;
-    min-width: 35px;
+    min-width: 25px;
     border-radius: 10px;
 }
 

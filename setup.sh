@@ -64,16 +64,27 @@ else
     info "AUR helper (paru) is already installed."
 fi
 
-# 4. Package Installation
-# Exact package names currently running on the system
-PACKAGES="hyprland waybar-git swaync fuzzel hypridle-git hyprlock matugen-bin kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf zoxide yazi nautilus nautilus-open-any-terminal brave-origin-beta-bin gnome-calculator rnote bemoji-git grimblast-git satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire wireplumber qt5-wayland qt6-wayland brightnessctl"
+PACKAGES="hyprland waybar swaync fuzzel hypridle hyprlock hyprpicker hyprsunset matugen-bin kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf zoxide yazi nautilus nautilus-open-any-terminal brave-origin-beta-bin gnome-calculator rnote bemoji-git grimblast-git satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl otf-geist maplemono-nf-unhinted noto-fonts-emoji unzip zip power-profiles-daemon wvkbd"
 
-info "Installing packages (this may take some time)..."
-paru -S --needed $PACKAGES
+# Detect NVIDIA GPU and append appropriate drivers
+if lspci | grep -iE 'vga|3d' | grep -iq nvidia; then
+    info "NVIDIA GPU detected. Adding driver packages..."
+    PACKAGES="$PACKAGES nvidia-open-dkms nvidia-utils nvidia-prime libva-nvidia-driver egl-wayland"
+fi
+
+info "Installing packages..."
+paru -S --needed --noconfirm $PACKAGES
 
 # 5. Configuration Deployment (Symlinking)
 info "Deploying configurations..."
-mkdir -p "$HOME/.config"
+mkdir -p "$HOME/.config" "$HOME/.local/share/icons" "$HOME/.icons/default" "$HOME/Pictures/Screenshots" "$HOME/wallpapers" "$HOME/.config/zsh" "$HOME/.config/cava/themes"
+
+# Deploy cursor theme if present in repo
+if [ -d "$WORKSPACE/icons/Moga-Black" ]; then
+    info "Installing Moga-Black cursor theme..."
+    cp -r "$WORKSPACE/icons/Moga-Black" "$HOME/.local/share/icons/"
+    printf "[Icon Theme]\nInherits=Moga-Black\n" > "$HOME/.icons/default/index.theme"
+fi
 
 # List of folders to deploy
 CONFIG_FOLDERS="hypr kitty waybar swaync matugen foot fastfetch fish fuzzel gtk-3.0 reflector"
@@ -87,10 +98,8 @@ for folder in $CONFIG_FOLDERS; do
         continue
     fi
     
-    # Backup existing configuration if it is a physical folder and not a symlink
     if [ -d "$DEST" ]; then
         if [ -L "$DEST" ]; then
-            info "Removing existing symlink for '$folder'..."
             rm "$DEST"
         else
             BACKUP_NAME="${DEST}.bak_$(date +%Y%m%d_%H%M%S)"
@@ -112,11 +121,9 @@ if [ -f "$SRC_STARSHIP" ]; then
             rm "$DEST_STARSHIP"
         else
             BACKUP_NAME="${DEST_STARSHIP}.bak_$(date +%Y%m%d_%H%M%S)"
-            info "Backing up existing starship.toml to '$BACKUP_NAME'..."
             mv "$DEST_STARSHIP" "$BACKUP_NAME"
         fi
     fi
-    info "Symlinking 'starship.toml' to '$DEST_STARSHIP'..."
     ln -sf "$SRC_STARSHIP" "$DEST_STARSHIP"
 fi
 
@@ -129,29 +136,32 @@ if [ -f "$SRC_ZSHRC" ]; then
             rm "$DEST_ZSHRC"
         else
             BACKUP_NAME="${DEST_ZSHRC}.bak_$(date +%Y%m%d_%H%M%S)"
-            info "Backing up existing .zshrc to '$BACKUP_NAME'..."
             mv "$DEST_ZSHRC" "$BACKUP_NAME"
         fi
     fi
-    info "Symlinking '.zshrc' to '$DEST_ZSHRC'..."
     ln -sf "$SRC_ZSHRC" "$DEST_ZSHRC"
 fi
 
-# 6. Initialize Theme Generation
-info "Generating default theme using Matugen..."
-DEFAULT_WALLPAPER="$WORKSPACE/assets/arch_logo.png"
+# 6. Initialize User Directories & Systemd Services
+info "Enabling systemd services..."
+xdg-user-dirs-update 2>/dev/null || true
+sudo systemctl enable --now NetworkManager.service 2>/dev/null || true
+sudo systemctl enable --now bluetooth.service 2>/dev/null || true
+sudo systemctl enable --now power-profiles-daemon.service 2>/dev/null || true
+
+# 7. Initialize Theme & Wallpaper
+info "Initializing default wallpaper and color palette..."
+DEFAULT_WALLPAPER="$WORKSPACE/assets/desktop.png"
 if [ -f "$DEFAULT_WALLPAPER" ]; then
-    matugen image "$DEFAULT_WALLPAPER" -m dark --type scheme-fidelity --fallback-color '#6d6d6d' --source-color-index 0
-else
-    info "Warning: Default wallpaper asset not found. Matugen initial colors skipped."
+    cp "$DEFAULT_WALLPAPER" "$HOME/wallpapers/default.png"
+    ln -sf "$HOME/wallpapers/default.png" "$HOME/.current_wallpaper"
+    matugen image "$HOME/wallpapers/default.png" -m dark --type scheme-fidelity --fallback-color '#6d6d6d' --source-color-index 0
 fi
 
-# 7. Set Default Shell
+# 8. Set Default Shell
 if [ "$SHELL" != "/usr/bin/zsh" ]; then
     info "Setting default shell to zsh..."
-    # chsh will run interactively to prompt for password
     chsh -s /usr/bin/zsh
 fi
 
-info "Installation and setup completed successfully."
-info "You can now start your desktop environment by typing: Hyprland"
+info "Setup completed successfully! Start your session with: Hyprland"

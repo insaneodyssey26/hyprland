@@ -15,8 +15,9 @@ hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 -- Hardware Acceleration for Video
 hl.env("NVD_BACKEND", "direct")
 
--- Cursor Configuration
-hl.env("HYPRCURSOR_THEME", "Moga-Cursor")
+hl.env("XCURSOR_THEME", "Moga-Black")
+hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_THEME", "Moga-Black")
 hl.env("HYPRCURSOR_SIZE", "24")
 
 -- -----------------------------------------------------

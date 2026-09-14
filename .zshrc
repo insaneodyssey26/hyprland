@@ -186,7 +186,6 @@ bindkey '^P' fzf-file-widget
 # Interactive Zoxide prompt (Ctrl+F)
 bindkey -s '^F' 'zi\n'
 
-export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/fvm/default/bin:$PATH"
 
 # Yazi file manager wrapper (syncs working directory on exit)
@@ -208,3 +207,5 @@ fe() {
 
 # Fuzzy edit shortcut (Ctrl+O)
 bindkey -s '^O' 'fe\n'
+
+export PATH="$HOME/.local/bin:$PATH"

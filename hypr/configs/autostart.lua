@@ -17,7 +17,7 @@ hl.on("hyprland.start", function()
     -- Clipboard Management
     hl.exec_cmd("wl-paste --type text --watch cliphist store &")
     hl.exec_cmd("wl-paste --type image --watch cliphist store &")
-    -- Disable camera hardware on boot
+    hl.exec_cmd("hyprctl setcursor Moga-Black 24 &")
     hl.exec_cmd("sudo modprobe -r uvcvideo &")
 end)
 

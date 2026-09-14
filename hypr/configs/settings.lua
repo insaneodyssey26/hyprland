@@ -118,7 +118,8 @@ hl.config({
         force_default_wallpaper = 0,
         mouse_move_enables_dpms = true,
         key_press_enables_dpms = true,
-        vrr = 1,
+        vrr = 0,
+        allow_session_lock_restore = true,
     },
     debug = {
         vfr = true,
