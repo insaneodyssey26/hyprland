@@ -64,16 +64,20 @@ else
     info "AUR helper (paru) is already installed."
 fi
 
-PACKAGES="hyprland waybar swaync fuzzel hypridle hyprlock hyprpicker hyprsunset matugen-bin kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf zoxide yazi nautilus nautilus-open-any-terminal brave-origin-beta-bin gnome-calculator rnote bemoji-git grimblast-git satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl otf-geist maplemono-nf-unhinted noto-fonts-emoji unzip zip power-profiles-daemon wvkbd"
+OFFICIAL_PKGS="hyprland waybar swaync fuzzel hypridle hyprlock hyprpicker hyprsunset kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf zoxide yazi nautilus gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts-emoji unzip zip power-profiles-daemon"
+AUR_PKGS="matugen-bin nautilus-open-any-terminal brave-origin-beta-bin bemoji-git grimblast-git otf-geist maplemono-nf-unhinted wvkbd"
 
 # Detect NVIDIA GPU and append appropriate drivers
 if lspci | grep -iE 'vga|3d' | grep -iq nvidia; then
     info "NVIDIA GPU detected. Adding driver packages..."
-    PACKAGES="$PACKAGES nvidia-open-dkms nvidia-utils nvidia-prime libva-nvidia-driver egl-wayland"
+    OFFICIAL_PKGS="$OFFICIAL_PKGS nvidia-open-dkms nvidia-utils nvidia-prime libva-nvidia-driver egl-wayland"
 fi
 
-info "Installing packages..."
-paru -S --needed --noconfirm $PACKAGES
+info "Installing official repository packages..."
+sudo pacman -S --needed --noconfirm $OFFICIAL_PKGS
+
+info "Installing AUR packages..."
+paru -S --needed --noconfirm $AUR_PKGS
 
 # 5. Configuration Deployment (Symlinking)
 info "Deploying configurations..."
