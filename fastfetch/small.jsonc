@@ -10,15 +10,16 @@
     },
   "display": { "separator": " " },
   "modules": [
-    { "type": "custom", "key": "╭───────────╮", "keyColor": "#b3cad9" },
+    { "type": "custom", "key": "╭───────────╮", "keyColor": "#c0c5e0" },
 
-    { "type": "os",       "key": "│ 󰏖 os      │", "keyColor": "#b3cad9" },
-    { "type": "kernel",   "key": "│  kernel  │", "keyColor": "#b3cad9" },
-    { "type": "uptime",   "key": "│ 󰅐 uptime  │", "keyColor": "#b3cad9" },
-    { "type": "terminal", "key": "│  term    │", "keyColor": "#b3cad9" },
-    { "type": "shell",    "key": "│  shell   │", "keyColor": "#b3cad9" },
-    { "type": "packages", "key": "│ 󰏖 pkgs    │", "keyColor": "#b3cad9" },
+    { "type": "os",       "key": "│ 󰏖 os      │", "keyColor": "#c0c5e0" },
+    { "type": "kernel",   "key": "│  kernel  │", "keyColor": "#c0c5e0" },
+    { "type": "uptime",   "key": "│ 󰅐 uptime  │", "keyColor": "#c0c5e0" },
+    { "type": "terminal", "key": "│  term    │", "keyColor": "#c0c5e0" },
+    { "type": "shell",    "key": "│  shell   │", "keyColor": "#c0c5e0" },
+    { "type": "packages", "key": "│ 󰏖 pkgs    │", "keyColor": "#c0c5e0" },
+    { "type": "terminalfont", "key": "│  font    │", "keyColor": "#c0c5e0" },
 
-    { "type": "custom", "key": "╰───────────╯", "keyColor": "#b3cad9" }
+    { "type": "custom", "key": "╰───────────╯", "keyColor": "#c0c5e0" }
   ]
 }

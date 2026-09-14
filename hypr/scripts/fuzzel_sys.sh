@@ -7,7 +7,7 @@ trap 'rm -f /tmp/spk_stat /tmp/mic_stat /tmp/sunset_stat /tmp/wifi_stat /tmp/bt_
 (pgrep hyprsunset > /dev/null && echo "Active" || echo "Off") > /tmp/sunset_stat &
 (nmcli radio wifi | grep -q "enabled" && echo "Enabled" || echo "Disabled") > /tmp/wifi_stat &
 (rfkill list bluetooth | grep -qi "soft blocked: no" && echo "Enabled" || echo "Disabled") > /tmp/bt_stat &
-(sudo ufw status | grep -q "^Status: active" && echo "Enabled" || echo "Disabled") > /tmp/fw_stat &
+(sudo ufw status 2>/dev/null | grep -q "^Status: active" && echo "Enabled" || echo "Disabled") > /tmp/fw_stat &
 (lsmod | grep -q uvcvideo && echo "Enabled" || echo "Disabled") > /tmp/cam_stat &
 
 wait
@@ -33,11 +33,13 @@ chosen=$(echo -e "$options" | fuzzel --dmenu -p "System Controls   " --lines=
 case "$chosen" in
     *Speaker*)
         wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-        notify-send -a "Waybar" "Audio" "Speaker Toggled" -t 2000
+        spk_state=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q "MUTED" && echo "Muted" || echo "Unmuted")
+        notify-send -a "Waybar" "Audio" "Speaker $spk_state" -t 2000
         ;;
     *Mic*)
         wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
-        notify-send -a "Waybar" "Privacy" "Microphone Toggled" -t 2000
+        mic_state=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q "MUTED" && echo "Muted" || echo "Unmuted")
+        notify-send -a "Waybar" "Privacy" "Microphone $mic_state" -t 2000
         ;;
     *Night*)
         if [ "$sunset" = "Active" ]; then

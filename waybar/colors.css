@@ -1,8 +1,8 @@
-@define-color primary #b3cad9;
-@define-color on-primary #1e333f;
-@define-color secondary #c0c7ce;
-@define-color tertiary #e1c19f;
-@define-color surface #121314;
-@define-color surface-container-highest #343536;
-@define-color outline #8d9195;
-@define-color on-surface #e3e2e3;
+@define-color primary #c0c5e0;
+@define-color on-primary #2a3044;
+@define-color secondary #c5c6d1;
+@define-color tertiary #d9c49b;
+@define-color surface #131315;
+@define-color surface-container-highest #353436;
+@define-color outline #909097;
+@define-color on-surface #e5e2e4;

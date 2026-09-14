@@ -73,6 +73,8 @@ abbreviations=(
     brave   'brave-origin-beta '
 
     # Docker
+    dstart   'sudo systemctl start docker'                   # Manually start Docker daemon
+    dstop    'sudo systemctl stop docker docker.socket'      # Manually stop Docker daemon & socket
     dkillall 'docker ps -q | xargs -r docker kill'           # Instantly kill all running containers
     drun     'docker run --rm -it'                           # Run container with auto-cleanup (--rm)
     dcdown   'docker compose down -v --remove-orphans'       # Safe teardown (remove volumes/networks)
