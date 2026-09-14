@@ -212,13 +212,16 @@ fi
 sudo mkdir -p /etc/systemd/logind.conf.d
 printf "[Login]\nHandleLidSwitch=ignore\nHandleLidSwitchExternalPower=ignore\nHandleLidSwitchDocked=ignore\n" | sudo tee /etc/systemd/logind.conf.d/lid.conf >/dev/null
 
-# Set persistent battery charge threshold (90%)
-if [ -f /sys/class/power_supply/BAT1/charge_control_end_threshold ] || [ -f /sys/class/power_supply/BAT0/charge_control_end_threshold ]; then
-    BAT=$( [ -f /sys/class/power_supply/BAT1/charge_control_end_threshold ] && echo "BAT1" || echo "BAT0" )
-    printf "[Unit]\nDescription=Set Battery Charge Threshold\nAfter=multi-user.target\n\n[Service]\nType=oneshot\nExecStart=/bin/sh -c 'echo 90 > /sys/class/power_supply/%s/charge_control_end_threshold'\n\n[Install]\nWantedBy=multi-user.target\n" "$BAT" | sudo tee /etc/systemd/system/battery-charge-threshold.service >/dev/null
-    sudo systemctl daemon-reload
-    sudo systemctl enable --now battery-charge-threshold.service 2>/dev/null || true
+# Deploy Limine Hook, Config & Wallpaper (if present)
+if [ -f "$WORKSPACE/limine/99-limine.hook" ]; then
+    sudo mkdir -p /etc/pacman.d/hooks
+    sudo cp "$WORKSPACE/limine/99-limine.hook" /etc/pacman.d/hooks/99-limine.hook
 fi
+if [ -f "$WORKSPACE/limine/limine.conf" ] && [ -d /boot ]; then
+    sudo cp "$WORKSPACE/limine/limine.conf" /boot/limine.conf 2>/dev/null || true
+    sudo cp "$WORKSPACE/limine/limine-wallpaper.png" /boot/limine-wallpaper.png 2>/dev/null || true
+fi
+
 
 
 
