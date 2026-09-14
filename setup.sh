@@ -64,7 +64,7 @@ else
     info "AUR helper (paru) is already installed."
 fi
 
-OFFICIAL_PKGS="hyprland waybar swaync fuzzel hypridle hyprlock hyprpicker hyprsunset kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf zoxide yazi nautilus gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts-emoji unzip zip power-profiles-daemon"
+OFFICIAL_PKGS="hyprland waybar swaync fuzzel hypridle hyprlock hyprpicker hyprsunset kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf zoxide yazi nautilus gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts-emoji unzip zip power-profiles-daemon asusctl rog-control-center zram-generator"
 AUR_PKGS="matugen-bin nautilus-open-any-terminal brave-origin-beta-bin bemoji grimblast-git otf-geist maplemono-nf-unhinted wvkbd"
 
 # Detect NVIDIA GPU and append appropriate drivers
@@ -146,12 +146,21 @@ if [ -f "$SRC_ZSHRC" ]; then
     ln -sf "$SRC_ZSHRC" "$DEST_ZSHRC"
 fi
 
-# 6. Initialize User Directories & Systemd Services
-info "Enabling systemd services..."
+# 6. Initialize User Directories, ZRAM, & Systemd Services
+info "Configuring ZRAM Swap and Systemd services..."
 xdg-user-dirs-update 2>/dev/null || true
+
+# Configure ZRAM
+if [ ! -f /etc/systemd/zram-generator.conf ]; then
+    printf "[zram0]\nzram-size = ram / 2\ncompression-algorithm = zstd\nswap-priority = 100\nfs-type = swap\n" | sudo tee /etc/systemd/zram-generator.conf >/dev/null
+    sudo systemctl daemon-reload
+    sudo systemctl start /dev/zram0 2>/dev/null || true
+fi
+
 sudo systemctl enable --now NetworkManager.service 2>/dev/null || true
 sudo systemctl enable --now bluetooth.service 2>/dev/null || true
 sudo systemctl enable --now power-profiles-daemon.service 2>/dev/null || true
+sudo systemctl enable --now asusd.service 2>/dev/null || true
 
 # 7. Initialize Theme & Wallpaper
 info "Initializing default wallpaper and color palette..."
