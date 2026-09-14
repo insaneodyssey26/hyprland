@@ -25,7 +25,7 @@ if ! command -v pacman >/dev/null 2>&1; then
     error "pacman package manager not found. This script requires an Arch Linux base."
 fi
 
-info "Optimizing pacman configuration (Color, ILoveCandy, VerbosePkgLists, ParallelDownloads)..."
+info "Configuring pacman..."
 sudo sed -i \
   -e 's/^#Color/Color\nILoveCandy/' \
   -e 's/^Color$/Color\nILoveCandy/' \
@@ -72,8 +72,8 @@ else
     info "AUR helper (paru) is already installed."
 fi
 
-OFFICIAL_PKGS="hyprland waybar swaync fuzzel hypridle hyprlock hyprpicker hyprsunset kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf fd ripgrep zoxide yazi nautilus loupe mpv gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts noto-fonts-emoji ttf-nerd-fonts-symbols unzip zip power-profiles-daemon asusctl rog-control-center zram-generator"
-AUR_PKGS="matugen-bin nautilus-open-any-terminal bemoji grimblast-git otf-geist maplemono-nf-unhinted wvkbd"
+OFFICIAL_PKGS="hyprland waybar swaync fuzzel hypridle hyprlock hyprpicker hyprsunset kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf fd ripgrep zoxide yazi nautilus loupe mpv btop asciiquarium gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts noto-fonts-emoji ttf-nerd-fonts-symbols unzip zip power-profiles-daemon asusctl rog-control-center zram-generator"
+AUR_PKGS="matugen-bin nautilus-open-any-terminal bemoji grimblast-git otf-geist maplemono-nf-unhinted wvkbd tty-clock"
 
 # Detect NVIDIA GPU and append appropriate drivers
 if lspci | grep -iE 'vga|3d' | grep -iq nvidia; then
@@ -169,9 +169,27 @@ if [ -f "$SRC_BASHRC" ]; then
     ln -sf "$SRC_BASHRC" "$DEST_BASHRC"
 fi
 
-# 6. Initialize User Directories, ZRAM, & Systemd Services
-info "Configuring ZRAM Swap and Systemd services..."
+# Deploy .zprofile & .bash_profile (Auto-start Hyprland on login)
+SRC_ZPROFILE="$WORKSPACE/.zprofile"
+DEST_ZPROFILE="$HOME/.zprofile"
+[ -f "$SRC_ZPROFILE" ] && ln -sf "$SRC_ZPROFILE" "$DEST_ZPROFILE"
+
+SRC_BASHPROFILE="$WORKSPACE/.bash_profile"
+DEST_BASHPROFILE="$HOME/.bash_profile"
+[ -f "$SRC_BASHPROFILE" ] && ln -sf "$SRC_BASHPROFILE" "$DEST_BASHPROFILE"
+
+# Deploy global gradle.properties
+SRC_GRADLE="$WORKSPACE/gradle/gradle.properties"
+DEST_GRADLE="$HOME/.gradle/gradle.properties"
+if [ -f "$SRC_GRADLE" ]; then
+    mkdir -p "$HOME/.gradle"
+    ln -sf "$SRC_GRADLE" "$DEST_GRADLE"
+fi
+
+# 6. Initialize User Directories, Groups, ZRAM, & Systemd Services
+info "Configuring user groups, ZRAM Swap, and Systemd services..."
 xdg-user-dirs-update 2>/dev/null || true
+sudo usermod -aG kvm "$USER" 2>/dev/null || true
 
 # Configure ZRAM
 if [ ! -f /etc/systemd/zram-generator.conf ]; then
@@ -184,6 +202,16 @@ sudo systemctl enable --now NetworkManager.service 2>/dev/null || true
 sudo systemctl enable --now bluetooth.service 2>/dev/null || true
 sudo systemctl enable --now power-profiles-daemon.service 2>/dev/null || true
 sudo systemctl enable --now asusd.service 2>/dev/null || true
+
+# NVIDIA & System Power Management
+if lspci | grep -iE 'vga|3d' | grep -iq nvidia; then
+    printf "options nvidia NVreg_PreserveVideoMemoryAllocations=1\noptions nvidia_drm modeset=1 fbdev=1\n" | sudo tee /etc/modprobe.d/nvidia.conf >/dev/null
+fi
+
+# Prevent systemd from suspending on lid close (handled by Hyprland lock & DPMS)
+sudo mkdir -p /etc/systemd/logind.conf.d
+printf "[Login]\nHandleLidSwitch=ignore\nHandleLidSwitchExternalPower=ignore\nHandleLidSwitchDocked=ignore\n" | sudo tee /etc/systemd/logind.conf.d/lid.conf >/dev/null
+
 
 # 7. Initialize Theme & Wallpaper
 info "Initializing default wallpaper and color palette..."

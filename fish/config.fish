@@ -82,10 +82,10 @@ end
 
 alias theme="bash ~/.config/hypr/scripts/theme.sh"
 
-# --- MATUGEN COLOR SYNC ---
+# Colors
 source ~/.config/fish/colors.fish 2>/dev/null || true
 
-# --- FZF CONFIGURATION ---
+# FZF
 set -x FZF_DEFAULT_OPTS "--color=fg:-1,bg:-1,hl:$color_primary,fg+:-1,bg+:-1,hl+:$color_primary --color=info:$color_primary,prompt:$color_primary,pointer:$color_primary,marker:$color_primary,spinner:$color_primary,header:$color_primary --inline-info --height=40% --reverse --border=rounded --bind 'ctrl-h:backward-kill-word,ctrl-delete:kill-word'"
 set -x FZF_DEFAULT_COMMAND "fd --type f --follow --exclude .git"
 set -x FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"

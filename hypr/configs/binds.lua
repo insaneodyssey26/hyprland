@@ -33,13 +33,13 @@ hl.bind("SUPER + F", hl.dsp.window.fullscreen())
 hl.bind("SUPER + SPACE", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + M", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_scroll_mode.sh"))
 
--- Resizing (relative = true → delta pixels, not absolute)
+-- Resize
 hl.bind("SUPER + CTRL + right", function() hl.dispatch(hl.dsp.window.resize({ x = 20,  y = 0,   relative = true })) end, { repeating = true })
 hl.bind("SUPER + CTRL + left",  function() hl.dispatch(hl.dsp.window.resize({ x = -20, y = 0,   relative = true })) end, { repeating = true })
 hl.bind("SUPER + CTRL + up",    function() hl.dispatch(hl.dsp.window.resize({ x = 0,   y = -20, relative = true })) end, { repeating = true })
 hl.bind("SUPER + CTRL + down",  function() hl.dispatch(hl.dsp.window.resize({ x = 0,   y = 20,  relative = true })) end, { repeating = true })
 
--- Moving (relative = true → offset pixels, not absolute position)
+-- Move window
 hl.bind("SUPER + ALT + right", function() hl.dispatch(hl.dsp.window.move({ x = 20,  y = 0,   relative = true })) end, { repeating = true })
 hl.bind("SUPER + ALT + left",  function() hl.dispatch(hl.dsp.window.move({ x = -20, y = 0,   relative = true })) end, { repeating = true })
 hl.bind("SUPER + ALT + up",    function() hl.dispatch(hl.dsp.window.move({ x = 0,   y = -20, relative = true })) end, { repeating = true })
@@ -73,7 +73,7 @@ hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { rep
 
 hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock"))
 
--- Pause (Page Break): Native DPMS with 500ms safety timer
+-- Screen off
 hl.bind("Pause", function()
     hl.timer(function()
         hl.dispatch(hl.dsp.dpms({ action = "off" }))
@@ -97,5 +97,9 @@ hl.bind("SUPER + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/fuzzel_sys.sh"))
 -- Themes
 hl.bind("SUPER + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper-picker.sh"))
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/random-wall.sh"))
+
+-- Lid switch
+hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("pidof hyprlock || hyprlock & hyprctl dispatch dpms off"), { locked = true })
+hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("hyprctl dispatch dpms on"), { locked = true })
 
 return true

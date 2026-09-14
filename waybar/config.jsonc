@@ -136,7 +136,7 @@
     "format": "{:%H:%M:%S  •  %a, %b %d}",
     "interval": 1,
     "on-click": "kitty --class calendar-overlay --hold -e cal -y",
-    "on-click-right": "kitty --class calendar-overlay -e tty-clock -c -C 5 -t -s",
+    "on-click-right": "kitty --class calendar-overlay -e tty-clock -c -C 2 -t -s",
     "tooltip": false
   },
 
@@ -212,7 +212,6 @@
     "modules": [
       "custom/power",
       "custom/lock",
-      "custom/suspend",
       "custom/logout",
       "custom/reboot",
       "custom/shutdown"
@@ -229,12 +228,6 @@
     "on-click": "loginctl lock-session",
     "tooltip": true,
     "tooltip-format": "Lock Screen"
-  },
-  "custom/suspend": {
-    "format": "󰤄",
-    "on-click": "systemctl suspend",
-    "tooltip": true,
-    "tooltip-format": "Suspend"
   },
   "custom/logout": {
     "format": "󰍃",
