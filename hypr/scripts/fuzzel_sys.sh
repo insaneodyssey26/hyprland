@@ -7,8 +7,8 @@ trap 'rm -f /tmp/spk_stat /tmp/mic_stat /tmp/sunset_stat /tmp/wifi_stat /tmp/bt_
 (pgrep hyprsunset > /dev/null && echo "Active" || echo "Off") > /tmp/sunset_stat &
 (nmcli radio wifi | grep -q "enabled" && echo "Enabled" || echo "Disabled") > /tmp/wifi_stat &
 (rfkill list bluetooth | grep -qi "soft blocked: no" && echo "Enabled" || echo "Disabled") > /tmp/bt_stat &
-(sudo ufw status 2>/dev/null | grep -q "^Status: active" && echo "Enabled" || echo "Disabled") > /tmp/fw_stat &
-(lsmod | grep -q uvcvideo && echo "Enabled" || echo "Disabled") > /tmp/cam_stat &
+(systemctl is-active ufw 2>/dev/null | grep -q "^active" && echo "Enabled" || echo "Disabled") > /tmp/fw_stat &
+(bash ~/.config/hypr/scripts/toggle_camera.sh --status 2>/dev/null || echo "Disabled") > /tmp/cam_stat &
 
 wait
 
@@ -72,11 +72,7 @@ case "$chosen" in
         fi
         ;;
     *Camera*)
-        if [ "$cam" = "Enabled" ]; then
-            sudo modprobe -r uvcvideo; notify-send -a "Waybar" "Privacy" "Camera Hardware Disabled" -t 2000
-        else
-            sudo modprobe uvcvideo; notify-send -a "Waybar" "Privacy" "Camera Hardware Enabled" -t 2000
-        fi
+        bash ~/.config/hypr/scripts/toggle_camera.sh
         ;;
     *Layout*)
         bash ~/.config/hypr/scripts/toggle_scroll_mode.sh

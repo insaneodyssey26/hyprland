@@ -221,9 +221,13 @@ if [ -f "$WORKSPACE/limine/limine.conf" ] && [ -d /boot ]; then
     sudo cp "$WORKSPACE/limine/limine.conf" /boot/limine.conf 2>/dev/null || true
     sudo cp "$WORKSPACE/limine/limine-wallpaper.png" /boot/limine-wallpaper.png 2>/dev/null || true
 fi
-
-
-
+# Deploy Camera Privacy Udev Rule
+if [ -f "$WORKSPACE/udev/99-camera-privacy.rules" ]; then
+    sudo mkdir -p /etc/udev/rules.d
+    sudo cp "$WORKSPACE/udev/99-camera-privacy.rules" /etc/udev/rules.d/99-camera-privacy.rules
+    sudo udevadm control --reload-rules 2>/dev/null || true
+    sudo udevadm trigger 2>/dev/null || true
+fi
 
 # 7. Initialize Theme, Assets & Wallpaper
 info "Initializing assets, default wallpaper, and color palette..."
