@@ -188,7 +188,9 @@ bindkey '^P' fzf-file-widget
 # Interactive Zoxide prompt (Ctrl+F)
 bindkey -s '^F' 'zi\n'
 
-export PATH="$HOME/fvm/default/bin:$PATH"
+# Android & Flutter SDK
+export ANDROID_HOME="$HOME/Android/Sdk"
+export PATH="$HOME/development/flutter/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
 
 # Yazi file manager wrapper (syncs working directory on exit)
 yy() {

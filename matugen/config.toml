@@ -51,3 +51,7 @@ output_path = "~/.config/zsh/colors.zsh"
 [templates.cava]
 input_path = "~/.config/matugen/templates/cava.ini"
 output_path = "~/.config/cava/themes/matugen"
+
+[templates.mpv_uosc]
+input_path = "~/.config/matugen/templates/uosc.conf"
+output_path = "~/.config/mpv/script-opts/uosc.conf"

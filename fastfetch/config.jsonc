@@ -24,7 +24,6 @@
         { "key": "│  wm      │", "type": "wm", "keyColor": "#c0c5e0" },
         { "key": "│  term    │", "type": "terminal", "keyColor": "#c0c5e0" },
         { "key": "│  shell   │", "type": "shell", "keyColor": "#c0c5e0" },
-        { "key": "│  font    │", "type": "terminalfont", "keyColor": "#c0c5e0" },
         
         { "key": "├───────────┤", "type": "custom", "keyColor": "#c0c5e0" }, 
         

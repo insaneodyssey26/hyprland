@@ -18,7 +18,6 @@
     { "type": "terminal", "key": "│  term    │", "keyColor": "#c0c5e0" },
     { "type": "shell",    "key": "│  shell   │", "keyColor": "#c0c5e0" },
     { "type": "packages", "key": "│ 󰏖 pkgs    │", "keyColor": "#c0c5e0" },
-    { "type": "terminalfont", "key": "│  font    │", "keyColor": "#c0c5e0" },
 
     { "type": "custom", "key": "╰───────────╯", "keyColor": "#c0c5e0" }
   ]
