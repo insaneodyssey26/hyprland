@@ -24,6 +24,7 @@
         { "key": "│  wm      │", "type": "wm", "keyColor": "{{colors.primary.default.hex}}" },
         { "key": "│  term    │", "type": "terminal", "keyColor": "{{colors.primary.default.hex}}" },
         { "key": "│  shell   │", "type": "shell", "keyColor": "{{colors.primary.default.hex}}" },
+        { "key": "│  font    │", "type": "font", "keyColor": "{{colors.primary.default.hex}}" },
         
         { "key": "├───────────┤", "type": "custom", "keyColor": "{{colors.primary.default.hex}}" }, 
         

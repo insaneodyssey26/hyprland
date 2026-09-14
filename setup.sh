@@ -20,10 +20,18 @@ if [ "$(id -u)" -eq 0 ]; then
     error "Do not run this script as root/sudo directly. It will request elevation when needed."
 fi
 
-# Ensure pacman is present
+# Ensure pacman is present and optimized
 if ! command -v pacman >/dev/null 2>&1; then
     error "pacman package manager not found. This script requires an Arch Linux base."
 fi
+
+info "Optimizing pacman configuration (Color, ILoveCandy, VerbosePkgLists, ParallelDownloads)..."
+sudo sed -i \
+  -e 's/^#Color/Color\nILoveCandy/' \
+  -e 's/^Color$/Color\nILoveCandy/' \
+  -e 's/^#VerbosePkgLists/VerbosePkgLists/' \
+  -e 's/^#ParallelDownloads = .*/ParallelDownloads = 5/' \
+  /etc/pacman.conf 2>/dev/null || true
 
 # Ensure git is installed
 if ! command -v git >/dev/null 2>&1; then
