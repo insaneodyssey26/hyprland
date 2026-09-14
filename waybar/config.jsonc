@@ -165,37 +165,20 @@
     },
     "modules": [
       "mpris",
-      "mpris#artist",
       "custom/media-prev",
-      "mpris#play",
       "custom/media-next"
     ]
   },
   "mpris": { 
-    "format": "󰝚   {title}",
-    "max-length": 25,
+    "format": "󰝚   {title} - {artist}",
+    "format-paused": "󰝛   {title} - {artist}",
+    "max-length": 35,
     "on-click": "playerctl play-pause",
-    "tooltip": false
-  },
-  "mpris#artist": {
-    "format": "by {artist}",
-    "artist-len": 15,
-    "max-length": 20,
     "tooltip": false
   },
   "custom/media-prev": {
     "format": "󰒮",
     "on-click": "playerctl previous",
-    "tooltip": false
-  },
-  "mpris#play": {
-    "format": "{status_icon}",
-    "status-icons": {
-      "playing": "󰏤",
-      "paused": "󰐊",
-      "stopped": "󰐊"
-    },
-    "on-click": "playerctl play-pause",
     "tooltip": false
   },
   "custom/media-next": {

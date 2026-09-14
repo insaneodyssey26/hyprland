@@ -62,10 +62,19 @@ end
 -- -----------------------------------------------------
 -- SYSTEM & MEDIA
 -- -----------------------------------------------------
--- Volume & Media
+-- Volume
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true, locked = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { repeating = true, locked = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && notify-send "Microphone" "$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q \'MUTED\' && echo \'Muted\' || echo \'Unmuted\')" -t 1000'), { locked = true })
+
+-- Media Control (Mouse & Super Shortcuts)
+hl.bind("mouse:274", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+hl.bind("mouse:275", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+hl.bind("mouse:276", hl.dsp.exec_cmd("playerctl next"), { locked = true })
+hl.bind("SUPER + SHIFT + space", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+hl.bind("SUPER + SHIFT + right", hl.dsp.exec_cmd("playerctl next"), { locked = true })
+hl.bind("SUPER + SHIFT + left", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 -- Brightness
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { repeating = true, locked = true })
