@@ -170,8 +170,13 @@
     ]
   },
   "mpris": { 
-    "format": "󰝚   {title} - {artist}",
-    "format-paused": "󰝛   {title} - {artist}",
+    "format": "{status_icon}   {title} - {artist}",
+    "format-paused": "{status_icon}   {title} - {artist}",
+    "status-icons": {
+      "playing": "󰏤",
+      "paused": "󰐊",
+      "stopped": "󰐊"
+    },
     "max-length": 35,
     "on-click": "playerctl play-pause",
     "tooltip": false

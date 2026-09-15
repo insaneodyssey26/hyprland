@@ -222,6 +222,7 @@ window#waybar {
 #music #mpris,
 #music #mpris-artist,
 #music #custom-media-prev,
+#music #custom-media-play,
 #music #mpris-play,
 #music #custom-media-next {
     background: transparent;
@@ -253,6 +254,7 @@ window#waybar {
 }
 
 #music #custom-media-prev,
+#music #custom-media-play,
 #music #mpris-play,
 #music #custom-media-next {
     color: alpha(@on-surface, 0.7);
@@ -261,6 +263,7 @@ window#waybar {
 }
 
 #music #custom-media-prev:hover,
+#music #custom-media-play:hover,
 #music #mpris-play:hover,
 #music #custom-media-next:hover {
     color: #ffffff;
