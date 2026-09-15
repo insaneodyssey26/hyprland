@@ -229,6 +229,12 @@ if [ -f "$WORKSPACE/udev/99-camera-privacy.rules" ]; then
     sudo udevadm trigger 2>/dev/null || true
 fi
 
+# Disable PAM Account Lockout (faillock)
+if [ -f /etc/security/faillock.conf ]; then
+    sudo sed -i 's/^#\? \?deny = .*/deny = 0/' /etc/security/faillock.conf 2>/dev/null || true
+    sudo faillock --reset 2>/dev/null || true
+fi
+
 # 7. Initialize Theme, Assets & Wallpaper
 info "Initializing assets, default wallpaper, and color palette..."
 mkdir -p "$HOME/wallpapers"
