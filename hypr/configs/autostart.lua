@@ -18,7 +18,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-paste --type text --watch cliphist store &")
     hl.exec_cmd("wl-paste --type image --watch cliphist store &")
     hl.exec_cmd("hyprctl setcursor Moga-Black 24 &")
-    hl.exec_cmd("sudo modprobe -r uvcvideo &")
+    hl.exec_cmd("~/.config/hypr/scripts/toggle_camera.sh --off &")
 end)
 
 return true

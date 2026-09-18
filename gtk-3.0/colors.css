@@ -1,10 +1,10 @@
-@define-color primary #d9b9ff;
-@define-color on_primary #460085;
-@define-color secondary #d8bafd;
-@define-color surface #16121a;
-@define-color on_surface #e9dfec;
-@define-color outline #978d9f;
-@define-color surface_container #221e27;
+@define-color primary #b5c9db;
+@define-color on_primary #1f3241;
+@define-color secondary #c0c7cf;
+@define-color surface #131314;
+@define-color on_surface #e4e2e3;
+@define-color outline #8d9196;
+@define-color surface_container #1f2021;
 
 /* Force dark backgrounds on the entire window structure */
 NemoWindow,

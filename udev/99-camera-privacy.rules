@@ -1,2 +1,3 @@
-# Allow desktop user session to toggle USB camera authorization for privacy
+# Disable USB camera by default on boot and allow user session to toggle authorization
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{authorized}=="1", RUN+="/bin/sh -c 'if [ -f /sys%p/product ] && grep -qiE \"camera|webcam\" /sys%p/product 2>/dev/null; then echo 0 > /sys%p/authorized; chmod 0666 /sys%p/authorized; fi'"
 ACTION=="add|change", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", RUN+="/bin/sh -c 'if [ -f /sys%p/product ] && grep -qiE \"camera|webcam\" /sys%p/product 2>/dev/null; then chmod 0666 /sys%p/authorized; fi'"

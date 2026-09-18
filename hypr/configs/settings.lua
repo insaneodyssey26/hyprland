@@ -103,6 +103,13 @@ hl.config({
         "animation slide bottom, wayboard",
         "blur, swaync",
         "ignorealpha 0.6, swaync"
+    },
+    windowrule = {
+        "float, class:^(com.gabm.satty)$",
+        "float, class:^(satty)$",
+        "float, class:^(org.gnome.Calculator)$",
+        "float, class:^(pavucontrol)$",
+        "float, class:^(org.pulseaudio.pavucontrol)$"
     }
 })
 

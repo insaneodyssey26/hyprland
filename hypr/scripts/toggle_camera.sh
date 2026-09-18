@@ -26,22 +26,9 @@ get_status() {
     echo "Disabled"
 }
 
-toggle_camera() {
+set_camera_state() {
+    local target_val="$1"
     local devs=($(get_cam_devs))
-    if [ ${#devs[@]} -eq 0 ]; then
-        notify-send -a "Waybar" "Privacy" "No USB camera detected" -t 2000
-        return
-    fi
-
-    local current_status=$(get_status)
-    local target_val=0
-    local target_msg="Disabled"
-
-    if [ "$current_status" = "Disabled" ]; then
-        target_val=1
-        target_msg="Enabled"
-    fi
-
     for dev in "${devs[@]}"; do
         if [ -f "$dev/authorized" ]; then
             if ! echo "$target_val" > "$dev/authorized" 2>/dev/null; then
@@ -50,13 +37,34 @@ toggle_camera() {
             fi
         fi
     done
+}
 
-    notify-send -a "Waybar" "Privacy" "Camera $target_msg" -t 2000
+toggle_camera() {
+    local devs=($(get_cam_devs))
+    if [ ${#devs[@]} -eq 0 ]; then
+        notify-send -a "Waybar" "Privacy" "No USB camera detected" -t 2000
+        return
+    fi
+
+    local current_status=$(get_status)
+    if [ "$current_status" = "Disabled" ]; then
+        set_camera_state 1
+        notify-send -a "Waybar" "Privacy" "Camera Enabled" -t 2000
+    else
+        set_camera_state 0
+        notify-send -a "Waybar" "Privacy" "Camera Disabled" -t 2000
+    fi
 }
 
 case "$1" in
     --status)
         get_status
+        ;;
+    --off)
+        set_camera_state 0
+        ;;
+    --on)
+        set_camera_state 1
         ;;
     *)
         toggle_camera

@@ -86,7 +86,8 @@ hl.bind("SUPER + Escape", hl.dsp.exec_cmd("~/.config/hypr/scripts/power.sh"))
 
 -- Scripts & Utilities
 hl.bind("PRINT", hl.dsp.exec_cmd("grimblast --freeze copysave screen ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"))
-hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("grimblast --freeze save active - | satty --filename -"))
+hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("grimblast --freeze save area - | satty --filename - --fullscreen --output-filename ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"))
+hl.bind("SUPER + PRINT", hl.dsp.exec_cmd("grimblast --freeze copysave active ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"))
 hl.bind("SUPER + V", hl.dsp.exec_cmd("cliphist list | fuzzel --config $HOME/.config/fuzzel/fuzzel.ini --dmenu | cliphist decode | wl-copy"))
 hl.bind("SUPER + X", hl.dsp.exec_cmd("~/.config/hypr/scripts/kill_task.sh"))
 hl.bind("SUPER + P", hl.dsp.exec_cmd("~/.config/hypr/scripts/project_launcher.sh"))

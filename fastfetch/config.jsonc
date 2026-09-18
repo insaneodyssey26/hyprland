@@ -10,32 +10,32 @@
     },
     "display": { "separator": " " },
     "modules": [
-        { "key": "╭───────────╮", "type": "custom", "keyColor": "#d9b9ff" },
+        { "key": "╭───────────╮", "type": "custom", "keyColor": "#b5c9db" },
         
-        { "key": "│  user    │", "type": "title", "format": "{user-name}", "keyColor": "#d9b9ff" },
-        { "key": "│ 󰇅 hname   │", "type": "title", "format": "{host-name}", "keyColor": "#d9b9ff" },
-        { "key": "│ 󰅐 uptime  │", "type": "uptime", "keyColor": "#d9b9ff" },
+        { "key": "│  user    │", "type": "title", "format": "{user-name}", "keyColor": "#b5c9db" },
+        { "key": "│ 󰇅 hname   │", "type": "title", "format": "{host-name}", "keyColor": "#b5c9db" },
+        { "key": "│ 󰅐 uptime  │", "type": "uptime", "keyColor": "#b5c9db" },
         
-        { "key": "├───────────┤", "type": "custom", "keyColor": "#d9b9ff" }, 
+        { "key": "├───────────┤", "type": "custom", "keyColor": "#b5c9db" }, 
         
-        { "key": "│ 󰏖 pkgs    │", "type": "packages", "keyColor": "#d9b9ff" },
-        { "key": "│ 󰣇 distro  │", "type": "os", "keyColor": "#d9b9ff" },
-        { "key": "│  kernel  │", "type": "kernel", "keyColor": "#d9b9ff" },
-        { "key": "│  wm      │", "type": "wm", "keyColor": "#d9b9ff" },
-        { "key": "│  term    │", "type": "terminal", "keyColor": "#d9b9ff" },
-        { "key": "│  shell   │", "type": "shell", "keyColor": "#d9b9ff" },
-        { "key": "│  font    │", "type": "terminalfont", "keyColor": "#d9b9ff" },
+        { "key": "│ 󰏖 pkgs    │", "type": "packages", "keyColor": "#b5c9db" },
+        { "key": "│ 󰣇 distro  │", "type": "os", "keyColor": "#b5c9db" },
+        { "key": "│  kernel  │", "type": "kernel", "keyColor": "#b5c9db" },
+        { "key": "│  wm      │", "type": "wm", "keyColor": "#b5c9db" },
+        { "key": "│  term    │", "type": "terminal", "keyColor": "#b5c9db" },
+        { "key": "│  shell   │", "type": "shell", "keyColor": "#b5c9db" },
+        { "key": "│  font    │", "type": "terminalfont", "keyColor": "#b5c9db" },
         
-        { "key": "├───────────┤", "type": "custom", "keyColor": "#d9b9ff" }, 
+        { "key": "├───────────┤", "type": "custom", "keyColor": "#b5c9db" }, 
         
-        { "key": "│ 󰍛 cpu     │", "type": "cpu", "showPeCoreCount": true, "keyColor": "#d9b9ff" },
-        { "key": "│ 󰢮 gpu     │", "type": "gpu", "hideType": "integrated", "keyColor": "#d9b9ff" },
-        { "key": "│ 󰉉 windows │", "type": "disk", "folders": "/mnt/windows", "keyColor": "#d9b9ff" },
-        { "key": "│ 󰉉 linux   │", "type": "disk", "folders": "/", "keyColor": "#d9b9ff" },
-        { "key": "│  memory  │", "type": "memory", "keyColor": "#d9b9ff" },
-        { "key": "│ 󰓡 swap    │", "type": "swap", "keyColor": "#d9b9ff" },
-        { "key": "│ 󰁹 battery │", "type": "battery", "keyColor": "#d9b9ff" },
+        { "key": "│ 󰍛 cpu     │", "type": "cpu", "showPeCoreCount": true, "keyColor": "#b5c9db" },
+        { "key": "│ 󰢮 gpu     │", "type": "gpu", "hideType": "integrated", "keyColor": "#b5c9db" },
+        { "key": "│ 󰉉 windows │", "type": "disk", "folders": "/mnt/windows", "keyColor": "#b5c9db" },
+        { "key": "│ 󰉉 linux   │", "type": "disk", "folders": "/", "keyColor": "#b5c9db" },
+        { "key": "│  memory  │", "type": "memory", "keyColor": "#b5c9db" },
+        { "key": "│ 󰓡 swap    │", "type": "swap", "keyColor": "#b5c9db" },
+        { "key": "│ 󰁹 battery │", "type": "battery", "keyColor": "#b5c9db" },
         
-        { "key": "╰───────────╯", "type": "custom", "keyColor": "#d9b9ff" }
+        { "key": "╰───────────╯", "type": "custom", "keyColor": "#b5c9db" }
     ]
 }
