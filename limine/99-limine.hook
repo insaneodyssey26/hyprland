@@ -5,6 +5,6 @@ Type = Package
 Target = limine
 
 [Action]
-Description = Deploying Limine after upgrade...
+Description = Deploying and signing Limine after upgrade...
 When = PostTransaction
-Exec = /bin/sh -c "/usr/bin/cp /usr/share/limine/BOOTIA32.EFI /boot/EFI/BOOT/ && /usr/bin/cp /usr/share/limine/BOOTX64.EFI /boot/EFI/BOOT/"
+Exec = /bin/sh -c "/usr/bin/cp /usr/share/limine/BOOTIA32.EFI /boot/EFI/BOOT/ 2>/dev/null || true; /usr/bin/cp /usr/share/limine/BOOTX64.EFI /boot/EFI/BOOT/ && (command -v sbctl >/dev/null && sbctl sign -s /boot/EFI/BOOT/BOOTX64.EFI 2>/dev/null || true)"

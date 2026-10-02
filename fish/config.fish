@@ -18,7 +18,13 @@ abbr -a orphans 'paru -Rns (pacman -Qtdq)'
 abbr -a ni 'npm install'         
 abbr -a ns 'npm start'          
 abbr -a nr 'npm run'
-abbr -a nd 'npm run dev'     
+abbr -a nd 'npm run dev'
+
+# pnpm
+abbr -a pni 'pnpm install'
+abbr -a pns 'pnpm start'
+abbr -a pnr 'pnpm run'
+abbr -a pnd 'pnpm run dev'     
 abbr -a ff 'fastfetch'         
 abbr -a af 'fastfetch -c small.jsonc'
 abbr -a c 'clear'
@@ -34,6 +40,8 @@ abbr -a gco 'git checkout'
 abbr -a brave 'brave-origin-beta '
 
 # Docker
+abbr -a dstart 'sudo systemctl start docker'
+abbr -a dstop 'sudo systemctl stop docker docker.socket'
 abbr -a dkillall 'docker ps -q | xargs -r docker kill'           
 abbr -a drun     'docker run --rm -it'                           
 abbr -a dcdown   'docker compose down -v --remove-orphans'       

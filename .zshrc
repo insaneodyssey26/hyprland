@@ -58,6 +58,12 @@ abbreviations=(
     ns      'npm start'          
     nr      'npm run'
     nd      'npm run dev'     
+
+    # pnpm
+    pni     'pnpm install'
+    pns     'pnpm start'
+    pnr     'pnpm run'
+    pnd     'pnpm run dev'     
     ff      'fastfetch'         
     af      'fastfetch -c small.jsonc'
     c       'clear'
