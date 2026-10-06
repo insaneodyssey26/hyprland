@@ -3,7 +3,7 @@
 A customized, Wayland-centric desktop environment built on Arch Linux. Features dynamic wallpaper-based color generation, a Wayland utility suite, and an optimized terminal environment using Zsh and Fish.
 
 ## All configurations live on the web:
-> **[hyprland.masumali.me](https://hyprland.masum.tech)**  |  *(Source code: [hyprland-website](https://github.com/insaneodyssey26/hyprland-website))*
+> **[hyprland.masum.tech](https://hyprland.masum.tech)**  |  *(Source code: [hyprland-website](https://github.com/insaneodyssey26/hyprland-website))*
 
 ---
 
