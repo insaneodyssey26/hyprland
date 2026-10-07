@@ -1,7 +1,8 @@
 {
     "github.copilot.nextEditSuggestions.enabled": true,
     "workbench.startupEditor": "none",
-    "editor.fontFamily": "'Maple Mono NF', 'Droid Sans Mono', monospace",
+    "editor.fontFamily": "Literation Mono Ligature, monospace",
+    "editor.fontLigatures": true,
     "editor.fontWeight": "500",
     "terminal.integrated.fontWeight": "500",
     "workbench.colorTheme": "GitHub Dark Default",
@@ -68,7 +69,7 @@
         }
     },
     "terminal.integrated.defaultProfile.linux": "fish",
-    "terminal.integrated.fontFamily": "Maple Mono NF",
+    "terminal.integrated.fontFamily": "Literation Mono Ligature",
     "terminal.integrated.initialHint": false,
     "workbench.settings.applyToAllProfiles": [
 

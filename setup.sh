@@ -98,6 +98,14 @@ if [ -d "$WORKSPACE/icons/Moga-Black" ]; then
     printf "[Icon Theme]\nInherits=Moga-Black\n" > "$HOME/.icons/default/index.theme"
 fi
 
+# Deploy custom fonts if present in repo
+if [ -d "$WORKSPACE/fonts" ]; then
+    info "Installing custom fonts..."
+    mkdir -p "$HOME/.local/share/fonts"
+    cp -r "$WORKSPACE/fonts/"* "$HOME/.local/share/fonts/"
+    fc-cache -f "$HOME/.local/share/fonts" 2>/dev/null || true
+fi
+
 # List of folders to deploy
 CONFIG_FOLDERS="hypr kitty waybar swaync matugen foot fastfetch fish fuzzel gtk-3.0 reflector mpv cava"
 

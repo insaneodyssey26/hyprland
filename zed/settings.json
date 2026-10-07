@@ -46,7 +46,7 @@
   },
   "terminal": {
     "font_size": 16.0,
-    "font_family": "Maple Mono NF",
+    "font_family": "Literation Mono Ligature",
     "font_weight": 500.0
   },
   "telemetry": {
@@ -61,7 +61,7 @@
     },
   },
   "buffer_font_fallbacks": ["Droid Sans Mono", "monospace"],
-  "buffer_font_family": "Maple Mono NF",
+  "buffer_font_family": "Literation Mono Ligature",
   "agent_servers": {
     },
   "icon_theme": {
