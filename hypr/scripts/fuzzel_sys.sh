@@ -7,7 +7,7 @@ trap 'rm -f /tmp/spk_stat /tmp/mic_stat /tmp/sunset_stat /tmp/wifi_stat /tmp/bt_
 (pgrep hyprsunset > /dev/null && echo "Active" || echo "Off") > /tmp/sunset_stat &
 (nmcli radio wifi | grep -q "enabled" && echo "Enabled" || echo "Disabled") > /tmp/wifi_stat &
 (rfkill list bluetooth | grep -qi "soft blocked: no" && echo "Enabled" || echo "Disabled") > /tmp/bt_stat &
-(systemctl is-active ufw 2>/dev/null | grep -q "^active" && echo "Enabled" || echo "Disabled") > /tmp/fw_stat &
+(grep -q "^ENABLED=yes" /etc/ufw/ufw.conf 2>/dev/null && echo "Enabled" || echo "Disabled") > /tmp/fw_stat &
 (bash ~/.config/hypr/scripts/toggle_camera.sh --status 2>/dev/null || echo "Disabled") > /tmp/cam_stat &
 
 wait
@@ -66,9 +66,9 @@ case "$chosen" in
         ;;
     *Firewall*)
         if [ "$fw" = "Enabled" ]; then
-            sudo ufw disable; notify-send -a "Waybar" "Security" "Firewall Disabled" -t 2000
+            (sudo -n ufw disable 2>/dev/null || pkexec ufw disable) && notify-send -a "Waybar" "Security" "Firewall Disabled" -t 2000
         else
-            sudo ufw enable; notify-send -a "Waybar" "Security" "Firewall Enabled" -t 2000
+            (sudo -n ufw enable 2>/dev/null || pkexec ufw enable) && notify-send -a "Waybar" "Security" "Firewall Enabled" -t 2000
         fi
         ;;
     *Camera*)
