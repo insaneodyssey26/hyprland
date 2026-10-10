@@ -106,6 +106,13 @@ if [ -d "$WORKSPACE/fonts" ]; then
     fc-cache -f "$HOME/.local/share/fonts" 2>/dev/null || true
 fi
 
+# Deploy Nautilus extensions if present in repo
+if [ -d "$WORKSPACE/nautilus" ]; then
+    info "Installing Nautilus extensions..."
+    mkdir -p "$HOME/.local/share/nautilus-python/extensions"
+    cp -r "$WORKSPACE/nautilus/"* "$HOME/.local/share/nautilus-python/extensions/"
+fi
+
 # List of folders to deploy
 CONFIG_FOLDERS="hypr kitty waybar swaync matugen foot fastfetch fish fuzzel gtk-3.0 reflector mpv cava"
 
