@@ -12,7 +12,9 @@ hl.on("hyprland.start", function()
     -- System Services & Idle Security
     hl.exec_cmd("hypridle &")
     hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1 &")
-    hl.exec_cmd("gnome-keyring-daemon --start --components=secrets &")
+    -- Note: gnome-keyring is auto-started by PAM (/etc/pam.d/login).
+    -- If not running, start it safely without duplicate conflicting daemons.
+    hl.exec_cmd("pgrep -x gnome-keyring-daemon >/dev/null || gnome-keyring-daemon --start --components=secrets &")
     
     -- Clipboard Management
     hl.exec_cmd("wl-paste --type text --watch cliphist store &")
