@@ -4,7 +4,8 @@ DIR1="$HOME/Projects"
 DIR2="$HOME/Repos (Arch)"
 DIR3="/mnt/windows/Repositories"
 
-SELECTED_NAME=$(find "$DIR1" "$DIR2" "$DIR3" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | grep -v -E "^($DIR1|$DIR2|$DIR3)$" | awk -F/ '{print $NF}' | sort -u | fuzzel --dmenu -p "Project: " --lines=12 --font="Geist:weight=bold:size=10")
+# Sort directories by most recently modified first
+SELECTED_NAME=$(find "$DIR1" "$DIR2" "$DIR3" -mindepth 1 -maxdepth 1 -type d -not -name "node_modules" -printf '%T@ %p\n' 2>/dev/null | sort -rn | cut -d' ' -f2- | awk -F/ '{print $NF}' | awk '!seen[$0]++' | fuzzel --dmenu -p "Project: " --lines=12 --font="Geist:weight=bold:size=10")
 
 if [ -n "$SELECTED_NAME" ]; then
     PROJECT_PATH=$(find "$DIR1" "$DIR2" "$DIR3" -mindepth 1 -maxdepth 1 -type d -name "$SELECTED_NAME" 2>/dev/null | head -n 1)

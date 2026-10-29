@@ -1,24 +1,19 @@
 #!/bin/bash
 
-trap 'rm -f /tmp/spk_stat /tmp/mic_stat /tmp/sunset_stat /tmp/wifi_stat /tmp/bt_stat /tmp/fw_stat /tmp/cam_stat' EXIT
+# Fast in-memory state evaluation (zero /tmp disk I/O)
+spk=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null | grep -q "MUTED" && echo "Muted" || echo "Active")
+mic=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null | grep -q "MUTED" && echo "Muted" || echo "Active")
+pgrep -x hyprsunset >/dev/null && sunset="Active" || sunset="Off"
+nmcli -t -f WIFI g 2>/dev/null | grep -q "enabled" && wifi="Enabled" || wifi="Disabled"
+rfkill list bluetooth 2>/dev/null | grep -qi "soft blocked: no" && bt="Enabled" || bt="Disabled"
+grep -q "^ENABLED=yes" /etc/ufw/ufw.conf 2>/dev/null && fw="Enabled" || fw="Disabled"
 
-(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q "MUTED" && echo "Muted" || echo "Active") > /tmp/spk_stat &
-(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q "MUTED" && echo "Muted" || echo "Active") > /tmp/mic_stat &
-(pgrep hyprsunset > /dev/null && echo "Active" || echo "Off") > /tmp/sunset_stat &
-(nmcli radio wifi | grep -q "enabled" && echo "Enabled" || echo "Disabled") > /tmp/wifi_stat &
-(rfkill list bluetooth | grep -qi "soft blocked: no" && echo "Enabled" || echo "Disabled") > /tmp/bt_stat &
-(grep -q "^ENABLED=yes" /etc/ufw/ufw.conf 2>/dev/null && echo "Enabled" || echo "Disabled") > /tmp/fw_stat &
-(bash ~/.config/hypr/scripts/toggle_camera.sh --status 2>/dev/null || echo "Disabled") > /tmp/cam_stat &
-
-wait
-
-spk=$(cat /tmp/spk_stat)
-mic=$(cat /tmp/mic_stat)
-sunset=$(cat /tmp/sunset_stat)
-wifi=$(cat /tmp/wifi_stat)
-bt=$(cat /tmp/bt_stat)
-fw=$(cat /tmp/fw_stat)
-cam=$(cat /tmp/cam_stat)
+cam="Disabled"
+for d in /sys/bus/usb/devices/*; do
+    if [ -f "$d/product" ] && grep -qiE "camera|webcam" "$d/product" 2>/dev/null; then
+        [ "$(cat "$d/authorized" 2>/dev/null)" = "1" ] && { cam="Enabled"; break; }
+    fi
+done
 
 layout_val=$(hyprctl getoption general:layout | grep "str:" | awk '{print $2}')
 if [ "$layout_val" = "scrolling" ]; then

@@ -101,6 +101,11 @@ hl.bind("SUPER + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/fuzzel_sys.sh"))
 hl.bind("SUPER + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper-picker.sh"))
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/random-wall.sh"))
 
+-- Screen Zoom (Accessibility)
+hl.bind("SUPER + equal", hl.dsp.exec_cmd("~/.config/hypr/scripts/zoom.sh in"))
+hl.bind("SUPER + minus", hl.dsp.exec_cmd("~/.config/hypr/scripts/zoom.sh out"))
+hl.bind("SUPER + 0",     hl.dsp.exec_cmd("~/.config/hypr/scripts/zoom.sh reset"))
+
 -- Lid switch
 hl.bind("switch:on:Lid Switch", hl.dsp.exec_cmd("pidof hyprlock || hyprlock & hyprctl dispatch dpms off"), { locked = true })
 hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("hyprctl dispatch dpms on"), { locked = true })
