@@ -114,7 +114,7 @@ if [ -d "$WORKSPACE/nautilus" ]; then
 fi
 
 # List of folders to deploy
-CONFIG_FOLDERS="hypr kitty waybar swaync matugen foot fastfetch fish fuzzel gtk-3.0 reflector mpv cava"
+CONFIG_FOLDERS="hypr kitty waybar swaync matugen foot fastfetch fish fuzzel gtk-3.0 reflector mpv cava zed"
 
 for folder in $CONFIG_FOLDERS; do
     SRC="$WORKSPACE/$folder"
@@ -138,6 +138,13 @@ for folder in $CONFIG_FOLDERS; do
     info "Symlinking '$folder' to '$DEST'..."
     ln -sf "$SRC" "$DEST"
 done
+
+# VS Code User configuration
+if [ -d "$WORKSPACE/Code/User" ]; then
+    info "Linking VS Code User configuration..."
+    mkdir -p "$HOME/.config/Code"
+    ln -sfn "$WORKSPACE/Code/User" "$HOME/.config/Code/User"
+fi
 
 # Deploy starship.toml file
 SRC_STARSHIP="$WORKSPACE/starship.toml"

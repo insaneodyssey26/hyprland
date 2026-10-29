@@ -22,7 +22,7 @@ hl.config({
 hl.config({
     general = {
         gaps_in = 5,
-        gaps_out = { top = 4, right = 10, bottom = 8, left = 10 },
+        gaps_out = { top = 4, right = 4, bottom = 8, left = 4 },
         border_size = 0,
         ["col.active_border"] = "rgba(00000000)",
         ["col.inactive_border"] = "rgba(00000000)",

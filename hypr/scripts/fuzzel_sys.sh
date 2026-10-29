@@ -23,7 +23,7 @@ else
 fi
 
 options="󰓃    Speaker: $spk\n    Mic: $mic\n󰖔    Night Light: $sunset\n    WiFi: $wifi\n    Bluetooth: $bt\n󰒓    Firewall: $fw\n󰄀    Camera: $cam\n󰕰    Layout: $layout_mode"
-chosen=$(echo -e "$options" | fuzzel --dmenu -p "System Controls   " --lines=8)
+chosen=$(echo -e "$options" | fuzzel --dmenu -p "System Controls  " --lines=8 --font="Geist:weight=bold:size=10")
 
 case "$chosen" in
     *Speaker*)
