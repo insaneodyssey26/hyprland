@@ -1,6 +1,4 @@
--- -----------------------------------------------------
--- INPUT & CURSOR
--- -----------------------------------------------------
+-- Input & cursor
 hl.config({
     input = {
         kb_layout = "us",
@@ -16,9 +14,7 @@ hl.config({
     }
 })
 
--- -----------------------------------------------------
--- GENERAL & DECORATION
--- -----------------------------------------------------
+-- Decoration & layout
 hl.config({
     general = {
         gaps_in = 5,
@@ -60,30 +56,20 @@ hl.config({
     }
 })
 
--- -----------------------------------------------------
--- ANIMATIONS
--- -----------------------------------------------------
+-- Animations & curves
 hl.config({ animations = { enabled = true } })
 
--- Replicating 'myBezier, 0.05, 0.9, 0.1, 1.05'
 hl.curve("myBezier", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.05} } })
--- Smooth layout transition
 hl.curve("smoothLinear", { type = "bezier", points = { {0.25, 1}, {0.5, 1} } })
--- Subtle spring curve
 hl.curve("myBezierSoft", { type = "bezier", points = { {0.05, 0.9}, {0.1, 1.02} } })
 
--- 1. Windows
 hl.animation({ leaf = "windows",     enabled = true, speed = 6, bezier = "myBezier", style = "slide" })
 hl.animation({ leaf = "windowsOut",  enabled = true, speed = 6, bezier = "myBezier", style = "popin 80%" })
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 5, bezier = "myBezierSoft" })
-
--- 2. Fade
 hl.animation({ leaf = "fade",        enabled = true, speed = 5, bezier = "default" })
-
--- 3. Workspaces
 hl.animation({ leaf = "workspaces",  enabled = true, speed = 5, bezier = "myBezierSoft", style = "slidefade 20%" })
 
--- 4. Layer Extensions
+-- Rules
 hl.config({
     layerrule = {
         "blur, fuzzel",
@@ -113,14 +99,10 @@ hl.config({
     }
 })
 
--- -----------------------------------------------------
--- LAYOUTS & MISC
--- -----------------------------------------------------
 hl.config({
     dwindle = {
         preserve_split = true,
     },
-    -- (Gestures moved to keywords for v0.55.0 stability)
     misc = {
         force_default_wallpaper = 0,
         mouse_move_enables_dpms = true,

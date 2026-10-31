@@ -72,7 +72,7 @@ else
     info "AUR helper (paru) is already installed."
 fi
 
-OFFICIAL_PKGS="hyprland waybar swaync fuzzel hypridle hyprlock hyprpicker hyprsunset kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf fd ripgrep zoxide yazi nautilus loupe mpv btop asciiquarium cava gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts noto-fonts-emoji ttf-nerd-fonts-symbols unzip zip power-profiles-daemon asusctl rog-control-center zram-generator"
+OFFICIAL_PKGS="hyprland waybar swaync fuzzel hypridle hyprlock hyprpicker hyprsunset kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf fd ripgrep zoxide yazi nautilus loupe mpv btop asciiquarium cava gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts noto-fonts-emoji ttf-nerd-fonts-symbols unzip zip power-profiles-daemon asusctl rog-control-center zram-generator pacman-contrib"
 AUR_PKGS="matugen-bin nautilus-open-any-terminal bemoji grimblast-git otf-geist maplemono-nf-unhinted wvkbd tty-clock"
 
 # Detect NVIDIA GPU and append appropriate drivers
@@ -114,7 +114,7 @@ if [ -d "$WORKSPACE/nautilus" ]; then
 fi
 
 # List of folders to deploy
-CONFIG_FOLDERS="hypr kitty waybar swaync matugen foot fastfetch fish fuzzel gtk-3.0 reflector mpv cava zed"
+CONFIG_FOLDERS="hypr kitty waybar swaync matugen foot fastfetch fish fuzzel gtk-3.0 gtk-4.0 reflector mpv cava zed"
 
 for folder in $CONFIG_FOLDERS; do
     SRC="$WORKSPACE/$folder"
@@ -224,6 +224,8 @@ sudo systemctl enable --now NetworkManager.service 2>/dev/null || true
 sudo systemctl enable --now bluetooth.service 2>/dev/null || true
 sudo systemctl enable --now power-profiles-daemon.service 2>/dev/null || true
 sudo systemctl enable --now asusd.service 2>/dev/null || true
+sudo systemctl enable --now fstrim.timer 2>/dev/null || true
+sudo systemctl enable --now paccache.timer 2>/dev/null || true
 
 # NVIDIA & System Power Management
 if lspci | grep -iE 'vga|3d' | grep -iq nvidia; then

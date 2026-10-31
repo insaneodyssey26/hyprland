@@ -2,13 +2,6 @@
 
 STATE_FILE="/tmp/waybar_timer.state"
 
-# State File Format:
-# MODE: stopwatch | timer | stopped
-# STATUS: running | paused | stopped | finished
-# END_TIME: epoch timestamp (for timer)
-# ELAPSED: accumulated elapsed seconds (for stopwatch / paused timer)
-# DURATION: initial timer duration in seconds
-# LAST_UPDATE: epoch timestamp
 
 read_state() {
     if [ -f "$STATE_FILE" ]; then
@@ -87,7 +80,6 @@ case "$1" in
         read_state
         NOW=$(date +%s)
         if [ "$STATUS" = "running" ]; then
-            # Pause
             if [ "$MODE" = "stopwatch" ]; then
                 ELAPSED=$((NOW - LAST_UPDATE + ELAPSED))
             elif [ "$MODE" = "timer" ]; then
@@ -97,7 +89,6 @@ case "$1" in
             LAST_UPDATE=$NOW
             save_state
         elif [ "$STATUS" = "paused" ]; then
-            # Resume
             if [ "$MODE" = "stopwatch" ]; then
                 LAST_UPDATE=$NOW
             elif [ "$MODE" = "timer" ]; then
@@ -111,7 +102,6 @@ case "$1" in
             ELAPSED=0
             save_state
         else
-            # Open menu if stopped
             exec "$0" menu
         fi
         update_waybar
@@ -173,7 +163,7 @@ case "$1" in
     menu)
         OPTS="25m   │  Pomodoro Focus\n15m   │  Short Break\n 5m   │  Quick Break\n45m   │  Deep Work\n60m   │  1 Hour\n 0m   │  Start Stopwatch (Count Up)\nstop  │  Reset / Clear Timer"
 
-        CHOICE=$(echo -e "$OPTS" | fuzzel --config "$HOME/.config/fuzzel/fuzzel.ini" --dmenu -p "Timer  " --lines=7 --width=32)
+        CHOICE=$(echo -e "$OPTS" | fuzzel --dmenu -p "Timer  " --lines=7 --width=40 --font="Geist:weight=bold:size=10")
 
         if [ -n "$CHOICE" ]; then
             FIRST_WORD=$(echo "$CHOICE" | awk '{print $1}')

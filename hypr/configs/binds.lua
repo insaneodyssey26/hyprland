@@ -1,6 +1,4 @@
--- -----------------------------------------------------
--- APPS & CORE BINDS
--- -----------------------------------------------------
+-- Apps
 hl.bind("SUPER + T", hl.dsp.exec_cmd(terminal))
 hl.bind("SUPER + SHIFT + T", hl.dsp.exec_cmd("foot"))
 hl.bind("SUPER + D", hl.dsp.exec_cmd(menu))
@@ -14,16 +12,12 @@ hl.bind("SUPER + C", hl.dsp.exec_cmd("gnome-calculator"))
 hl.bind("SUPER + R", hl.dsp.exec_cmd("rnote"))
 hl.bind("SUPER + Y", hl.dsp.exec_cmd("bash -c 'color=$(hyprpicker -a); notify-send \"Color Picked\" \"$color\" -t 2000'"))
 
--- -----------------------------------------------------
--- NAVIGATION & WINDOW MGMT
--- -----------------------------------------------------
--- Focus
+-- Navigation & window management
 hl.bind("SUPER + left",  hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_left"))
 hl.bind("SUPER + right", hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_right"))
 hl.bind("SUPER + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind("SUPER + down",  hl.dsp.focus({ direction = "down" }))
 
--- Move
 hl.bind("SUPER + SHIFT + left",  hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh move_left"))
 hl.bind("SUPER + SHIFT + right", hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh move_right"))
 hl.bind("SUPER + SHIFT + up",    hl.dsp.window.move({ direction = "up" }))
@@ -39,43 +33,35 @@ hl.bind("SUPER + CTRL + left",  function() hl.dispatch(hl.dsp.window.resize({ x 
 hl.bind("SUPER + CTRL + up",    function() hl.dispatch(hl.dsp.window.resize({ x = 0,   y = -20, relative = true })) end, { repeating = true })
 hl.bind("SUPER + CTRL + down",  function() hl.dispatch(hl.dsp.window.resize({ x = 0,   y = 20,  relative = true })) end, { repeating = true })
 
--- Move window
+-- Move floating window
 hl.bind("SUPER + ALT + right", function() hl.dispatch(hl.dsp.window.move({ x = 20,  y = 0,   relative = true })) end, { repeating = true })
 hl.bind("SUPER + ALT + left",  function() hl.dispatch(hl.dsp.window.move({ x = -20, y = 0,   relative = true })) end, { repeating = true })
 hl.bind("SUPER + ALT + up",    function() hl.dispatch(hl.dsp.window.move({ x = 0,   y = -20, relative = true })) end, { repeating = true })
 hl.bind("SUPER + ALT + down",  function() hl.dispatch(hl.dsp.window.move({ x = 0,   y = 20,  relative = true })) end, { repeating = true })
 
--- Mouse binds
+-- Mouse
 hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind("SUPER + mouse_down", hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_right"))
 hl.bind("SUPER + mouse_up", hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_left"))
 
--- -----------------------------------------------------
--- WORKSPACES
--- -----------------------------------------------------
+-- Workspaces
 for i = 1, 9 do
     hl.bind("SUPER + " .. i, hl.dsp.focus({ workspace = i }))
     hl.bind("SUPER + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }))
 end
 
--- -----------------------------------------------------
--- SYSTEM & MEDIA
--- -----------------------------------------------------
--- Volume
+-- Media & hardware
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"), { repeating = true, locked = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { repeating = true, locked = true })
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && notify-send "Microphone" "$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q \'MUTED\' && echo \'Muted\' || echo \'Unmuted\')" -t 1000'), { locked = true })
 
-
--- Brightness
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { repeating = true, locked = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { repeating = true, locked = true })
 
 hl.bind("SUPER + L", hl.dsp.exec_cmd("hyprlock"))
 
--- Screen off
 hl.bind("Pause", function()
     hl.timer(function()
         hl.dispatch(hl.dsp.dpms({ action = "off" }))
@@ -84,7 +70,7 @@ end, { locked = true })
 
 hl.bind("SUPER + Escape", hl.dsp.exec_cmd("~/.config/hypr/scripts/power.sh"))
 
--- Scripts & Utilities
+-- Utilities
 hl.bind("PRINT", hl.dsp.exec_cmd("grimblast --freeze copysave screen ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"))
 hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("grimblast --freeze save area - | satty --filename - --fullscreen --output-filename ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"))
 hl.bind("SUPER + PRINT", hl.dsp.exec_cmd("grimblast --freeze copysave active ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png"))
@@ -101,7 +87,7 @@ hl.bind("SUPER + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/fuzzel_sys.sh"))
 hl.bind("SUPER + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/wallpaper-picker.sh"))
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/random-wall.sh"))
 
--- Screen Zoom (Accessibility)
+-- Zoom
 hl.bind("SUPER + equal", hl.dsp.exec_cmd("~/.config/hypr/scripts/zoom.sh in"))
 hl.bind("SUPER + minus", hl.dsp.exec_cmd("~/.config/hypr/scripts/zoom.sh out"))
 hl.bind("SUPER + 0",     hl.dsp.exec_cmd("~/.config/hypr/scripts/zoom.sh reset"))

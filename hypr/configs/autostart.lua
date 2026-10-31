@@ -1,22 +1,17 @@
--- -----------------------------------------------------
--- AUTOSTART
--- -----------------------------------------------------
 hl.on("hyprland.start", function()
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP &")
 
-    -- UI & Status
+    -- UI
     hl.exec_cmd("waybar &")
     hl.exec_cmd("swaync &")
     hl.exec_cmd("awww-daemon && awww restore &")
     
-    -- System Services & Idle Security
+    -- Daemons & idle
     hl.exec_cmd("hypridle &")
     hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1 &")
-    -- Note: gnome-keyring is auto-started by PAM (/etc/pam.d/login).
-    -- If not running, start it safely without duplicate conflicting daemons.
     hl.exec_cmd("pgrep -x gnome-keyring-daemon >/dev/null || gnome-keyring-daemon --start --components=secrets &")
     
-    -- Clipboard Management
+    -- Clipboard & cursor
     hl.exec_cmd("wl-paste --type text --watch cliphist store &")
     hl.exec_cmd("wl-paste --type image --watch cliphist store &")
     hl.exec_cmd("hyprctl setcursor Moga-Black 24 &")

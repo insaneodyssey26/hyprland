@@ -24,7 +24,6 @@ BG=$(get_color "surface" "141218")
 ACCENT=$(get_color "primary" "d1bcfd")
 TEXT=$(get_color "on-primary" "ffffff") 
 
-# 3. Toggle Logic
 if pidof "$BIN" > /dev/null; then
     pkill "$BIN"
 else
