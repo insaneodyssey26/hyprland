@@ -243,7 +243,9 @@ if [ -f "$WORKSPACE/limine/99-limine.hook" ]; then
 fi
 if [ -f "$WORKSPACE/limine/limine.conf" ] && [ -d /boot ]; then
     sudo cp "$WORKSPACE/limine/limine.conf" /boot/limine.conf 2>/dev/null || true
+    sudo cp "$WORKSPACE/limine/limine.conf" /boot/EFI/BOOT/limine.conf 2>/dev/null || true
     sudo cp "$WORKSPACE/limine/limine-wallpaper.png" /boot/limine-wallpaper.png 2>/dev/null || true
+    sudo cp "$WORKSPACE/limine/limine-wallpaper.png" /boot/EFI/BOOT/limine-wallpaper.png 2>/dev/null || true
 fi
 # Deploy Camera Privacy Udev Rule
 if [ -f "$WORKSPACE/udev/99-camera-privacy.rules" ]; then
