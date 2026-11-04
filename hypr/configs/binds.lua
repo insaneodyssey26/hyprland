@@ -17,6 +17,7 @@ hl.bind("SUPER + left",  hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate
 hl.bind("SUPER + right", hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh focus_right"))
 hl.bind("SUPER + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind("SUPER + down",  hl.dsp.focus({ direction = "down" }))
+hl.bind("SUPER + H",     hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh center"))
 
 hl.bind("SUPER + SHIFT + left",  hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh move_left"))
 hl.bind("SUPER + SHIFT + right", hl.dsp.exec_cmd("~/.config/hypr/scripts/layout_navigate.sh move_right"))
@@ -80,7 +81,6 @@ hl.bind("SUPER + P", hl.dsp.exec_cmd("~/.config/hypr/scripts/project_launcher.sh
 hl.bind("SUPER + K", hl.dsp.exec_cmd("~/.config/hypr/scripts/toggle_osk.sh"))
 hl.bind("SUPER + period", hl.dsp.exec_cmd("bemoji -p 'fuzzel --config $HOME/.config/fuzzel/fuzzel.ini -p \"Emojis: \"'"))
 hl.bind("SUPER + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
-hl.bind("SUPER + H", hl.dsp.exec_cmd("/home/masum/.config/hypr/scripts/toggle_waybar.sh"))
 hl.bind("SUPER + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/fuzzel_sys.sh"))
 
 -- Themes
