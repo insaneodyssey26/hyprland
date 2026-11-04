@@ -67,7 +67,7 @@ hl.animation({ leaf = "windows",     enabled = true, speed = 6, bezier = "myBezi
 hl.animation({ leaf = "windowsOut",  enabled = true, speed = 6, bezier = "myBezier", style = "popin 80%" })
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 5, bezier = "myBezierSoft" })
 hl.animation({ leaf = "fade",        enabled = true, speed = 5, bezier = "default" })
-hl.animation({ leaf = "workspaces",  enabled = true, speed = 5, bezier = "myBezierSoft", style = "slidefade 20%" })
+hl.animation({ leaf = "workspaces",  enabled = true, speed = 5, bezier = "myBezierSoft", style = "slidefadevert 20%" })
 
 -- Rules
 hl.config({
