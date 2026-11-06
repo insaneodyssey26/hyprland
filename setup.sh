@@ -262,16 +262,16 @@ if [ -f /etc/security/faillock.conf ]; then
 fi
 
 # 7. Initialize Theme, Assets & Wallpaper
-info "Initializing assets, default wallpaper, and color palette..."
+info "Initializing assets, wallpapers, and color palette..."
 mkdir -p "$HOME/wallpapers"
 [ -d "$WORKSPACE/assets" ] && ln -sf "$WORKSPACE/assets" "$HOME/.config/hypr/assets"
+[ -d "$WORKSPACE/wallpapers" ] && cp -rn "$WORKSPACE/wallpapers"/* "$HOME/wallpapers/" 2>/dev/null || true
 DEFAULT_WALLPAPER="$WORKSPACE/assets/default.png"
 [ ! -f "$DEFAULT_WALLPAPER" ] && DEFAULT_WALLPAPER="$WORKSPACE/assets/desktop.png"
 if [ -f "$DEFAULT_WALLPAPER" ]; then
     cp "$DEFAULT_WALLPAPER" "$HOME/wallpapers/default.png"
-    [ -f "$WORKSPACE/assets/Buildings.png" ] && cp "$WORKSPACE/assets/Buildings.png" "$HOME/wallpapers/Buildings.png"
-    ln -sf "$HOME/wallpapers/default.png" "$HOME/.current_wallpaper"
-    matugen image "$HOME/wallpapers/default.png" -m dark --type scheme-fidelity --fallback-color '#6d6d6d' --source-color-index 0
+    [ ! -f "$HOME/.current_wallpaper" ] && ln -sf "$HOME/wallpapers/default.png" "$HOME/.current_wallpaper"
+    matugen image "$HOME/.current_wallpaper" -m dark --type scheme-fidelity --fallback-color '#6d6d6d' --source-color-index 0
 fi
 
 # 8. Set Default Shell
