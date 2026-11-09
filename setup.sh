@@ -73,7 +73,7 @@ else
 fi
 
 OFFICIAL_PKGS="niri waybar swaync fuzzel swayidle hyprlock kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf fd ripgrep zoxide yazi nautilus loupe mpv btop asciiquarium cava gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-gnome xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts noto-fonts-emoji ttf-nerd-fonts-symbols unzip zip power-profiles-daemon asusctl rog-control-center zram-generator pacman-contrib"
-AUR_PKGS="matugen-bin nautilus-open-any-terminal bemoji otf-geist maplemono-nf-unhinted wvkbd tty-clock"
+AUR_PKGS="matugen-bin nautilus-open-any-terminal otf-geist maplemono-nf-unhinted wvkbd tty-clock"
 
 # Detect NVIDIA GPU and append appropriate drivers
 if lspci | grep -iE 'vga|3d' | grep -iq nvidia; then

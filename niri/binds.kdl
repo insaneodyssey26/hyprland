@@ -101,11 +101,11 @@ binds {
     Print       { spawn "/home/masum/dotfiles/scripts/screenshot.sh" "full"; }
     Shift+Print { spawn "/home/masum/dotfiles/scripts/screenshot.sh" "area"; }
     Mod+Print   { screenshot-screen; }
-    Mod+V       { spawn "bash" "-c" "cliphist list | fuzzel --config /home/masum/.config/fuzzel/fuzzel.ini --dmenu | cliphist decode | wl-copy"; }
+    Mod+V       { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "clipboard" "toggle"; }
     Mod+X       { spawn "/home/masum/dotfiles/scripts/kill_task.sh"; }
     Mod+P       { spawn "/home/masum/dotfiles/scripts/project_launcher.sh"; }
     Mod+K       { spawn "/home/masum/dotfiles/scripts/toggle_osk.sh"; }
-    Mod+Period  { spawn "bemoji" "-p" "fuzzel --config /home/masum/.config/fuzzel/fuzzel.ini -p 'Emojis: '"; }
+    Mod+Period  { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "emoji" "toggle"; }
     Mod+N       { spawn "swaync-client" "-t" "-sw"; }
-    Mod+S       { spawn "/home/masum/dotfiles/scripts/fuzzel_sys.sh"; }
+    Mod+S       { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "controls" "toggle"; }
 }

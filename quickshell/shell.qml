@@ -8,6 +8,9 @@ import "bar"
 import "theme"
 import "notifications"
 import "launcher"
+import "system"
+import "clipboard"
+import "emoji"
 import "services"
 
 ShellRoot {
@@ -145,6 +148,57 @@ ShellRoot {
         }
         function close() {
             mainLauncher.close()
+        }
+    }
+
+    SystemControls {
+        id: sysControls
+    }
+
+    IpcHandler {
+        target: "controls"
+        function toggle() {
+            sysControls.toggle()
+        }
+        function open() {
+            sysControls.open()
+        }
+        function close() {
+            sysControls.close()
+        }
+    }
+
+    ClipboardManager {
+        id: clipManager
+    }
+
+    IpcHandler {
+        target: "clipboard"
+        function toggle() {
+            clipManager.toggle()
+        }
+        function open() {
+            clipManager.open()
+        }
+        function close() {
+            clipManager.close()
+        }
+    }
+
+    EmojiPicker {
+        id: emojiPicker
+    }
+
+    IpcHandler {
+        target: "emoji"
+        function toggle() {
+            emojiPicker.toggle()
+        }
+        function open() {
+            emojiPicker.open()
+        }
+        function close() {
+            emojiPicker.close()
         }
     }
 }
