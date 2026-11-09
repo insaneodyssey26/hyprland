@@ -3,9 +3,12 @@ import QtQuick.Layouts
 import QtQuick.Shapes
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Io
 import "bar"
 import "theme"
 import "notifications"
+import "launcher"
+import "services"
 
 ShellRoot {
     id: root
@@ -124,4 +127,24 @@ ShellRoot {
 
     NotificationDrawer {}
     NotificationBanners {}
+
+    AppLauncher {
+        id: mainLauncher
+        Component.onCompleted: {
+            PopupManager.launcherRef = mainLauncher
+        }
+    }
+
+    IpcHandler {
+        target: "launcher"
+        function toggle() {
+            mainLauncher.toggle()
+        }
+        function open() {
+            mainLauncher.open()
+        }
+        function close() {
+            mainLauncher.close()
+        }
+    }
 }

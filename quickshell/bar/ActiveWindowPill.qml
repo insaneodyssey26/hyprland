@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Io
 import "../theme"
 import "../services"
 
@@ -153,8 +154,13 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            // Clicking the active window indicator opens fuzzel app launcher
-            Qt.createQmlObject('import Quickshell.Io; Process { command: ["fuzzel"]; running: true }', root)
+            // Clicking active window indicator toggles quickshell application launcher
+            quickshellLauncherProc.running = true
+        }
+
+        Process {
+            id: quickshellLauncherProc
+            command: ["quickshell", "ipc", "-p", "/home/masum/dotfiles/quickshell/shell.qml", "call", "launcher", "toggle"]
         }
     }
 }

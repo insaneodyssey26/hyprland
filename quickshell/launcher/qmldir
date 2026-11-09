@@ -1,0 +1,3 @@
+module qs.launcher
+AppLauncher 1.0 AppLauncher.qml
+AppService 1.0 AppService.qml

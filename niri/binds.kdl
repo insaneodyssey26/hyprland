@@ -11,7 +11,7 @@ binds {
     // Applications
     Mod+T { spawn "kitty"; }
     Mod+Shift+T { spawn "foot"; }
-    Mod+D { spawn "fuzzel"; }
+    Mod+D { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "launcher" "toggle"; }
     Mod+G { spawn "/home/masum/dotfiles/scripts/file_search.sh"; }
     Mod+Q { close-window; }
     Mod+B { spawn "brave-origin-beta"; }
