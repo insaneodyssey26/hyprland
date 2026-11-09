@@ -51,6 +51,7 @@ QtObject {
 
     property NotificationServer server: NotificationServer {
         id: server
+        keepOnReload: false
         bodySupported: true
         bodyMarkupSupported: true
         actionsSupported: true

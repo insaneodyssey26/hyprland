@@ -3,15 +3,15 @@ import QtQuick
 
 QtObject {
     id: colors
-    readonly property color colBackground: "#141310"
-    readonly property color colSurface: "#141310"
-    readonly property color colSurfaceContainer: "#20201c"
-    readonly property color colPrimary: "#ffffff"
-    readonly property color colOnPrimary: "#31320b"
-    readonly property color colSecondary: "#c9c8ae"
-    readonly property color colOnSecondary: "#31311f"
-    readonly property color colOutline: "#929184"
-    readonly property color colText: "#e5e2dc"
-    readonly property color colTextMuted: "#c9c7b8"
+    readonly property color colBackground: "#0f1414"
+    readonly property color colSurface: "#0f1414"
+    readonly property color colSurfaceContainer: "#1b2120"
+    readonly property color colPrimary: "#69d8cf"
+    readonly property color colOnPrimary: "#003734"
+    readonly property color colSecondary: "#a6ceca"
+    readonly property color colOnSecondary: "#0d3633"
+    readonly property color colOutline: "#879391"
+    readonly property color colText: "#dee4e2"
+    readonly property color colTextMuted: "#bcc9c7"
     readonly property color colError: "#ffb4ab"
 }

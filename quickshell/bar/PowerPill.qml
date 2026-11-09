@@ -79,7 +79,7 @@ Rectangle {
                         MouseArea {
                             id: lockHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                Qt.createQmlObject('import Quickshell.Io; Process { command: ["hyprlock"]; running: true }', root)
+                                Qt.createQmlObject('import Quickshell.Io; Process { command: ["/home/masum/dotfiles/scripts/lock.sh"]; running: true }', root)
                                 PopupManager.closeAll()
                             }
                         }

@@ -175,6 +175,23 @@ ShellRoot {
     }
 
     IpcHandler {
+        target: "audio"
+        function toggle(): void {
+            PopupManager.openPopup("volume")
+        }
+        function open(): void {
+            if (!PopupManager.isPopupOpen("volume")) {
+                PopupManager.openPopup("volume")
+            }
+        }
+        function close(): void {
+            if (PopupManager.isPopupOpen("volume")) {
+                PopupManager.closeAll()
+            }
+        }
+    }
+
+    IpcHandler {
         target: "controls"
         function toggle() {
             sysControls.toggle()
