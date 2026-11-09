@@ -60,17 +60,17 @@ ShellRoot {
                         anchors.leftMargin: 18
                         anchors.rightMargin: 18
 
-                        AetherWorkspaces {
+                        Workspaces {
                             anchors.left: parent.left
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
-                        AetherClock {
+                        Clock {
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
-                        AetherStatus {
+                        StatusBar {
                             anchors.right: parent.right
                             anchors.verticalCenter: parent.verticalCenter
                         }
@@ -172,6 +172,23 @@ ShellRoot {
 
     SystemControls {
         id: sysControls
+    }
+
+    IpcHandler {
+        target: "timer"
+        function toggle(): void {
+            PopupManager.openPopup("timer")
+        }
+        function open(): void {
+            if (!PopupManager.isPopupOpen("timer")) {
+                PopupManager.openPopup("timer")
+            }
+        }
+        function close(): void {
+            if (PopupManager.isPopupOpen("timer")) {
+                PopupManager.closeAll()
+            }
+        }
     }
 
     IpcHandler {

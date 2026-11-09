@@ -3,84 +3,70 @@ import QtQuick.Layouts
 import "../theme"
 import "../services"
 
-Item {
+RowLayout {
     id: root
-    implicitHeight: 22
-    implicitWidth: row.implicitWidth
+    spacing: 8
 
-    property real targetX: 0
-    property real targetWidth: 20
+    ActiveWindowPill {}
 
-    // Smooth sliding active capsule indicator
     Rectangle {
-        id: indicator
-        y: 1
-        height: parent.height - 2
-        radius: 10
-        color: Colors.colPrimary
-
-        x: root.targetX
-        width: root.targetWidth
-
-        Behavior on x {
-            NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
-        }
-
-        Behavior on width {
-            NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
-        }
+        Layout.preferredWidth: 1
+        Layout.preferredHeight: 14
+        color: Qt.rgba(1, 1, 1, 0.16)
     }
 
     RowLayout {
-        id: row
-        anchors.centerIn: parent
-        spacing: 2
+        id: wsRow
+        spacing: 7
 
         Repeater {
             model: Niri.workspaces.length > 0 ? Niri.workspaces : [{idx: 1, is_active: true}]
 
-            Item {
-                id: wsItem
+            Rectangle {
+                id: wsDot
                 property bool isActive: modelData.idx === Niri.activeWorkspaceIndex
                 property bool isOccupied: modelData.active_window_id !== null && modelData.active_window_id !== undefined
 
-                Layout.preferredWidth: isActive ? 22 : 18
-                Layout.preferredHeight: 20
+                Layout.preferredWidth: isActive ? 22 : (dotMouse.containsMouse ? 12 : (isOccupied ? 8 : 6))
+                Layout.preferredHeight: 7
+                radius: 3.5
+                Layout.alignment: Qt.AlignVCenter
 
                 Behavior on Layout.preferredWidth {
-                    NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
+                    NumberAnimation { duration: 240; easing.type: Easing.OutQuint }
                 }
 
-                onIsActiveChanged: {
-                    if (isActive) {
-                        root.targetX = wsItem.x + row.x
-                        root.targetWidth = wsItem.width
-                    }
+                color: {
+                    if (isActive) return "#ffffff"
+                    if (dotMouse.containsMouse) return Qt.rgba(1, 1, 1, 0.75)
+                    if (isOccupied) return Qt.rgba(Colors.colText.r, Colors.colText.g, Colors.colText.b, 0.55)
+                    return Qt.rgba(1, 1, 1, 0.25)
                 }
 
-                Component.onCompleted: {
-                    if (isActive) {
-                        root.targetX = wsItem.x + row.x
-                        root.targetWidth = wsItem.width
-                    }
-                }
-
-                Text {
-                    anchors.centerIn: parent
-                    text: modelData.idx
-                    font.family: "Geist"
-                    font.pixelSize: 11
-                    font.bold: true
-                    color: wsItem.isActive ? Colors.colOnPrimary : (wsItem.isOccupied ? Colors.colText : Colors.colTextMuted)
-                    opacity: wsItem.isActive ? 1.0 : (wsItem.isOccupied ? 0.9 : 0.4)
+                Behavior on color {
+                    ColorAnimation { duration: 180 }
                 }
 
                 MouseArea {
+                    id: dotMouse
                     anchors.fill: parent
+                    anchors.margins: -4
+                    hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: Niri.focusWorkspace(modelData.idx)
                 }
             }
         }
+    }
+
+    Rectangle {
+        visible: mediaPill.visible
+        Layout.preferredWidth: 1
+        Layout.preferredHeight: 14
+        color: Qt.rgba(1, 1, 1, 0.16)
+    }
+
+    MediaPill {
+        id: mediaPill
     }
 }
