@@ -5,9 +5,9 @@
 input_path = "~/.config/matugen/templates/waybar.css"
 output_path = "~/.config/waybar/colors.css"
 
-[templates.hyprland]
+[templates.hyprlock]
 input_path = '~/.config/matugen/templates/hyprland.conf'
-output_path = '~/.config/hypr/colors.conf'
+output_path = '~/.config/hyprlock/colors.conf'
 
 [templates.kitty]
 input_path = '~/.config/matugen/templates/kitty.conf'
@@ -32,9 +32,6 @@ output_path = "~/.config/fastfetch/small.jsonc"
 [templates.nemo]
 input_path = "~/.config/matugen/templates/nemo.css"
 output_path = "~/.config/gtk-3.0/colors.css"
-[templates.hypr_colors_lua]
-input_path = "~/.config/matugen/templates/colors.lua"
-output_path = "~/.config/hypr/configs/colors.lua"
 
 [templates.niri]
 input_path = "~/.config/matugen/templates/niri_colors.kdl"

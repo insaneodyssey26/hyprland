@@ -21,7 +21,7 @@ binds {
     Mod+C { spawn "gnome-calculator"; }
     Mod+Shift+R { spawn "rnote"; }
     Mod+Y { spawn "bash" "-c" "color=$(hyprpicker -a 2>/dev/null || true); notify-send 'Color Picked' \"$color\" -t 2000"; }
-    Mod+L { spawn "swaylock" "--screenshots" "--clock" "--indicator" "--indicator-radius" "100" "--indicator-thickness" "7" "--effect-blur" "7x5" "--fade-in" "0.2"; }
+    Mod+L { spawn "hyprlock"; }
     Mod+Escape { spawn "/home/masum/hyprland/scripts/power.sh"; }
 
     // Column & Window Navigation (Horizontal ribbon + vertical stacking)
