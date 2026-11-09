@@ -31,7 +31,33 @@ PanelWindow {
         id: appService
     }
 
+    property string calcResult: ""
+
+    function evaluateMath(expr) {
+        let clean = expr.trim()
+        if (!/^[0-9\.\s\+\-\*\/\(\)\%\^\,a-zA-Z]+$/.test(clean) || !/[0-9]/.test(clean)) {
+            return ""
+        }
+        if (!/[\+\-\*\/\%\^\(\)]/.test(clean) && !/(sqrt|sin|cos|tan|log|abs|pow|round|ceil|floor|pi|e)/i.test(clean)) {
+            return ""
+        }
+        try {
+            let sanitized = clean.replace(/\^/g, "**")
+            // Support common math functions and constants without typing Math.
+            sanitized = sanitized.replace(/\b(sin|cos|tan|asin|acos|atan|sqrt|cbrt|log|log2|log10|abs|round|floor|ceil|exp)\b/gi, "Math.$1")
+            sanitized = sanitized.replace(/\b(pi)\b/gi, "Math.PI")
+            sanitized = sanitized.replace(/\b(e)\b/gi, "Math.E")
+            let fn = new Function("return (" + sanitized + ")")
+            let val = fn()
+            if (typeof val === "number" && !isNaN(val) && isFinite(val)) {
+                return (Math.round(val * 100000000) / 100000000).toString()
+            }
+        } catch (e) {}
+        return ""
+    }
+
     property var filteredApps: {
+        root.calcResult = evaluateMath(root.query)
         if (!appService.isLoaded) return []
         let q = root.query.trim().toLowerCase()
         if (q === "") return appService.allApps
@@ -68,7 +94,21 @@ PanelWindow {
         }
     }
 
+    function copyToClipboard(val) {
+        copyProc.command = ["wl-copy", val]
+        copyProc.running = true
+        root.close()
+    }
+
+    Process {
+        id: copyProc
+    }
+
     function launchSelected() {
+        if (root.calcResult !== "") {
+            copyToClipboard(root.calcResult)
+            return
+        }
         if (root.filteredApps.length > 0 && root.selectedIndex >= 0 && root.selectedIndex < root.filteredApps.length) {
             let app = root.filteredApps[root.selectedIndex]
             launchApp(app)
@@ -106,7 +146,7 @@ PanelWindow {
     Rectangle {
         id: launcherCard
         width: 540
-        height: Math.min(480, Math.max(80, 72 + root.filteredApps.length * 48))
+        height: Math.min(480, Math.max(80, 72 + (root.calcResult !== "" ? 52 : 0) + root.filteredApps.length * 48))
         anchors.centerIn: parent
         radius: 16
         color: Qt.rgba(18/255, 18/255, 20/255, 0.88)
@@ -199,6 +239,69 @@ PanelWindow {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 1
                 color: Qt.rgba(1, 1, 1, 0.08)
+            }
+
+            // Inline Math Calculation Result Banner
+            Rectangle {
+                id: calcBanner
+                Layout.fillWidth: true
+                Layout.preferredHeight: 44
+                radius: 10
+                color: Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.16)
+                visible: root.calcResult !== ""
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 12
+                    anchors.rightMargin: 12
+                    spacing: 12
+
+                    Rectangle {
+                        Layout.preferredWidth: 28
+                        Layout.preferredHeight: 28
+                        radius: 6
+                        color: Qt.rgba(1, 1, 1, 0.10)
+                        Layout.alignment: Qt.AlignVCenter
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "="
+                            font.family: "Geist"
+                            font.pixelSize: 15
+                            font.bold: true
+                            color: Colors.colPrimary
+                        }
+                    }
+
+                    Text {
+                        text: root.calcResult
+                        font.family: "Geist"
+                        font.pixelSize: 15
+                        font.bold: true
+                        color: "#ffffff"
+                        Layout.alignment: Qt.AlignVCenter
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
+                    Text {
+                        text: "Enter to copy"
+                        font.family: "Geist"
+                        font.pixelSize: 11
+                        font.bold: true
+                        color: Colors.colPrimary
+                        opacity: 0.8
+                        Layout.alignment: Qt.AlignVCenter
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: root.copyToClipboard(root.calcResult)
+                }
             }
 
             ListView {

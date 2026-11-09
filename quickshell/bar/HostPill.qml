@@ -26,7 +26,7 @@ Rectangle {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    Qt.createQmlObject('import Quickshell.Io; Process { command: ["fuzzel"]; running: true }', root)
+                    Qt.createQmlObject('import Quickshell.Io; Process { command: ["quickshell", "ipc", "-p", "/home/masum/dotfiles/quickshell/shell.qml", "call", "launcher", "toggle"]; running: true }', root)
                 }
             }
         }

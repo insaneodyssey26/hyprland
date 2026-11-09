@@ -16,6 +16,7 @@ import "wallpaper"
 import "tasks"
 import "projects"
 import "finder"
+import "osd"
 import "services"
 
 ShellRoot {
@@ -135,6 +136,19 @@ ShellRoot {
 
     NotificationDrawer {}
     NotificationBanners {}
+
+    IpcHandler {
+        target: "notifications"
+        function toggle() {
+            NotificationManager.toggleDrawer()
+        }
+        function open() {
+            NotificationManager.drawerOpen = true
+        }
+        function close() {
+            NotificationManager.drawerOpen = false
+        }
+    }
 
     AppLauncher {
         id: mainLauncher
@@ -289,6 +303,23 @@ ShellRoot {
         }
         function close() {
             fileFinder.close()
+        }
+    }
+
+    OsdOverlay {
+        id: osdOverlay
+    }
+
+    IpcHandler {
+        target: "osd"
+        function volume() {
+            osdOverlay.showVolume()
+        }
+        function brightness() {
+            osdOverlay.showBrightness()
+        }
+        function mic() {
+            osdOverlay.showMic()
         }
     }
 }

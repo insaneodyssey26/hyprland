@@ -6,7 +6,7 @@ import Quickshell.Services.Notifications
 QtObject {
     id: notiService
 
-    property bool drawerOpen: true
+    property bool drawerOpen: false
     property bool dndActive: false
 
     // ListModel specifically for active floating toast banners
