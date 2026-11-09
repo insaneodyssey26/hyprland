@@ -11,6 +11,9 @@ import "launcher"
 import "system"
 import "clipboard"
 import "emoji"
+import "session"
+import "wallpaper"
+import "tasks"
 import "services"
 
 ShellRoot {
@@ -199,6 +202,57 @@ ShellRoot {
         }
         function close() {
             emojiPicker.close()
+        }
+    }
+
+    SessionMenu {
+        id: sessionMenu
+    }
+
+    IpcHandler {
+        target: "session"
+        function toggle() {
+            sessionMenu.toggle()
+        }
+        function open() {
+            sessionMenu.open()
+        }
+        function close() {
+            sessionMenu.close()
+        }
+    }
+
+    WallpaperPicker {
+        id: wallpaperPicker
+    }
+
+    IpcHandler {
+        target: "wallpaper"
+        function toggle() {
+            wallpaperPicker.toggle()
+        }
+        function open() {
+            wallpaperPicker.open()
+        }
+        function close() {
+            wallpaperPicker.close()
+        }
+    }
+
+    TaskKiller {
+        id: taskKiller
+    }
+
+    IpcHandler {
+        target: "tasks"
+        function toggle() {
+            taskKiller.toggle()
+        }
+        function open() {
+            taskKiller.open()
+        }
+        function close() {
+            taskKiller.close()
         }
     }
 }
