@@ -84,15 +84,15 @@ layout {
     // Deep, prominent drop shadows for clean window separation
     shadow {
         on
-        softness 40
-        spread 5
-        offset x=0 y=8
-        color "#000000a6"           // Rich, dark shadow for active window
-        inactive-color "#00000066"  // Soft subtle shadow for inactive windows
+        softness 42
+        spread 6
+        offset x=0 y=6
+        color "#000000cc"           // Slightly increased active shadow intensity
+        inactive-color "#00000088"  // Slightly increased inactive shadow intensity
     }
 
     struts {
-        top 0
+        top -3
         bottom 0
         left 0
         right 0
@@ -166,7 +166,7 @@ spawn-at-startup "awww-daemon"
 spawn-at-startup "awww" "restore"
 spawn-at-startup "waybar" "-c" "/home/masum/.config/waybar/config.jsonc" "-s" "/home/masum/.config/waybar/style.css"
 spawn-at-startup "swaync"
-spawn-at-startup "hypridle"
+spawn-at-startup "swayidle" "-w" "timeout" "420" "brightnessctl -s set 10%" "resume" "brightnessctl -r" "timeout" "480" "/home/masum/hyprland/scripts/lock.sh" "timeout" "600" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "/home/masum/hyprland/scripts/lock.sh"
 spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"

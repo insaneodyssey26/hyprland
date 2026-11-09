@@ -20,7 +20,7 @@ binds {
     Mod+Shift+E { spawn "kitty" "-e" "yazi"; }
     Mod+C { spawn "gnome-calculator"; }
     Mod+Shift+R { spawn "rnote"; }
-    Mod+Y { spawn "bash" "-c" "color=$(hyprpicker -a 2>/dev/null || true); notify-send 'Color Picked' \"$color\" -t 2000"; }
+    Mod+Y { spawn "bash" "-c" "color=$(niri msg pick-color 2>/dev/null | grep -o '#[0-9a-fA-F]*' || hyprpicker -a 2>/dev/null || true); [ -n \"$color\" ] && wl-copy \"$color\" && notify-send 'Color Picked' \"$color\" -t 2000"; }
     Mod+L { spawn "/home/masum/hyprland/scripts/lock.sh"; }
     Mod+Escape { spawn "/home/masum/hyprland/scripts/power.sh"; }
 
@@ -40,8 +40,8 @@ binds {
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
 
-    // Alt+Tab window focus
-    Alt+Tab { focus-window-previous; }
+    // Alt+Tab Desktop Overview
+    Alt+Tab { toggle-overview; }
 
     // Themes & Wallpapers
     Mod+W { spawn "/home/masum/hyprland/scripts/wallpaper-picker.sh"; }
@@ -98,8 +98,8 @@ binds {
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "5%-"; }
 
     // Utilities & Tools
-    Print       { screenshot; }
-    Shift+Print { spawn "bash" "-c" "grim -g \"$(slurp)\" - | satty --filename - --fullscreen"; }
+    Print       { spawn "/home/masum/hyprland/scripts/screenshot.sh" "full"; }
+    Shift+Print { spawn "/home/masum/hyprland/scripts/screenshot.sh" "area"; }
     Mod+Print   { screenshot-screen; }
     Mod+V       { spawn "bash" "-c" "cliphist list | fuzzel --config /home/masum/.config/fuzzel/fuzzel.ini --dmenu | cliphist decode | wl-copy"; }
     Mod+X       { spawn "/home/masum/hyprland/scripts/kill_task.sh"; }
