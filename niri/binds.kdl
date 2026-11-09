@@ -1,0 +1,111 @@
+// ==============================================================================
+// NIRI - KEY & MOUSE BINDINGS
+// ==============================================================================
+
+binds {
+    // Session & Compositor Control
+    Mod+Shift+M { quit; }
+    Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Shift+P { power-off-monitors; }
+
+    // Applications
+    Mod+T { spawn "kitty"; }
+    Mod+Shift+T { spawn "foot"; }
+    Mod+D { spawn "fuzzel"; }
+    Mod+G { spawn "/home/masum/hyprland/scripts/file_search.sh"; }
+    Mod+Q { close-window; }
+    Mod+B { spawn "brave-origin-beta"; }
+    Mod+Shift+B { spawn "brave-origin-beta" "--disable-gpu-compositing"; }
+    Mod+E { spawn "nautilus"; }
+    Mod+Shift+E { spawn "kitty" "-e" "yazi"; }
+    Mod+C { spawn "gnome-calculator"; }
+    Mod+Shift+R { spawn "rnote"; }
+    Mod+Y { spawn "bash" "-c" "color=$(hyprpicker -a 2>/dev/null || true); notify-send 'Color Picked' \"$color\" -t 2000"; }
+    Mod+L { spawn "hyprlock"; }
+    Mod+Escape { spawn "/home/masum/hyprland/scripts/power.sh"; }
+
+    // Column & Window Navigation (Horizontal ribbon + vertical stacking)
+    Mod+Left  { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Up    { focus-window-or-workspace-up; }
+    Mod+Down  { focus-window-or-workspace-down; }
+
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+Up    { move-window-up-or-to-workspace-up; }
+    Mod+Shift+Down  { move-window-down-or-to-workspace-down; }
+
+    Mod+Home { focus-column-first; }
+    Mod+End  { focus-column-last; }
+    Mod+Ctrl+Home { move-column-to-first; }
+    Mod+Ctrl+End  { move-column-to-last; }
+
+    // Alt+Tab window focus
+    Alt+Tab { focus-window-previous; }
+
+    // Themes & Wallpapers
+    Mod+W { spawn "/home/masum/hyprland/scripts/wallpaper-picker.sh"; }
+    Mod+Shift+W { spawn "/home/masum/hyprland/scripts/random-wall.sh"; }
+
+    // Column Sizing & Modes
+    Mod+R { switch-preset-column-width; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+M { maximize-window-to-edges; }
+    Mod+Space { toggle-window-floating; }
+    Mod+Shift+Space { switch-focus-between-floating-and-tiling; }
+    Mod+O { toggle-overview; }
+
+    // Column & Window Merging / Splitting (Stacking windows vertically in columns)
+    Mod+BracketLeft  { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+    Mod+Comma  { consume-window-into-column; }
+    Mod+Shift+Period { expel-window-from-column; }
+
+    // Pixel-level sizing adjustments
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // Workspaces (Vertical hierarchy)
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+
+    // Hardware & Media Keys
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "-l" "1.5" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn "bash" "-c" "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && notify-send 'Microphone' \"$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q 'MUTED' && echo 'Muted' || echo 'Unmuted')\" -t 1000"; }
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "5%-"; }
+
+    // Utilities & Tools
+    Print       { spawn "grimblast" "--freeze" "copysave" "screen" "/home/masum/Pictures/Screenshots/screen.png"; }
+    Shift+Print { spawn "bash" "-c" "grimblast --freeze save area - | satty --filename - --fullscreen"; }
+    Mod+Print   { spawn "grimblast" "--freeze" "copysave" "active" "/home/masum/Pictures/Screenshots/active.png"; }
+    Mod+V       { spawn "bash" "-c" "cliphist list | fuzzel --config /home/masum/.config/fuzzel/fuzzel.ini --dmenu | cliphist decode | wl-copy"; }
+    Mod+X       { spawn "/home/masum/hyprland/scripts/kill_task.sh"; }
+    Mod+P       { spawn "/home/masum/hyprland/scripts/project_launcher.sh"; }
+    Mod+K       { spawn "/home/masum/hyprland/scripts/toggle_osk.sh"; }
+    Mod+Period  { spawn "bemoji" "-p" "fuzzel --config /home/masum/.config/fuzzel/fuzzel.ini -p 'Emojis: '"; }
+    Mod+N       { spawn "swaync-client" "-t" "-sw"; }
+    Mod+S       { spawn "/home/masum/hyprland/scripts/fuzzel_sys.sh"; }
+}

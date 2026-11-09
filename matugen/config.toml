@@ -36,6 +36,10 @@ output_path = "~/.config/gtk-3.0/colors.css"
 input_path = "~/.config/matugen/templates/colors.lua"
 output_path = "~/.config/hypr/configs/colors.lua"
 
+[templates.niri]
+input_path = "~/.config/matugen/templates/niri_colors.kdl"
+output_path = "~/.config/niri/colors.kdl"
+
 [templates.fish]
 input_path = "~/.config/matugen/templates/colors.fish"
 output_path = "~/.config/fish/colors.fish"

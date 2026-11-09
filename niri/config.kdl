@@ -1,0 +1,188 @@
+// ==============================================================================
+// NIRI - MAIN CONFIGURATION
+// ==============================================================================
+
+// Prefer client-side decoration suppression for a clean aesthetic
+prefer-no-csd
+
+// Modular sub-configs
+include "colors.kdl"
+include "rules.kdl"
+include "binds.kdl"
+
+// ------------------------------------------------------------------------------
+// Input Devices & Smooth Cursor (Focus follows mouse & zero jerky warps)
+// ------------------------------------------------------------------------------
+input {
+    keyboard {
+        xkb {
+            layout "us"
+        }
+        repeat-delay 600
+        repeat-rate 25
+        track-layout "global"
+    }
+
+    touchpad {
+        tap
+        natural-scroll
+        accel-speed 0.2
+        scroll-method "two-finger"
+    }
+
+    mouse {
+        accel-speed 0.0
+    }
+
+    // Natural hover focus: smoothly focus windows as cursor moves without jumping
+    focus-follows-mouse
+}
+
+// ------------------------------------------------------------------------------
+// Monitor Configuration (144Hz Native + Variable Refresh Rate)
+// ------------------------------------------------------------------------------
+output "eDP-1" {
+    mode "1920x1080@144.063"
+    scale 1.0
+    transform "normal"
+    position x=0 y=0
+    variable-refresh-rate
+}
+
+// ------------------------------------------------------------------------------
+// Layout & Geometry
+// ------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// Layout & Geometry (Split-Screen & Multi-Column Support)
+// ------------------------------------------------------------------------------
+layout {
+    gaps 8
+    center-focused-column "never"
+    always-center-single-column
+
+    preset-column-widths {
+        proportion 0.25      // 1:4 (four windows side-by-side)
+        proportion 0.33333   // 1:3 (three windows side-by-side)
+        proportion 0.5       // 1:2 (two windows side-by-side)
+        proportion 0.66667   // 2:3 (wide focus)
+        proportion 1.0       // Full width maximized
+    }
+
+    // Default width for new windows: 50% (Opens in split screen 1:2 like Hyprland)
+    default-column-width {
+        proportion 0.5
+    }
+
+    focus-ring {
+        off
+    }
+
+    border {
+        off
+    }
+
+    // Deep, prominent drop shadows for clean window separation
+    shadow {
+        on
+        softness 40
+        spread 5
+        offset x=0 y=8
+        color "#000000a6"           // Rich, dark shadow for active window
+        inactive-color "#00000066"  // Soft subtle shadow for inactive windows
+    }
+
+    struts {
+        top 0
+        bottom 0
+        left 0
+        right 0
+    }
+}
+
+// ------------------------------------------------------------------------------
+// Native Desktop Overview Zoom (Mod + O)
+// ------------------------------------------------------------------------------
+overview {
+    zoom 0.5
+}
+
+// ------------------------------------------------------------------------------
+// Harmonic Spring Animations (Snappy, Buttery Physics - Fine-Tuned)
+// ------------------------------------------------------------------------------
+animations {
+    // Global factor: 1.1x (subtle, sweet-spot pacing)
+    slowdown 1.1
+
+    // Vertical workspace transitions with soft decel
+    workspace-switch {
+        spring damping-ratio=0.94 stiffness=680 epsilon=0.0001
+    }
+
+    // Horizontal ribbon scrolling with smooth natural momentum
+    horizontal-view-movement {
+        spring damping-ratio=0.90 stiffness=700 epsilon=0.0001
+    }
+
+    // Window movements across columns & workspaces
+    window-movement {
+        spring damping-ratio=0.88 stiffness=720 epsilon=0.0001
+    }
+
+    // Window resize morphing
+    window-resize {
+        spring damping-ratio=0.90 stiffness=700 epsilon=0.0001
+    }
+
+    // Window open & close transitions
+    window-open {
+        duration-ms 240
+        curve "ease-out-cubic"
+    }
+
+    window-close {
+        duration-ms 190
+        curve "ease-out-quad"
+    }
+
+    // Overview exposé mode
+    overview-open-close {
+        spring damping-ratio=0.92 stiffness=650 epsilon=0.0001
+    }
+}
+
+// ------------------------------------------------------------------------------
+// GPU & Rendering Optimizations (NVIDIA direct acceleration & frame sync)
+// ------------------------------------------------------------------------------
+debug {
+    render-drm-device "/dev/dri/renderD128"
+    wait-for-frame-completion-before-queueing
+}
+
+// ------------------------------------------------------------------------------
+// Autostart Services
+// ------------------------------------------------------------------------------
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP"
+spawn-at-startup "awww-daemon"
+spawn-at-startup "awww" "restore"
+spawn-at-startup "waybar" "-c" "/home/masum/.config/niri/waybar.jsonc" "-s" "/home/masum/.config/waybar/style.css"
+spawn-at-startup "swaync"
+spawn-at-startup "hypridle"
+spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
+spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
+spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
+spawn-sh-at-startup "/home/masum/hyprland/scripts/toggle_camera.sh --off"
+
+// Cursor Theme
+cursor {
+    xcursor-theme "Moga-Black"
+    xcursor-size 24
+}
+
+// Environment Variables
+environment {
+    LIBVA_DRIVER_NAME "nvidia"
+    __GLX_VENDOR_LIBRARY_NAME "nvidia"
+    GBM_BACKEND "nvidia-drm"
+    NVD_BACKEND "direct"
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+}

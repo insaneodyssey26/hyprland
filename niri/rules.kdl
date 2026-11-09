@@ -1,0 +1,35 @@
+// ==============================================================================
+// NIRI - WINDOW RULES & GEOMETRY
+// ==============================================================================
+
+// Universal rounded corners, geometry clipping & no gray background box
+window-rule {
+    geometry-corner-radius 15
+    clip-to-geometry true
+    draw-border-with-background false
+    open-maximized-to-edges false
+}
+
+// Dialogs & Floating Applications
+window-rule {
+    match app-id="com.gabm.satty"
+    match app-id="satty"
+    match app-id="org.gnome.Calculator"
+    match app-id="pavucontrol"
+    match app-id="org.pulseaudio.pavucontrol"
+    match app-id="calendar-overlay"
+    match app-id="rog-control-center"
+    open-floating true
+}
+
+// Media / Video player proportions
+window-rule {
+    match app-id="mpv"
+    default-column-width { proportion 0.66667; }
+}
+
+// Subtle opacity styling
+window-rule {
+    match is-active=false
+    opacity 0.95
+}

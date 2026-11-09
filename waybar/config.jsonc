@@ -13,7 +13,7 @@
 
   "group/left-main": {
     "orientation": "horizontal",
-    "modules": ["custom/user", "custom/hostname", "hyprland/workspaces", "temperature"]
+    "modules": ["custom/user", "custom/hostname", "niri/workspaces", "temperature"]
   },
 
   "modules-center": ["clock"],
@@ -29,17 +29,13 @@
     "modules": ["group/wifi", "wireplumber", "battery", "custom/keyboard"]
   },
 
-  "hyprland/workspaces": {
-    "active-only": false,
+  "niri/workspaces": {
     "all-outputs": true,
-    "format": "{name}",
-    "on-scroll-up": "hyprctl dispatch \"hl.dsp.focus({workspace='+1'})\"",
-    "on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({workspace='-1'})\"",
-    "on-click": "hyprctl dispatch \"hl.dsp.focus({workspace='{name}'})\"",
-    "on-click-right": "hyprctl dispatch \"hl.dsp.focus({workspace='-1'})\""
+    "format": "{index}",
+    "on-click": "activate"
   },
 
-  "hyprland/window": {
+  "niri/window": {
     "format": "{}",
     "max-length": 32,
     "separate-outputs": true,
@@ -51,7 +47,7 @@
 
   "custom/keyboard": {
     "format": "",
-    "on-click": "~/.config/hypr/scripts/toggle_osk.sh",
+    "on-click": "/home/masum/hyprland/scripts/toggle_osk.sh",
     "tooltip": false
   },
 
@@ -207,7 +203,7 @@
   },
   "custom/power": {
     "format": "",
-    "on-click": "pkill fuzzel || ~/.config/hypr/scripts/power.sh",
+    "on-click": "pkill fuzzel || /home/masum/hyprland/scripts/power.sh",
     "tooltip": true,
     "tooltip-format": "Power Options"
   },
@@ -236,14 +232,14 @@
     "tooltip-format": "Shut Down"
   },
   "custom/timer": {
-    "exec": "~/.config/hypr/scripts/waybar_timer.sh print",
+    "exec": "/home/masum/hyprland/scripts/waybar_timer.sh print",
     "return-type": "json",
     "interval": 1,
     "signal": 8,
     "format": "{}",
-    "on-click": "~/.config/hypr/scripts/waybar_timer.sh toggle",
-    "on-click-right": "~/.config/hypr/scripts/waybar_timer.sh menu",
-    "on-scroll-up": "~/.config/hypr/scripts/waybar_timer.sh adjust 60",
-    "on-scroll-down": "~/.config/hypr/scripts/waybar_timer.sh adjust -60"
+    "on-click": "/home/masum/hyprland/scripts/waybar_timer.sh toggle",
+    "on-click-right": "/home/masum/hyprland/scripts/waybar_timer.sh menu",
+    "on-scroll-up": "/home/masum/hyprland/scripts/waybar_timer.sh adjust 60",
+    "on-scroll-down": "/home/masum/hyprland/scripts/waybar_timer.sh adjust -60"
   }
 }
