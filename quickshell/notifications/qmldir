@@ -1,0 +1,4 @@
+module quickshell.notifications
+singleton NotificationManager 1.0 NotificationManager.qml
+NotificationDrawer 1.0 NotificationDrawer.qml
+NotificationBanners 1.0 NotificationBanners.qml

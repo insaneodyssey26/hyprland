@@ -143,6 +143,10 @@ window#waybar {
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+#workspaces button label {
+    padding: 0px 2px;
+}
+
 #workspaces button.occupied {
     background: rgba(255, 255, 255, 0.4);
 }

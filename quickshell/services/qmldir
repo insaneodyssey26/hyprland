@@ -1,0 +1,5 @@
+module quickshell.services
+singleton Niri 1.0 Niri.qml
+NetworkService NetworkService.qml
+singleton PopupManager 1.0 PopupManager.qml
+singleton WeatherService 1.0 WeatherService.qml

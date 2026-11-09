@@ -5,6 +5,11 @@
 // Prefer client-side decoration suppression for a clean aesthetic
 prefer-no-csd
 
+// Hotkey overlay configuration (do not auto-show on boot)
+hotkey-overlay {
+    skip-at-startup
+}
+
 // Modular sub-configs
 include "colors.kdl"
 include "rules.kdl"
@@ -56,7 +61,7 @@ output "eDP-1" {
 // Layout & Geometry (Split-Screen & Multi-Column Support)
 // ------------------------------------------------------------------------------
 layout {
-    gaps 8
+    gaps 7
     center-focused-column "never"
     always-center-single-column
 
@@ -92,11 +97,19 @@ layout {
     }
 
     struts {
-        top -3
+        top 0
         bottom 0
         left 0
         right 0
     }
+}
+
+// ------------------------------------------------------------------------------
+// Window Rules & Rounded Geometry (Corners rounded on all windows)
+// ------------------------------------------------------------------------------
+window-rule {
+    geometry-corner-radius 11
+    clip-to-geometry true
 }
 
 // ------------------------------------------------------------------------------
