@@ -30,7 +30,7 @@ PanelWindow {
 
     Process {
         id: psProc
-        command: ["bash", "-c", "ps x -o pid,%mem,comm --sort=-%mem | head -n 60"]
+        command: ["bash", "-c", "ps x -o pid,%mem,rss,comm --sort=-%mem | head -n 60"]
         stdout: StdioCollector {
             onStreamFinished: {
                 let lines = text.trim().split("\n")
@@ -39,11 +39,18 @@ PanelWindow {
                     let line = lines[i].trim()
                     if (!line) continue
                     let parts = line.split(/\s+/)
-                    if (parts.length >= 3) {
+                    if (parts.length >= 4) {
                         let pid = parts[0]
                         let mem = parts[1]
-                        let comm = parts.slice(2).join(" ")
-                        res.push({ pid: pid, mem: mem, comm: comm })
+                        let rssKb = parseInt(parts[2], 10) || 0
+                        let comm = parts.slice(3).join(" ")
+                        let memStr = ""
+                        if (rssKb >= 1048576) {
+                            memStr = (rssKb / 1048576).toFixed(1) + " GB"
+                        } else {
+                            memStr = Math.round(rssKb / 1024) + " MB"
+                        }
+                        res.push({ pid: pid, mem: mem, memStr: memStr, comm: comm })
                     }
                 }
                 root.processList = res
@@ -125,7 +132,7 @@ PanelWindow {
 
     Rectangle {
         id: taskCard
-        width: 520
+        width: 560
         height: Math.min(480, Math.max(90, 72 + root.filteredProcesses.length * 44))
         anchors.centerIn: parent
         radius: 16
@@ -294,18 +301,30 @@ PanelWindow {
 
                         Rectangle {
                             Layout.preferredHeight: 22
-                            Layout.preferredWidth: 50
+                            Layout.preferredWidth: 104
                             radius: 6
                             color: Qt.rgba(1, 1, 1, 0.06)
                             Layout.alignment: Qt.AlignVCenter
 
-                            Text {
+                            RowLayout {
                                 anchors.centerIn: parent
-                                text: modelData.mem + "%"
-                                font.family: "Geist"
-                                font.pixelSize: 11
-                                font.bold: true
-                                color: parseFloat(modelData.mem) > 5.0 ? Colors.colError : Colors.colTextMuted
+                                spacing: 6
+
+                                Text {
+                                    text: modelData.memStr
+                                    font.family: "Geist"
+                                    font.pixelSize: 11
+                                    font.bold: true
+                                    color: parseFloat(modelData.mem) > 5.0 ? Colors.colError : Colors.colText
+                                }
+
+                                Text {
+                                    text: modelData.mem + "%"
+                                    font.family: "Geist"
+                                    font.pixelSize: 11
+                                    color: Colors.colTextMuted
+                                    opacity: 0.7
+                                }
                             }
                         }
 

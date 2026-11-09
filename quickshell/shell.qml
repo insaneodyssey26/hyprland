@@ -14,6 +14,8 @@ import "emoji"
 import "session"
 import "wallpaper"
 import "tasks"
+import "projects"
+import "finder"
 import "services"
 
 ShellRoot {
@@ -253,6 +255,40 @@ ShellRoot {
         }
         function close() {
             taskKiller.close()
+        }
+    }
+
+    ProjectLauncher {
+        id: projectLauncher
+    }
+
+    IpcHandler {
+        target: "projects"
+        function toggle() {
+            projectLauncher.toggle()
+        }
+        function open() {
+            projectLauncher.open()
+        }
+        function close() {
+            projectLauncher.close()
+        }
+    }
+
+    FileFinder {
+        id: fileFinder
+    }
+
+    IpcHandler {
+        target: "finder"
+        function toggle() {
+            fileFinder.toggle()
+        }
+        function open() {
+            fileFinder.open()
+        }
+        function close() {
+            fileFinder.close()
         }
     }
 }
