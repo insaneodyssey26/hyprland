@@ -14,7 +14,7 @@ Item {
     property string dateStr: ""
 
     Timer {
-        interval: 200
+        interval: 1000
         running: true
         repeat: true
         triggeredOnStart: true
@@ -98,23 +98,23 @@ Item {
             id: activeTimerPill
             Layout.alignment: Qt.AlignVCenter
             visible: TimerService.isActive
-            implicitHeight: 22
-            implicitWidth: (TimerService.displayTime.length > 5 ? 74 : 54)
-            radius: 11
-            color: TimerService.isFinished ? Qt.rgba(Colors.colError.r, Colors.colError.g, Colors.colError.b, 0.25) : (TimerService.isRunning ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.18) : Qt.rgba(1, 1, 1, 0.08))
-            border.color: TimerService.isFinished ? Colors.colError : (TimerService.isRunning ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.4) : Qt.rgba(1, 1, 1, 0.14))
-            border.width: 1
+            implicitHeight: 24
+            implicitWidth: (TimerService.displayTime.length > 5 ? 82 : 62)
+            radius: 12
+            color: TimerService.isFinished ? Colors.colError : (TimerService.isRunning ? Colors.colPrimary : Qt.rgba(1, 1, 1, 0.16))
+            border.width: 0
 
             Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
             Behavior on color { ColorAnimation { duration: 150 } }
 
             Text {
                 anchors.centerIn: parent
+                anchors.verticalCenterOffset: 1
                 text: TimerService.displayTime
                 font.family: "Literation Mono Ligature"
-                font.pixelSize: 12
+                font.pixelSize: 13
                 font.bold: true
-                color: TimerService.isFinished ? Colors.colError : Colors.colText
+                color: TimerService.isFinished ? Colors.colOnError : (TimerService.isRunning ? Colors.colOnPrimary : "#ffffff")
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
             }

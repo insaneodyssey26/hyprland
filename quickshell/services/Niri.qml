@@ -79,9 +79,9 @@ Singleton {
         focusedWindowProc.running = true;
     }
 
-    // Periodic lightweight sync fallback (every 800ms) to guarantee 100% accurate window title & focus
+    // Periodic lightweight sync fallback (every 3000ms) as backup for the event stream
     Timer {
-        interval: 800
+        interval: 3000
         running: true
         repeat: true
         onTriggered: {
@@ -147,7 +147,12 @@ Singleton {
         }
     }
 
+    Process {
+        id: focusWorkspaceProc
+    }
+
     function focusWorkspace(index) {
-        Qt.createQmlObject('import Quickshell.Io; Process { command: ["niri", "msg", "action", "focus-workspace", "' + index + '"]; running: true }', niri);
+        focusWorkspaceProc.command = ["niri", "msg", "action", "focus-workspace", "" + index];
+        focusWorkspaceProc.running = true;
     }
 }

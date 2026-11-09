@@ -59,21 +59,40 @@ Rectangle {
         }
     }
 
+    Process {
+        id: setVolProc
+    }
+
+    Process {
+        id: setMuteProc
+        command: ["wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"]
+    }
+
+    Process {
+        id: setSinkProc
+    }
+
+    Process {
+        id: pavuProc
+        command: ["pavucontrol"]
+    }
+
     function setVolumePercent(val) {
         let clamped = Math.max(0, Math.min(100, Math.round(val)))
         root.vol = clamped
         root.isMuted = false
-        Qt.createQmlObject('import Quickshell.Io; Process { command: ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "' + (clamped / 100).toFixed(2) + '"]; running: true }', root)
+        setVolProc.command = ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", (clamped / 100).toFixed(2)]
+        setVolProc.running = true
     }
 
     function toggleMute() {
         root.isMuted = !root.isMuted
-        Qt.createQmlObject('import Quickshell.Io; Process { command: ["wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"]; running: true }', root)
+        setMuteProc.running = true
     }
 
     function setSink(sinkId) {
-        Qt.createQmlObject('import Quickshell.Io; Process { command: ["wpctl", "set-default", "' + sinkId + '"]; running: true }', root)
-        Qt.createQmlObject('import Quickshell.Io; Process { command: ["/home/masum/dotfiles/scripts/osd.sh", "volume"]; running: true }', root)
+        setSinkProc.command = ["wpctl", "set-default", "" + sinkId]
+        setSinkProc.running = true
         getSinksProcess.running = true
         getVolProcess.running = true
     }
@@ -144,9 +163,9 @@ Rectangle {
             Rectangle {
                 anchors.fill: parent
                 radius: 16
-                color: Qt.rgba(18/255, 18/255, 20/255, 0.94)
-                border.color: Qt.rgba(1, 1, 1, 0.12)
-                border.width: 1
+                color: "#000000"
+                border.color: "transparent"
+                border.width: 0
 
                 ColumnLayout {
                     id: mainCol
@@ -154,7 +173,7 @@ Rectangle {
                     anchors.margins: 14
                     spacing: 12
 
-                    // Card Header (Matching Mod+S / Mod+D style)
+                    // Card Header
                     RowLayout {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 34
@@ -276,7 +295,7 @@ Rectangle {
                                 radius: 10
                                 color: modelData.active ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.12) : (sinkHover.containsMouse ? Qt.rgba(1, 1, 1, 0.08) : Qt.rgba(1, 1, 1, 0.03))
                                 border.color: modelData.active ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.35) : Qt.rgba(1, 1, 1, 0.06)
-                                border.width: 1
+                                border.width: 0
 
                                 RowLayout {
                                     anchors.fill: parent
@@ -345,7 +364,7 @@ Rectangle {
                         color: Qt.rgba(1, 1, 1, 0.08)
                     }
 
-                    // Actions Row (Matching Mod+S buttons)
+                    // Actions Row
                     RowLayout {
                         Layout.fillWidth: true
                         spacing: 8
@@ -355,7 +374,7 @@ Rectangle {
                             Layout.preferredHeight: 34
                             radius: 8
                             color: muteHover.containsMouse ? Qt.rgba(1, 1, 1, 0.12) : Qt.rgba(1, 1, 1, 0.05)
-                            border.color: Qt.rgba(1, 1, 1, 0.08); border.width: 1
+                            border.color: "transparent"; border.width: 0
 
                             RowLayout {
                                 anchors.centerIn: parent
@@ -375,7 +394,7 @@ Rectangle {
                             Layout.preferredHeight: 34
                             radius: 8
                             color: pavuHover.containsMouse ? Qt.rgba(1, 1, 1, 0.12) : Qt.rgba(1, 1, 1, 0.05)
-                            border.color: Qt.rgba(1, 1, 1, 0.08); border.width: 1
+                            border.color: "transparent"; border.width: 0
 
                             RowLayout {
                                 anchors.centerIn: parent
@@ -387,7 +406,7 @@ Rectangle {
                             MouseArea {
                                 id: pavuHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
                                 onClicked: {
-                                    Qt.createQmlObject('import Quickshell.Io; Process { command: ["pavucontrol"]; running: true }', root)
+                                    pavuProc.running = true
                                     PopupManager.closeAll()
                                 }
                             }

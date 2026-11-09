@@ -112,8 +112,8 @@ PanelWindow {
                 width: parent.width
                 implicitHeight: bannerLayout.implicitHeight + 20
                 radius: 16
-                color: Qt.rgba(14/255, 14/255, 16/255, 0.98)
-                // Border removed per user request: clean borderless dark glass surface
+                color: "#000000"
+                border.color: "transparent"
                 border.width: 0
 
                 // Auto-dismiss this specific notification after 5.5 seconds

@@ -27,9 +27,6 @@ awww img "$WALLPAPER" --transition-type "$RANDOM_ANIM" --transition-fps 144 --tr
 ln -sf "$WALLPAPER" "$HOME/.current_wallpaper"
 matugen image "$WALLPAPER" -m dark --type scheme-fidelity --fallback-color '#6d6d6d' --source-color-index 0
 
-pkill -USR2 waybar
-swaync-client -rs 2>/dev/null || true
-
 KITTY_PIDS=$(pgrep kitty)
 if [ -n "$KITTY_PIDS" ]; then
     kill -USR1 $KITTY_PIDS 2>/dev/null || true

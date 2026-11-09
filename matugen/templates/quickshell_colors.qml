@@ -14,4 +14,5 @@ QtObject {
     readonly property color colText: "{{colors.on_surface.default.hex}}"
     readonly property color colTextMuted: "{{colors.on_surface_variant.default.hex}}"
     readonly property color colError: "{{colors.error.default.hex}}"
+    readonly property color colOnError: "{{colors.on_error.default.hex}}"
 }

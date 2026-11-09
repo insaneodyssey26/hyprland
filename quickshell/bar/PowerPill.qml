@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Io
 import "../theme"
 import "../services"
 
@@ -27,6 +28,16 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: PopupManager.openPopup("power")
+    }
+
+    Process {
+        id: powerActionProc
+    }
+
+    function runPowerAction(cmd) {
+        powerActionProc.command = cmd
+        powerActionProc.running = true
+        PopupManager.closeAll()
     }
 
     // Power Actions Card Popup
@@ -58,9 +69,9 @@ Rectangle {
             Rectangle {
                 anchors.fill: parent
                 radius: 18
-                color: Qt.rgba(18/255, 18/255, 20/255, 0.98)
-                border.color: Qt.rgba(1, 1, 1, 0.18)
-                border.width: 1
+                color: "#000000"
+                border.color: "transparent"
+                border.width: 0
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -78,10 +89,7 @@ Rectangle {
                         }
                         MouseArea {
                             id: lockHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                Qt.createQmlObject('import Quickshell.Io; Process { command: ["/home/masum/dotfiles/scripts/lock.sh"]; running: true }', root)
-                                PopupManager.closeAll()
-                            }
+                            onClicked: root.runPowerAction(["/home/masum/dotfiles/scripts/lock.sh"])
                         }
                     }
 
@@ -96,10 +104,7 @@ Rectangle {
                         }
                         MouseArea {
                             id: suspHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                Qt.createQmlObject('import Quickshell.Io; Process { command: ["systemctl", "suspend"]; running: true }', root)
-                                PopupManager.closeAll()
-                            }
+                            onClicked: root.runPowerAction(["systemctl", "suspend"])
                         }
                     }
 
@@ -114,10 +119,7 @@ Rectangle {
                         }
                         MouseArea {
                             id: rebootHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                Qt.createQmlObject('import Quickshell.Io; Process { command: ["systemctl", "reboot"]; running: true }', root)
-                                PopupManager.closeAll()
-                            }
+                            onClicked: root.runPowerAction(["systemctl", "reboot"])
                         }
                     }
 
@@ -132,10 +134,7 @@ Rectangle {
                         }
                         MouseArea {
                             id: shutHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                Qt.createQmlObject('import Quickshell.Io; Process { command: ["systemctl", "poweroff"]; running: true }', root)
-                                PopupManager.closeAll()
-                            }
+                            onClicked: root.runPowerAction(["systemctl", "poweroff"])
                         }
                     }
                 }

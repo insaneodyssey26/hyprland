@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Io
 import "../theme"
+import "../services"
 
 QtObject {
     id: monitor
@@ -33,7 +34,7 @@ QtObject {
     // Store previous CPU tick counters
     property var lastCpuTicks: null
 
-    // Periodically sample metrics
+    // Lightweight sampling of kernel virtual files every 2s
     property Timer timer: Timer {
         interval: 2000
         running: true
@@ -43,11 +44,15 @@ QtObject {
             statFile.reload()
             memFile.reload()
             tempFile.reload()
-            diskProcess.running = true
-            uptimeProcess.running = true
-            gpuProcess.running = true
-            fanProcess.running = true
-            ipProcess.running = true
+
+            // Heavy subprocesses only sampled when popup is active or on first start
+            if (PopupManager.isPopupOpen("cpu") || monitor.uptimeStr === "up 0m") {
+                diskProcess.running = true
+                uptimeProcess.running = true
+                gpuProcess.running = true
+                fanProcess.running = true
+                ipProcess.running = true
+            }
         }
     }
 

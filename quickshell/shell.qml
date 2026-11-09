@@ -53,7 +53,7 @@ ShellRoot {
                         right: parent.right
                     }
                     height: 38
-                    color: Qt.rgba(14/255, 14/255, 16/255, 0.96)
+                    color: "#000000"
 
                     Item {
                         anchors.fill: parent
@@ -87,7 +87,7 @@ ShellRoot {
                     height: 13
 
                     ShapePath {
-                        fillColor: Qt.rgba(14/255, 14/255, 16/255, 0.96)
+                        fillColor: "#000000"
                         strokeColor: "transparent"
                         startX: 0
                         startY: 0
@@ -114,7 +114,7 @@ ShellRoot {
                     height: 13
 
                     ShapePath {
-                        fillColor: Qt.rgba(14/255, 14/255, 16/255, 0.96)
+                        fillColor: "#000000"
                         strokeColor: "transparent"
                         startX: 13
                         startY: 0
@@ -203,6 +203,23 @@ ShellRoot {
         }
         function close(): void {
             if (PopupManager.isPopupOpen("volume")) {
+                PopupManager.closeAll()
+            }
+        }
+    }
+
+    IpcHandler {
+        target: "battery"
+        function toggle(): void {
+            PopupManager.openPopup("battery")
+        }
+        function open(): void {
+            if (!PopupManager.isPopupOpen("battery")) {
+                PopupManager.openPopup("battery")
+            }
+        }
+        function close(): void {
+            if (PopupManager.isPopupOpen("battery")) {
                 PopupManager.closeAll()
             }
         }

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Io
 import Quickshell.Services.UPower
 import "../theme"
 import "../services"
@@ -13,6 +14,11 @@ Rectangle {
     color: (batHover.containsMouse || PopupManager.isPopupOpen("battery")) ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
 
     Behavior on color { ColorAnimation { duration: 150 } }
+
+    Process {
+        id: rogProc
+        command: ["rog-control-center"]
+    }
 
     property real pct: UPower.displayDevice ? (UPower.displayDevice.percentage * 100) : 100
     property bool charging: UPower.displayDevice ? (UPower.displayDevice.state === UPowerDeviceState.Charging) : false
@@ -97,9 +103,9 @@ Rectangle {
             Rectangle {
                 anchors.fill: parent
                 radius: 18
-                color: Qt.rgba(18/255, 18/255, 20/255, 0.98)
-                border.color: Qt.rgba(1, 1, 1, 0.18)
-                border.width: 1
+                color: "#000000"
+                border.color: "transparent"
+                border.width: 0
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -148,8 +154,7 @@ Rectangle {
                         color: Qt.rgba(1, 1, 1, 0.08)
 
                         RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: 10
+                            anchors.centerIn: parent
                             spacing: 8
                             Text {
                                 text: root.charging ? "󱐋" : "󰁹"
@@ -187,7 +192,7 @@ Rectangle {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                Qt.createQmlObject('import Quickshell.Io; Process { command: ["rog-control-center"]; running: true }', root)
+                                rogProc.running = true
                                 PopupManager.closeAll()
                             }
                         }

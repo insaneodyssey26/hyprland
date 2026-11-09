@@ -13,7 +13,7 @@ Singleton {
 
     Process {
         id: weatherProc
-        command: ["bash", "-c", "curl -s --connect-timeout 3 'wttr.in/?format=%c+%t' || echo ''"]
+        command: ["bash", "-c", "curl -s --connect-timeout 3 'wttr.in/Kolkata?format=%c+%t' || echo ''"]
         stdout: StdioCollector {
             onStreamFinished: {
                 let out = text.trim()

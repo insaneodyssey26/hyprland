@@ -9,9 +9,9 @@ Rectangle {
     implicitWidth: 340
     implicitHeight: mainLayout.implicitHeight + 28
     radius: 16
-    color: Qt.rgba(18/255, 18/255, 20/255, 0.94)
-    border.color: Qt.rgba(1, 1, 1, 0.12)
-    border.width: 1
+    color: "#000000"
+    border.color: "transparent"
+    border.width: 0
 
     ColumnLayout {
         id: mainLayout
@@ -19,7 +19,7 @@ Rectangle {
         anchors.margins: 14
         spacing: 12
 
-        // Card Header (Matching Mod+S / Mod+D style)
+        // Card Header
         RowLayout {
             Layout.fillWidth: true
             Layout.preferredHeight: 34
@@ -54,7 +54,7 @@ Rectangle {
                 radius: 11
                 color: TimerService.isFinished ? Qt.rgba(Colors.colError.r, Colors.colError.g, Colors.colError.b, 0.2) : Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.15)
                 border.color: TimerService.isFinished ? Qt.rgba(Colors.colError.r, Colors.colError.g, Colors.colError.b, 0.4) : Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.3)
-                border.width: 1
+                border.width: 0
 
                 Text {
                     id: badgeLabel
@@ -68,43 +68,47 @@ Rectangle {
             }
         }
 
-        // Active Timer Hero Card (Centered, spacious, beautifully aligned)
+        // Active Timer Hero Card (Solid primary accent hero with dynamic contrast text)
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: TimerService.isActive ? 76 : 0
             visible: TimerService.isActive
             radius: 12
-            color: Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.08)
-            border.color: TimerService.isFinished ? Colors.colError : Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.25)
-            border.width: 1
+            color: TimerService.isFinished ? Colors.colError : (TimerService.isRunning ? Colors.colPrimary : Qt.rgba(1, 1, 1, 0.12))
+            border.width: 0
             clip: true
 
             Behavior on Layout.preferredHeight { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+            Behavior on color { ColorAnimation { duration: 150 } }
 
             RowLayout {
                 anchors.fill: parent
                 anchors.leftMargin: 16
-                anchors.rightMargin: 14
+                anchors.rightMargin: 16
                 spacing: 12
 
                 ColumnLayout {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignVCenter
-                    spacing: 2
+                    spacing: 0
 
                     Text {
                         text: TimerService.displayTime
                         font.family: "Literation Mono Ligature"
-                        font.pixelSize: 28
+                        font.pixelSize: 32
                         font.bold: true
-                        color: TimerService.isFinished ? Colors.colError : Colors.colText
+                        color: TimerService.isFinished ? Colors.colOnError : (TimerService.isRunning ? Colors.colOnPrimary : "#ffffff")
+                        verticalAlignment: Text.AlignVCenter
+                        topPadding: 2
                     }
 
                     Text {
                         text: TimerService.mode === "timer" ? ("Target: " + TimerService.formatDuration(TimerService.durationSec)) : "Elapsed stopwatch time"
                         font.family: "Geist"
                         font.pixelSize: 11
-                        color: Colors.colTextMuted
+                        font.bold: true
+                        color: TimerService.isFinished ? Colors.colOnError : (TimerService.isRunning ? Colors.colOnPrimary : Qt.rgba(1, 1, 1, 0.7))
+                        opacity: 0.85
                     }
                 }
 
@@ -114,19 +118,18 @@ Rectangle {
                     spacing: 8
 
                     Rectangle {
-                        width: 34
-                        height: 34
-                        radius: 17
-                        color: playHover.containsMouse ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.25) : Qt.rgba(1, 1, 1, 0.08)
-                        border.color: Qt.rgba(1, 1, 1, 0.12)
-                        border.width: 1
+                        width: 36
+                        height: 36
+                        radius: 18
+                        color: playHover.containsMouse ? (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.25) : Qt.rgba(1, 1, 1, 0.25)) : (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.15) : Qt.rgba(1, 1, 1, 0.12))
+                        border.width: 0
 
                         Text {
                             anchors.centerIn: parent
                             text: TimerService.isRunning ? "󰏤" : "󰐊"
                             font.family: "Symbols Nerd Font"
-                            font.pixelSize: 14
-                            color: Colors.colPrimary
+                            font.pixelSize: 15
+                            color: TimerService.isFinished ? Colors.colOnError : (TimerService.isRunning ? Colors.colOnPrimary : "#ffffff")
                         }
                         MouseArea {
                             id: playHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
@@ -135,19 +138,18 @@ Rectangle {
                     }
 
                     Rectangle {
-                        width: 34
-                        height: 34
-                        radius: 17
-                        color: resetHover.containsMouse ? Qt.rgba(Colors.colError.r, Colors.colError.g, Colors.colError.b, 0.25) : Qt.rgba(1, 1, 1, 0.08)
-                        border.color: Qt.rgba(1, 1, 1, 0.12)
-                        border.width: 1
+                        width: 36
+                        height: 36
+                        radius: 18
+                        color: resetHover.containsMouse ? (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.25) : Qt.rgba(1, 1, 1, 0.25)) : (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.15) : Qt.rgba(1, 1, 1, 0.12))
+                        border.width: 0
 
                         Text {
                             anchors.centerIn: parent
                             text: "󰑐"
                             font.family: "Symbols Nerd Font"
                             font.pixelSize: 14
-                            color: resetHover.containsMouse ? Colors.colError : Colors.colTextMuted
+                            color: TimerService.isFinished ? Colors.colOnError : (TimerService.isRunning ? Colors.colOnPrimary : "#ffffff")
                         }
                         MouseArea {
                             id: resetHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
@@ -158,14 +160,14 @@ Rectangle {
             }
         }
 
-        // Custom Input Box (Matching Mod+D search input)
+        // Custom Input Box
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 38
             radius: 10
             color: Qt.rgba(1, 1, 1, 0.06)
             border.color: inputField.activeFocus ? Colors.colPrimary : Qt.rgba(1, 1, 1, 0.12)
-            border.width: 1
+            border.width: 0
 
             Behavior on border.color { ColorAnimation { duration: 150 } }
 
@@ -284,7 +286,7 @@ Rectangle {
                     radius: 10
                     color: btnHover.containsMouse ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.12) : Qt.rgba(1, 1, 1, 0.04)
                     border.color: btnHover.containsMouse ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.3) : Qt.rgba(1, 1, 1, 0.08)
-                    border.width: 1
+                    border.width: 0
 
                     Behavior on color { ColorAnimation { duration: 120 } }
                     Behavior on border.color { ColorAnimation { duration: 120 } }

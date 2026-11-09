@@ -96,9 +96,9 @@ PanelWindow {
         }
         width: 400
         radius: 20
-        color: Qt.rgba(14/255, 14/255, 16/255, 0.96)
-        border.color: Qt.rgba(1, 1, 1, 0.14)
-        border.width: 1
+        color: "#000000"
+        border.color: "transparent"
+        border.width: 0
 
         // Initialize strictly off-screen to the right (x: drawerWindow.width + 10)
         x: drawerWindow.width > 0 ? (NotificationManager.drawerOpen ? (drawerWindow.width - width - 14) : (drawerWindow.width + 20)) : 2000
@@ -180,7 +180,7 @@ PanelWindow {
                     radius: 16
                     color: clearHover.containsMouse ? Qt.rgba(Colors.colError.r, Colors.colError.g, Colors.colError.b, 0.28) : Qt.rgba(1, 1, 1, 0.08)
                     border.color: clearHover.containsMouse ? Colors.colError : Qt.rgba(1, 1, 1, 0.12)
-                    border.width: 1
+                    border.width: 0
                     Behavior on color { ColorAnimation { duration: 150 } }
 
                     RowLayout {
@@ -277,8 +277,8 @@ PanelWindow {
                         implicitHeight: col.implicitHeight + 20
                         radius: 12
                         color: Qt.rgba(1, 1, 1, 0.06)
-                        border.color: Qt.rgba(1, 1, 1, 0.08)
-                        border.width: 1
+                        border.color: "transparent"
+                        border.width: 0
 
                         ColumnLayout {
                             id: col
@@ -313,7 +313,7 @@ PanelWindow {
                                     radius: 13
                                     color: closeSingleHover.containsMouse ? Qt.rgba(255/255, 60/255, 60/255, 0.25) : Qt.rgba(1, 1, 1, 0.08)
                                     border.color: closeSingleHover.containsMouse ? Colors.colError : "transparent"
-                                    border.width: 1
+                                    border.width: 0
 
                                     Behavior on color { ColorAnimation { duration: 120 } }
 

@@ -14,4 +14,5 @@ QtObject {
     readonly property color colText: "#dee4e2"
     readonly property color colTextMuted: "#bcc9c7"
     readonly property color colError: "#ffb4ab"
+    readonly property color colOnError: "#690005"
 }

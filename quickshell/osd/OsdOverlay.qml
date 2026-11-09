@@ -110,9 +110,9 @@ PanelWindow {
         id: osdPill
         anchors.fill: parent
         radius: 18
-        color: Qt.rgba(18/255, 18/255, 20/255, 0.92)
-        border.color: Qt.rgba(1, 1, 1, 0.14)
-        border.width: 1
+        color: "#000000"
+        border.color: "transparent"
+        border.width: 0
 
         scale: root.isShown ? 1.0 : 0.90
         opacity: root.isShown ? 1.0 : 0.0

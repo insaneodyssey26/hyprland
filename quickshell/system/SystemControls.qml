@@ -115,16 +115,15 @@ PanelWindow {
         }
     }
 
-    // Material 3 List Card matching Mod+D launcher
     Rectangle {
         id: controlCard
         width: 480
         height: 72 + root.controlItems.length * 44
         anchors.centerIn: parent
         radius: 16
-        color: Qt.rgba(18/255, 18/255, 20/255, 0.88)
-        border.color: Qt.rgba(1, 1, 1, 0.12)
-        border.width: 1
+        color: "#000000"
+        border.color: "transparent"
+        border.width: 0
 
         scale: root.isOpen ? 1.0 : 0.95
         opacity: root.isOpen ? 1.0 : 0.0
@@ -137,7 +136,7 @@ PanelWindow {
             anchors.margins: 10
             spacing: 6
 
-            // Header matching Mod+D bar
+            // Header
             RowLayout {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 38

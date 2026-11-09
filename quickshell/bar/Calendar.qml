@@ -7,9 +7,9 @@ Rectangle {
     implicitWidth: 320
     implicitHeight: 330
     radius: 18
-    color: Qt.rgba(Colors.colSurface.r, Colors.colSurface.g, Colors.colSurface.b, 0.95)
-    border.color: Qt.rgba(1, 1, 1, 0.15)
-    border.width: 1
+    color: "#000000"
+    border.color: "transparent"
+    border.width: 0
 
     property date viewingDate: new Date()
     property date today: new Date()
