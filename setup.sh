@@ -40,8 +40,8 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 
 # 2. Clone configuration repository if running as a bootstrap script
-WORKSPACE="$HOME/hyprland"
-REPO_URL="https://github.com/insaneodyssey26/hyprland"
+WORKSPACE="$HOME/dotfiles"
+REPO_URL="https://github.com/insaneodyssey26/dotfiles"
 
 if [ ! -d "$WORKSPACE" ]; then
     info "Cloning configuration repository from $REPO_URL..."
@@ -72,8 +72,8 @@ else
     info "AUR helper (paru) is already installed."
 fi
 
-OFFICIAL_PKGS="hyprland waybar swaync fuzzel hypridle hyprlock hyprpicker hyprsunset kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf fd ripgrep zoxide yazi nautilus loupe mpv btop asciiquarium cava gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts noto-fonts-emoji ttf-nerd-fonts-symbols unzip zip power-profiles-daemon asusctl rog-control-center zram-generator pacman-contrib"
-AUR_PKGS="matugen-bin nautilus-open-any-terminal bemoji grimblast-git otf-geist maplemono-nf-unhinted wvkbd tty-clock"
+OFFICIAL_PKGS="niri waybar swaync fuzzel swayidle hyprlock kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf fd ripgrep zoxide yazi nautilus loupe mpv btop asciiquarium cava gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-gnome xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts noto-fonts-emoji ttf-nerd-fonts-symbols unzip zip power-profiles-daemon asusctl rog-control-center zram-generator pacman-contrib"
+AUR_PKGS="matugen-bin nautilus-open-any-terminal bemoji otf-geist maplemono-nf-unhinted wvkbd tty-clock"
 
 # Detect NVIDIA GPU and append appropriate drivers
 if lspci | grep -iE 'vga|3d' | grep -iq nvidia; then
@@ -114,7 +114,7 @@ if [ -d "$WORKSPACE/nautilus" ]; then
 fi
 
 # List of folders to deploy
-CONFIG_FOLDERS="hypr kitty waybar swaync matugen foot fastfetch fish fuzzel gtk-3.0 gtk-4.0 reflector mpv cava zed"
+CONFIG_FOLDERS="niri hyprlock waybar swaync matugen foot fastfetch fish fuzzel gtk-3.0 gtk-4.0 reflector mpv cava zed kitty scripts"
 
 for folder in $CONFIG_FOLDERS; do
     SRC="$WORKSPACE/$folder"
@@ -191,7 +191,7 @@ if [ -f "$SRC_BASHRC" ]; then
     ln -sf "$SRC_BASHRC" "$DEST_BASHRC"
 fi
 
-# Deploy .zprofile & .bash_profile (Auto-start Hyprland on login)
+# Deploy .zprofile & .bash_profile (Auto-start niri on login)
 SRC_ZPROFILE="$WORKSPACE/.zprofile"
 DEST_ZPROFILE="$HOME/.zprofile"
 [ -f "$SRC_ZPROFILE" ] && ln -sf "$SRC_ZPROFILE" "$DEST_ZPROFILE"
@@ -232,7 +232,7 @@ if lspci | grep -iE 'vga|3d' | grep -iq nvidia; then
     printf "options nvidia NVreg_PreserveVideoMemoryAllocations=1\noptions nvidia_drm modeset=1 fbdev=1\n" | sudo tee /etc/modprobe.d/nvidia.conf >/dev/null
 fi
 
-# Prevent systemd from suspending on lid close (handled by Hyprland lock & DPMS)
+# Prevent systemd from suspending on lid close (handled by screen lock & DPMS)
 sudo mkdir -p /etc/systemd/logind.conf.d
 printf "[Login]\nHandleLidSwitch=ignore\nHandleLidSwitchExternalPower=ignore\nHandleLidSwitchDocked=ignore\n" | sudo tee /etc/systemd/logind.conf.d/lid.conf >/dev/null
 
@@ -264,7 +264,7 @@ fi
 # 7. Initialize Theme, Assets & Wallpaper
 info "Initializing assets, wallpapers, and color palette..."
 mkdir -p "$HOME/wallpapers"
-[ -d "$WORKSPACE/assets" ] && ln -sf "$WORKSPACE/assets" "$HOME/.config/hypr/assets"
+[ -d "$WORKSPACE/assets" ] && ln -sf "$WORKSPACE/assets" "$HOME/.config/assets"
 [ -d "$WORKSPACE/wallpapers" ] && cp -rn "$WORKSPACE/wallpapers"/* "$HOME/wallpapers/" 2>/dev/null || true
 DEFAULT_WALLPAPER="$WORKSPACE/assets/default.png"
 [ ! -f "$DEFAULT_WALLPAPER" ] && DEFAULT_WALLPAPER="$WORKSPACE/assets/desktop.png"
@@ -280,4 +280,4 @@ if [ "$SHELL" != "/usr/bin/zsh" ]; then
     chsh -s /usr/bin/zsh
 fi
 
-info "Setup completed successfully! Start your session with: Hyprland"
+info "Setup completed successfully! Start your session with: niri-session"

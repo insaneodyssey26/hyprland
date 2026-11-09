@@ -64,6 +64,6 @@ case "$chosen" in
         fi
         ;;
     *Camera*)
-        bash /home/masum/hyprland/scripts/toggle_camera.sh
+        bash /home/masum/dotfiles/scripts/toggle_camera.sh
         ;;
 esac

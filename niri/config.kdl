@@ -166,11 +166,11 @@ spawn-at-startup "awww-daemon"
 spawn-at-startup "awww" "restore"
 spawn-at-startup "waybar" "-c" "/home/masum/.config/waybar/config.jsonc" "-s" "/home/masum/.config/waybar/style.css"
 spawn-at-startup "swaync"
-spawn-at-startup "swayidle" "-w" "timeout" "420" "brightnessctl -s set 10%" "resume" "brightnessctl -r" "timeout" "480" "/home/masum/hyprland/scripts/lock.sh" "timeout" "600" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "/home/masum/hyprland/scripts/lock.sh"
+spawn-at-startup "swayidle" "-w" "timeout" "420" "brightnessctl -s set 10%" "resume" "brightnessctl -r" "timeout" "480" "/home/masum/dotfiles/scripts/lock.sh" "timeout" "600" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "/home/masum/dotfiles/scripts/lock.sh"
 spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
-spawn-sh-at-startup "/home/masum/hyprland/scripts/toggle_camera.sh --off"
+spawn-sh-at-startup "/home/masum/dotfiles/scripts/toggle_camera.sh --off"
 
 // Cursor Theme
 cursor {

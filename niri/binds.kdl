@@ -12,7 +12,7 @@ binds {
     Mod+T { spawn "kitty"; }
     Mod+Shift+T { spawn "foot"; }
     Mod+D { spawn "fuzzel"; }
-    Mod+G { spawn "/home/masum/hyprland/scripts/file_search.sh"; }
+    Mod+G { spawn "/home/masum/dotfiles/scripts/file_search.sh"; }
     Mod+Q { close-window; }
     Mod+B { spawn "brave-origin-beta"; }
     Mod+Shift+B { spawn "brave-origin-beta" "--disable-gpu-compositing"; }
@@ -21,8 +21,8 @@ binds {
     Mod+C { spawn "gnome-calculator"; }
     Mod+Shift+R { spawn "rnote"; }
     Mod+Y { spawn "bash" "-c" "color=$(niri msg pick-color 2>/dev/null | grep -o '#[0-9a-fA-F]*' || hyprpicker -a 2>/dev/null || true); [ -n \"$color\" ] && wl-copy \"$color\" && notify-send 'Color Picked' \"$color\" -t 2000"; }
-    Mod+L { spawn "/home/masum/hyprland/scripts/lock.sh"; }
-    Mod+Escape { spawn "/home/masum/hyprland/scripts/power.sh"; }
+    Mod+L { spawn "/home/masum/dotfiles/scripts/lock.sh"; }
+    Mod+Escape { spawn "/home/masum/dotfiles/scripts/power.sh"; }
 
     // Column & Window Navigation (Horizontal ribbon + vertical stacking)
     Mod+Left  { focus-column-left; }
@@ -44,8 +44,8 @@ binds {
     Alt+Tab { toggle-overview; }
 
     // Themes & Wallpapers
-    Mod+W { spawn "/home/masum/hyprland/scripts/wallpaper-picker.sh"; }
-    Mod+Shift+W { spawn "/home/masum/hyprland/scripts/random-wall.sh"; }
+    Mod+W { spawn "/home/masum/dotfiles/scripts/wallpaper-picker.sh"; }
+    Mod+Shift+W { spawn "/home/masum/dotfiles/scripts/random-wall.sh"; }
 
     // Column Sizing & Modes
     Mod+R { switch-preset-column-width; }
@@ -98,14 +98,14 @@ binds {
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "set" "5%-"; }
 
     // Utilities & Tools
-    Print       { spawn "/home/masum/hyprland/scripts/screenshot.sh" "full"; }
-    Shift+Print { spawn "/home/masum/hyprland/scripts/screenshot.sh" "area"; }
+    Print       { spawn "/home/masum/dotfiles/scripts/screenshot.sh" "full"; }
+    Shift+Print { spawn "/home/masum/dotfiles/scripts/screenshot.sh" "area"; }
     Mod+Print   { screenshot-screen; }
     Mod+V       { spawn "bash" "-c" "cliphist list | fuzzel --config /home/masum/.config/fuzzel/fuzzel.ini --dmenu | cliphist decode | wl-copy"; }
-    Mod+X       { spawn "/home/masum/hyprland/scripts/kill_task.sh"; }
-    Mod+P       { spawn "/home/masum/hyprland/scripts/project_launcher.sh"; }
-    Mod+K       { spawn "/home/masum/hyprland/scripts/toggle_osk.sh"; }
+    Mod+X       { spawn "/home/masum/dotfiles/scripts/kill_task.sh"; }
+    Mod+P       { spawn "/home/masum/dotfiles/scripts/project_launcher.sh"; }
+    Mod+K       { spawn "/home/masum/dotfiles/scripts/toggle_osk.sh"; }
     Mod+Period  { spawn "bemoji" "-p" "fuzzel --config /home/masum/.config/fuzzel/fuzzel.ini -p 'Emojis: '"; }
     Mod+N       { spawn "swaync-client" "-t" "-sw"; }
-    Mod+S       { spawn "/home/masum/hyprland/scripts/fuzzel_sys.sh"; }
+    Mod+S       { spawn "/home/masum/dotfiles/scripts/fuzzel_sys.sh"; }
 }

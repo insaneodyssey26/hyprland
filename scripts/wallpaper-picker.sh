@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 THEME_SCRIPT="$HOME/.config/scripts/theme.sh"
-[ -f "$THEME_SCRIPT" ] || THEME_SCRIPT="/home/masum/hyprland/scripts/theme.sh"
+[ -f "$THEME_SCRIPT" ] || THEME_SCRIPT="/home/masum/dotfiles/scripts/theme.sh"
 WALL_DIR="$HOME/wallpapers"
 
 WALL_COUNT=$(ls "$WALL_DIR" | wc -l)

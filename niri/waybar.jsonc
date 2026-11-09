@@ -47,7 +47,7 @@
 
   "custom/keyboard": {
     "format": "",
-    "on-click": "/home/masum/hyprland/scripts/toggle_osk.sh",
+    "on-click": "/home/masum/dotfiles/scripts/toggle_osk.sh",
     "tooltip": false
   },
 
@@ -203,7 +203,7 @@
   },
   "custom/power": {
     "format": "",
-    "on-click": "pkill fuzzel || /home/masum/hyprland/scripts/power.sh",
+    "on-click": "pkill fuzzel || /home/masum/dotfiles/scripts/power.sh",
     "tooltip": true,
     "tooltip-format": "Power Options"
   },
@@ -232,14 +232,14 @@
     "tooltip-format": "Shut Down"
   },
   "custom/timer": {
-    "exec": "/home/masum/hyprland/scripts/waybar_timer.sh print",
+    "exec": "/home/masum/dotfiles/scripts/waybar_timer.sh print",
     "return-type": "json",
     "interval": 1,
     "signal": 8,
     "format": "{}",
-    "on-click": "/home/masum/hyprland/scripts/waybar_timer.sh toggle",
-    "on-click-right": "/home/masum/hyprland/scripts/waybar_timer.sh menu",
-    "on-scroll-up": "/home/masum/hyprland/scripts/waybar_timer.sh adjust 60",
-    "on-scroll-down": "/home/masum/hyprland/scripts/waybar_timer.sh adjust -60"
+    "on-click": "/home/masum/dotfiles/scripts/waybar_timer.sh toggle",
+    "on-click-right": "/home/masum/dotfiles/scripts/waybar_timer.sh menu",
+    "on-scroll-up": "/home/masum/dotfiles/scripts/waybar_timer.sh adjust 60",
+    "on-scroll-down": "/home/masum/dotfiles/scripts/waybar_timer.sh adjust -60"
   }
 }
