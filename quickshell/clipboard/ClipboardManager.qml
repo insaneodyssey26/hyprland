@@ -94,12 +94,10 @@ PanelWindow {
 
     function copyItem(item) {
         if (!item) return
-        if (item.is_binary && item.id) {
+        if (item.id) {
             actionProc.command = ["/home/masum/dotfiles/quickshell/scripts/clip-control.py", "decode", item.id]
         } else if (item.full_text) {
             actionProc.command = ["/home/masum/dotfiles/quickshell/scripts/clip-control.py", "copy_text", item.full_text]
-        } else {
-            actionProc.command = ["/home/masum/dotfiles/quickshell/scripts/clip-control.py", "decode", item.id]
         }
         actionProc.running = true
         root.close()
