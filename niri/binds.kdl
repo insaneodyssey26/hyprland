@@ -22,6 +22,9 @@ binds {
     Mod+Shift+R { spawn "rnote"; }
     Mod+Y { spawn "bash" "-c" "color=$(niri msg pick-color 2>/dev/null | grep -o '#[0-9a-fA-F]*' || hyprpicker -a 2>/dev/null || true); [ -n \"$color\" ] && wl-copy \"$color\" && notify-send 'Color Picked' \"$color\" -t 2000"; }
     Mod+L { spawn "/home/masum/dotfiles/scripts/lock.sh"; }
+    Pause allow-when-locked=true { spawn "niri" "msg" "action" "power-off-monitors"; }
+    Break allow-when-locked=true { spawn "niri" "msg" "action" "power-off-monitors"; }
+    Mod+Pause { power-off-monitors; }
     Mod+Escape { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "session" "toggle"; }
 
     // Column & Window Navigation (Horizontal ribbon + vertical stacking)

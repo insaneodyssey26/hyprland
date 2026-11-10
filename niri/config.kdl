@@ -26,6 +26,7 @@ input {
         repeat-delay 600
         repeat-rate 25
         track-layout "global"
+        numlock
     }
 
     touchpad {
@@ -178,7 +179,7 @@ spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPL
 spawn-at-startup "awww-daemon"
 spawn-at-startup "awww" "restore"
 spawn-at-startup "quickshell" "-p" "/home/masum/dotfiles/quickshell/shell.qml"
-spawn-at-startup "swayidle" "-w" "timeout" "420" "brightnessctl -s set 10%" "resume" "brightnessctl -r" "timeout" "480" "/home/masum/dotfiles/scripts/lock.sh" "timeout" "600" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "/home/masum/dotfiles/scripts/lock.sh"
+spawn-at-startup "swayidle" "-w" "timeout" "420" "brightnessctl -s set 10%" "resume" "brightnessctl -r" "timeout" "480" "/home/masum/dotfiles/scripts/lock.sh" "timeout" "600" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "timeout" "900" "systemctl suspend" "before-sleep" "/home/masum/dotfiles/scripts/lock.sh"
 spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
