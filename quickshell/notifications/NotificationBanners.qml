@@ -132,17 +132,11 @@ PanelWindow {
 
                     RowLayout {
                         Layout.fillWidth: true
+                        Layout.bottomMargin: 4
                         spacing: 8
 
                         Text {
-                            text: "󱅫"
-                            font.family: "Symbols Nerd Font"
-                            font.pixelSize: 16
-                            color: Colors.colPrimary
-                        }
-
-                        Text {
-                            text: (cardWrapper.noti && cardWrapper.noti.appName) ? cardWrapper.noti.appName : "Notification"
+                            text: (cardWrapper.noti && cardWrapper.noti.appName) ? cardWrapper.noti.appName : "System"
                             font.family: "Geist"
                             font.pixelSize: 13
                             font.bold: true
@@ -153,9 +147,9 @@ PanelWindow {
 
                         Rectangle {
                             id: dismissBtn
-                            Layout.preferredWidth: 26
-                            Layout.preferredHeight: 26
-                            radius: 13
+                            Layout.preferredWidth: 24
+                            Layout.preferredHeight: 24
+                            radius: 12
                             color: dismissHover.containsMouse ? Qt.rgba(Colors.colError.r, Colors.colError.g, Colors.colError.b, 0.25) : Qt.rgba(1, 1, 1, 0.08)
 
                             Behavior on color { ColorAnimation { duration: 150 } }
@@ -164,7 +158,7 @@ PanelWindow {
                                 anchors.centerIn: parent
                                 text: "✕"
                                 font.family: "Geist"
-                                font.pixelSize: 13
+                                font.pixelSize: 12
                                 font.bold: true
                                 color: dismissHover.containsMouse ? Colors.colError : Colors.colTextMuted
                             }
@@ -198,9 +192,10 @@ PanelWindow {
                         visible: cardWrapper.noti && cardWrapper.noti.body !== ""
                         text: (cardWrapper.noti && cardWrapper.noti.body) ? cardWrapper.noti.body : ""
                         font.family: "Geist"
-                        font.pixelSize: 13
-                        lineHeight: 1.25
-                        color: Colors.colTextMuted
+                        font.pixelSize: 14
+                        font.weight: Font.Medium
+                        lineHeight: 1.3
+                        color: Colors.colText
                         wrapMode: Text.Wrap
                         maximumLineCount: 6
                         elide: Text.ElideRight

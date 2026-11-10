@@ -297,7 +297,7 @@ PanelWindow {
                                 Text {
                                     text: card.modelData.appName || "System"
                                     font.family: "Geist"
-                                    font.pixelSize: 11
+                                    font.pixelSize: 13
                                     font.bold: true
                                     color: Colors.colPrimary
                                     elide: Text.ElideRight
@@ -355,11 +355,12 @@ PanelWindow {
                                 visible: text !== ""
                                 text: card.modelData.body || ""
                                 font.family: "Geist"
-                                font.pixelSize: 13
-                                lineHeight: 1.2
-                                color: Colors.colTextMuted
+                                font.pixelSize: 14
+                                font.weight: Font.Medium
+                                lineHeight: 1.25
+                                color: Colors.colText
                                 wrapMode: Text.Wrap
-                                maximumLineCount: 4
+                                maximumLineCount: 5
                                 elide: Text.ElideRight
                             }
 

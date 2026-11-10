@@ -10,7 +10,6 @@ case "$1" in
     full)
         grim "$FILE" || exit 1
         wl-copy < "$FILE"
-        notify-send -a "Screenshot" -i "$FILE" -t 3000 "Screenshot Captured" "Full screen copied to clipboard."
         ;;
     area)
         grim "$TMP_FULL" 2>/dev/null || exit 1
@@ -38,15 +37,7 @@ case "$1" in
 
         if [ -f "$FILE" ]; then
             wl-copy < "$FILE"
-
-                ACTION=$(notify-send \
-                -a "Screenshot" \
-                -i "$FILE" \
-                -t 5000 \
-                -A "edit=Open in Editor" \
-                "Screenshot Captured" \
-                "Area copied to clipboard. Click to open.")
-
+            ACTION=$(notify-send -a "Screenshot" -i "$FILE" -t 5000 -A "edit=Edit in Satty" "Screenshot Captured" "Area copied to clipboard. Click to annotate.")
             if [ "$ACTION" = "edit" ] || [ "$ACTION" = "0" ] || [ "$ACTION" = "default" ]; then
                 satty --filename "$FILE" --fullscreen
             fi

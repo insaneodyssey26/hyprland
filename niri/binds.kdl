@@ -101,9 +101,8 @@ binds {
     XF86MonBrightnessDown allow-when-locked=true { spawn "bash" "-c" "brightnessctl set 5%- && quickshell ipc -p /home/masum/dotfiles/quickshell/shell.qml call osd brightness"; }
 
     // Utilities & Tools
-    Print       { spawn "/home/masum/dotfiles/scripts/screenshot.sh" "full"; }
-    Shift+Print { spawn "/home/masum/dotfiles/scripts/screenshot.sh" "area"; }
-    Mod+Print   { screenshot-screen; }
+    Print       { screenshot-screen; }
+    Shift+Print { screenshot; }
     Mod+V       { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "clipboard" "toggle"; }
     Mod+X       { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "tasks" "toggle"; }
     Mod+P       { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "projects" "toggle"; }

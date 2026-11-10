@@ -59,6 +59,12 @@ QtObject {
         persistenceSupported: true
 
         onNotification: (notification) => {
+            if (notification.appName === "niri" && (notification.summary === "Screenshot captured" || notification.body.includes("clipboard"))) {
+                notification.tracked = false
+                notification.dismiss()
+                return
+            }
+
             notification.tracked = true
 
             if (!notiService.dndActive) {
