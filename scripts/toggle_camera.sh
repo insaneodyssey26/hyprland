@@ -42,17 +42,14 @@ set_camera_state() {
 toggle_camera() {
     local devs=($(get_cam_devs))
     if [ ${#devs[@]} -eq 0 ]; then
-        notify-send -a "Waybar" "Privacy" "No USB camera detected" -t 2000
         return
     fi
 
     local current_status=$(get_status)
     if [ "$current_status" = "Disabled" ]; then
         set_camera_state 1
-        notify-send -a "Waybar" "Privacy" "Camera Enabled" -t 2000
     else
         set_camera_state 0
-        notify-send -a "Waybar" "Privacy" "Camera Disabled" -t 2000
     fi
 }
 

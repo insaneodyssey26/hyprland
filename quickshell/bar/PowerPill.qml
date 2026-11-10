@@ -7,10 +7,13 @@ import "../services"
 
 Rectangle {
     id: root
+    readonly property color powerRed: "#e63946"
+    readonly property color powerRedHover: "#ff4d5e"
+
     implicitHeight: 28
     implicitWidth: 32
     radius: 14
-    color: (pwrHover.containsMouse || PopupManager.isPopupOpen("power")) ? Qt.rgba(Colors.colError.r, Colors.colError.g, Colors.colError.b, 0.25) : "transparent"
+    color: (pwrHover.containsMouse || PopupManager.isPopupOpen("power")) ? Qt.rgba(powerRed.r, powerRed.g, powerRed.b, 0.25) : "transparent"
 
     Behavior on color { ColorAnimation { duration: 150 } }
 
@@ -18,8 +21,8 @@ Rectangle {
         anchors.centerIn: parent
         text: "󰐥"
         font.family: "Symbols Nerd Font"
-        font.pixelSize: 15
-        color: pwrHover.containsMouse ? "#ff5555" : Colors.colError
+        font.pixelSize: 16
+        color: pwrHover.containsMouse ? root.powerRedHover : root.powerRed
     }
 
     MouseArea {
@@ -126,11 +129,11 @@ Rectangle {
                     // Shutdown
                     Rectangle {
                         Layout.fillWidth: true; Layout.preferredHeight: 32; radius: 8
-                        color: shutHover.containsMouse ? Qt.rgba(Colors.colError.r, Colors.colError.g, Colors.colError.b, 0.3) : Qt.rgba(1, 1, 1, 0.06)
+                        color: shutHover.containsMouse ? Qt.rgba(root.powerRed.r, root.powerRed.g, root.powerRed.b, 0.3) : Qt.rgba(1, 1, 1, 0.06)
                         RowLayout {
                             anchors.centerIn: parent; spacing: 8
-                            Text { text: "󰐥"; font.family: "Symbols Nerd Font"; font.pixelSize: 13; color: Colors.colError }
-                            Text { text: "Power Off"; font.family: "Geist"; font.pixelSize: 12; font.bold: true; color: Colors.colError }
+                            Text { text: "󰐥"; font.family: "Symbols Nerd Font"; font.pixelSize: 13; color: root.powerRed }
+                            Text { text: "Power Off"; font.family: "Geist"; font.pixelSize: 12; font.bold: true; color: root.powerRed }
                         }
                         MouseArea {
                             id: shutHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor

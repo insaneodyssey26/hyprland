@@ -35,14 +35,14 @@ Rectangle {
         Text {
             text: "󰔏"
             font.family: "Symbols Nerd Font"
-            font.pixelSize: 13
+            font.pixelSize: 14
             color: sysMon.tempC >= 75 ? Colors.colError : Colors.colPrimary
         }
 
         Text {
             text: (sysMon.tempC > 0 ? sysMon.tempC + "°C" : "48°C")
             font.family: "Geist"
-            font.pixelSize: 12
+            font.pixelSize: 13
             font.bold: true
             color: Colors.colText
         }

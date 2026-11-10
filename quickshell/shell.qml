@@ -17,6 +17,7 @@ import "tasks"
 import "projects"
 import "finder"
 import "osd"
+import "overlay"
 import "services"
 
 ShellRoot {
@@ -36,14 +37,14 @@ ShellRoot {
                     left: true
                     right: true
                 }
-                implicitHeight: 51
+                implicitHeight: 46
                 color: "transparent"
 
                 WlrLayershell.layer: WlrLayer.Top
-                WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+                WlrLayershell.keyboardFocus: (PopupManager.activePopup === "timer") ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
                 WlrLayershell.namespace: "aether-bar"
                 WlrLayershell.exclusionMode: ExclusionMode.Normal
-                WlrLayershell.exclusiveZone: 38
+                WlrLayershell.exclusiveZone: 35
 
                 Rectangle {
                     id: mainBar
@@ -52,13 +53,13 @@ ShellRoot {
                         left: parent.left
                         right: parent.right
                     }
-                    height: 38
+                    height: 35
                     color: "#000000"
 
                     Item {
                         anchors.fill: parent
-                        anchors.leftMargin: 18
-                        anchors.rightMargin: 18
+                        anchors.leftMargin: 16
+                        anchors.rightMargin: 16
 
                         Workspaces {
                             anchors.left: parent.left
@@ -83,8 +84,8 @@ ShellRoot {
                         top: mainBar.bottom
                         left: parent.left
                     }
-                    width: 13
-                    height: 13
+                    width: 11
+                    height: 11
 
                     ShapePath {
                         fillColor: "#000000"
@@ -92,12 +93,12 @@ ShellRoot {
                         startX: 0
                         startY: 0
 
-                        PathLine { x: 13; y: 0 }
+                        PathLine { x: 11; y: 0 }
                         PathArc {
                             x: 0
-                            y: 13
-                            radiusX: 13
-                            radiusY: 13
+                            y: 11
+                            radiusX: 11
+                            radiusY: 11
                             direction: PathArc.Counterclockwise
                         }
                         PathLine { x: 0; y: 0 }
@@ -110,24 +111,24 @@ ShellRoot {
                         top: mainBar.bottom
                         right: parent.right
                     }
-                    width: 13
-                    height: 13
+                    width: 11
+                    height: 11
 
                     ShapePath {
                         fillColor: "#000000"
                         strokeColor: "transparent"
-                        startX: 13
+                        startX: 11
                         startY: 0
 
                         PathLine { x: 0; y: 0 }
                         PathArc {
-                            x: 13
-                            y: 13
-                            radiusX: 13
-                            radiusY: 13
+                            x: 11
+                            y: 11
+                            radiusX: 11
+                            radiusY: 11
                             direction: PathArc.Clockwise
                         }
-                        PathLine { x: 13; y: 0 }
+                        PathLine { x: 11; y: 0 }
                     }
                 }
             }
@@ -137,7 +138,7 @@ ShellRoot {
     NotificationDrawer {}
     NotificationBanners {}
 
-    IpcHandler {
+IpcHandler {
         target: "notifications"
         function toggle() {
             NotificationManager.toggleDrawer()
@@ -157,7 +158,7 @@ ShellRoot {
         }
     }
 
-    IpcHandler {
+IpcHandler {
         target: "launcher"
         function toggle() {
             mainLauncher.toggle()
@@ -174,7 +175,7 @@ ShellRoot {
         id: sysControls
     }
 
-    IpcHandler {
+IpcHandler {
         target: "timer"
         function toggle(): void {
             PopupManager.openPopup("timer")
@@ -191,7 +192,7 @@ ShellRoot {
         }
     }
 
-    IpcHandler {
+IpcHandler {
         target: "audio"
         function toggle(): void {
             PopupManager.openPopup("volume")
@@ -208,7 +209,7 @@ ShellRoot {
         }
     }
 
-    IpcHandler {
+IpcHandler {
         target: "battery"
         function toggle(): void {
             PopupManager.openPopup("battery")
@@ -225,7 +226,7 @@ ShellRoot {
         }
     }
 
-    IpcHandler {
+IpcHandler {
         target: "controls"
         function toggle() {
             sysControls.toggle()
@@ -242,7 +243,7 @@ ShellRoot {
         id: clipManager
     }
 
-    IpcHandler {
+IpcHandler {
         target: "clipboard"
         function toggle() {
             clipManager.toggle()
@@ -259,7 +260,7 @@ ShellRoot {
         id: emojiPicker
     }
 
-    IpcHandler {
+IpcHandler {
         target: "emoji"
         function toggle() {
             emojiPicker.toggle()
@@ -276,7 +277,7 @@ ShellRoot {
         id: sessionMenu
     }
 
-    IpcHandler {
+IpcHandler {
         target: "session"
         function toggle() {
             sessionMenu.toggle()
@@ -293,7 +294,7 @@ ShellRoot {
         id: wallpaperPicker
     }
 
-    IpcHandler {
+IpcHandler {
         target: "wallpaper"
         function toggle() {
             wallpaperPicker.toggle()
@@ -310,7 +311,7 @@ ShellRoot {
         id: taskKiller
     }
 
-    IpcHandler {
+IpcHandler {
         target: "tasks"
         function toggle() {
             taskKiller.toggle()
@@ -327,7 +328,7 @@ ShellRoot {
         id: projectLauncher
     }
 
-    IpcHandler {
+IpcHandler {
         target: "projects"
         function toggle() {
             projectLauncher.toggle()
@@ -344,7 +345,7 @@ ShellRoot {
         id: fileFinder
     }
 
-    IpcHandler {
+IpcHandler {
         target: "finder"
         function toggle() {
             fileFinder.toggle()
@@ -361,7 +362,7 @@ ShellRoot {
         id: osdOverlay
     }
 
-    IpcHandler {
+IpcHandler {
         target: "osd"
         function volume() {
             osdOverlay.showVolume()
@@ -372,5 +373,22 @@ ShellRoot {
         function mic() {
             osdOverlay.showMic()
         }
+        function toast(icon: string, label: string, stateStr: string) {
+            osdOverlay.showToast(icon, label, stateStr)
+        }
     }
+
+    FreezeOverlay {
+        id: freezeWindow
+    }
+
+IpcHandler {
+        target: "freezeOverlay"
+        function freeze(path: string) {
+            freezeWindow.freeze(path)
+        }
+        function unfreeze() {
+            freezeWindow.unfreeze()
+        }
+}
 }

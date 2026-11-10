@@ -130,7 +130,7 @@ Singleton {
 
     Process {
         id: soundProc
-        command: ["canberra-gtk-play", "-i", "alarm-clock-elapsed"]
+        command: ["paplay", "/usr/share/sounds/freedesktop/stereo/complete.oga"]
     }
 
     function notifyFinished() {

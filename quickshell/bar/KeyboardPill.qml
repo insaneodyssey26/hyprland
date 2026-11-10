@@ -17,7 +17,7 @@ Rectangle {
         anchors.centerIn: parent
         text: "󰌌"
         font.family: "Symbols Nerd Font"
-        font.pixelSize: 14
+        font.pixelSize: 15
         color: kbdHover.containsMouse ? Colors.colPrimary : Colors.colTextMuted
     }
 

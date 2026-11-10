@@ -13,6 +13,10 @@ Rectangle {
     border.color: "transparent"
     border.width: 0
 
+    function focusInput() {
+        inputField.forceActiveFocus()
+    }
+
     ColumnLayout {
         id: mainLayout
         anchors.fill: parent
@@ -46,7 +50,6 @@ Rectangle {
 
             Item { Layout.fillWidth: true }
 
-            // Polished Badge with Geist font
             Rectangle {
                 visible: TimerService.isActive
                 implicitWidth: badgeLabel.implicitWidth + 14
@@ -61,45 +64,43 @@ Rectangle {
                     anchors.centerIn: parent
                     text: TimerService.isFinished ? "Finished" : (TimerService.isRunning ? (TimerService.mode === "stopwatch" ? "Stopwatch" : "Active") : "Paused")
                     font.family: "Geist"
-                    font.pixelSize: 11
+                    font.pixelSize: 10
                     font.bold: true
                     color: TimerService.isFinished ? Colors.colError : Colors.colPrimary
                 }
             }
         }
 
-        // Active Timer Hero Card (Solid primary accent hero with dynamic contrast text)
         Rectangle {
+            id: heroCard
             Layout.fillWidth: true
             Layout.preferredHeight: TimerService.isActive ? 76 : 0
             visible: TimerService.isActive
-            radius: 12
+            radius: 14
             color: TimerService.isFinished ? Colors.colError : (TimerService.isRunning ? Colors.colPrimary : Qt.rgba(1, 1, 1, 0.12))
+            border.color: "transparent"
             border.width: 0
             clip: true
 
             Behavior on Layout.preferredHeight { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
-            Behavior on color { ColorAnimation { duration: 150 } }
+            Behavior on color { ColorAnimation { duration: 200 } }
 
-            RowLayout {
+            Item {
                 anchors.fill: parent
-                anchors.leftMargin: 16
+                anchors.leftMargin: 18
                 anchors.rightMargin: 16
-                spacing: 12
 
                 ColumnLayout {
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignVCenter
-                    spacing: 0
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 2
 
                     Text {
                         text: TimerService.displayTime
-                        font.family: "Literation Mono Ligature"
-                        font.pixelSize: 32
+                        font.family: "Geist"
+                        font.pixelSize: 28
                         font.bold: true
                         color: TimerService.isFinished ? Colors.colOnError : (TimerService.isRunning ? Colors.colOnPrimary : "#ffffff")
-                        verticalAlignment: Text.AlignVCenter
-                        topPadding: 2
                     }
 
                     Text {
@@ -112,47 +113,59 @@ Rectangle {
                     }
                 }
 
-                // Action Buttons Group (Properly sized and centered)
                 RowLayout {
-                    Layout.alignment: Qt.AlignVCenter
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
                     spacing: 8
 
+                    // Play/Pause button
                     Rectangle {
                         width: 36
                         height: 36
                         radius: 18
-                        color: playHover.containsMouse ? (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.25) : Qt.rgba(1, 1, 1, 0.25)) : (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.15) : Qt.rgba(1, 1, 1, 0.12))
-                        border.width: 0
+                        color: playHover.containsMouse ? (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.28) : Qt.rgba(1, 1, 1, 0.25)) : (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.18) : Qt.rgba(1, 1, 1, 0.12))
+
+                        Behavior on color { ColorAnimation { duration: 120 } }
 
                         Text {
                             anchors.centerIn: parent
                             text: TimerService.isRunning ? "󰏤" : "󰐊"
                             font.family: "Symbols Nerd Font"
-                            font.pixelSize: 15
+                            font.pixelSize: 14
                             color: TimerService.isFinished ? Colors.colOnError : (TimerService.isRunning ? Colors.colOnPrimary : "#ffffff")
                         }
+
                         MouseArea {
-                            id: playHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
+                            id: playHover
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
                             onClicked: TimerService.togglePause()
                         }
                     }
 
+                    // Reset / Clear button
                     Rectangle {
                         width: 36
                         height: 36
                         radius: 18
-                        color: resetHover.containsMouse ? (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.25) : Qt.rgba(1, 1, 1, 0.25)) : (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.15) : Qt.rgba(1, 1, 1, 0.12))
-                        border.width: 0
+                        color: resetHover.containsMouse ? (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.28) : Qt.rgba(1, 1, 1, 0.25)) : (TimerService.isRunning ? Qt.rgba(0, 0, 0, 0.18) : Qt.rgba(1, 1, 1, 0.12))
+
+                        Behavior on color { ColorAnimation { duration: 120 } }
 
                         Text {
                             anchors.centerIn: parent
-                            text: "󰑐"
+                            text: "󰜉"
                             font.family: "Symbols Nerd Font"
                             font.pixelSize: 14
                             color: TimerService.isFinished ? Colors.colOnError : (TimerService.isRunning ? Colors.colOnPrimary : "#ffffff")
                         }
+
                         MouseArea {
-                            id: resetHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
+                            id: resetHover
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
                             onClicked: TimerService.reset()
                         }
                     }
@@ -160,16 +173,23 @@ Rectangle {
             }
         }
 
-        // Custom Input Box
+        // Custom Duration Input Box
         Rectangle {
+            id: inputBox
             Layout.fillWidth: true
             Layout.preferredHeight: 38
             radius: 10
             color: Qt.rgba(1, 1, 1, 0.06)
             border.color: inputField.activeFocus ? Colors.colPrimary : Qt.rgba(1, 1, 1, 0.12)
-            border.width: 0
+            border.width: 1
 
             Behavior on border.color { ColorAnimation { duration: 150 } }
+
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.IBeamCursor
+                onClicked: inputField.forceActiveFocus()
+            }
 
             RowLayout {
                 anchors.fill: parent
@@ -192,6 +212,7 @@ Rectangle {
                     font.pixelSize: 13
                     color: Colors.colText
                     clip: true
+                    selectByMouse: true
 
                     Text {
                         anchors.fill: parent
@@ -250,70 +271,84 @@ Rectangle {
                 font.family: "Geist"
                 font.pixelSize: 10
                 font.bold: true
-                color: Qt.rgba(1, 1, 1, 0.4)
-                font.letterSpacing: 0.8
+                color: Colors.colTextMuted
+                opacity: 0.6
+                Layout.alignment: Qt.AlignVCenter
             }
 
             Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 1
                 color: Qt.rgba(1, 1, 1, 0.08)
+                Layout.alignment: Qt.AlignVCenter
             }
         }
 
-        // Presets Grid (Comfortable cards with icons and Geist typography)
+        // Preset Grid (2 columns: Stopwatch, 5m, 10m, 15m, 25m Pomodoro, 30m)
         GridLayout {
             Layout.fillWidth: true
             columns: 2
-            rowSpacing: 8
             columnSpacing: 8
-
-            readonly property var presets: [
-                { title: "25 min", sub: "Pomodoro Focus", dur: 1500, icon: "󰔛" },
-                { title: "5 min", sub: "Quick Rest", dur: 300, icon: "󱎫" },
-                { title: "15 min", sub: "Short Break", dur: 900, icon: "󱎫" },
-                { title: "45 min", sub: "Deep Work", dur: 2700, icon: "󰔛" },
-                { title: "1 hour", sub: "Extended", dur: 3600, icon: "󰥔" },
-                { title: "Stopwatch", sub: "Count Up", dur: 0, icon: "󰥔", isStopwatch: true }
-            ]
+            rowSpacing: 8
 
             Repeater {
-                model: parent.presets
+                model: [
+                    { label: "Stopwatch", dur: 0, icon: "󱫌", sub: "Count up" },
+                    { label: "5 Minutes", dur: 300, icon: "󱎫", sub: "Quick break" },
+                    { label: "10 Minutes", dur: 600, icon: "󱎫", sub: "Short session" },
+                    { label: "15 Minutes", dur: 900, icon: "󱎫", sub: "Coffee break" },
+                    { label: "25 Minutes", dur: 1500, icon: "󱫌", sub: "Pomodoro" },
+                    { label: "30 Minutes", dur: 1800, icon: "󱎫", sub: "Deep work" }
+                ]
 
-                Rectangle {
+                delegate: Rectangle {
+                    id: presetCard
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 46
+                    Layout.preferredHeight: 48
                     radius: 10
-                    color: btnHover.containsMouse ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.12) : Qt.rgba(1, 1, 1, 0.04)
-                    border.color: btnHover.containsMouse ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.3) : Qt.rgba(1, 1, 1, 0.08)
-                    border.width: 0
 
-                    Behavior on color { ColorAnimation { duration: 120 } }
-                    Behavior on border.color { ColorAnimation { duration: 120 } }
+                    property bool isThisRunning: (modelData.dur === 0 && TimerService.mode === "stopwatch" && TimerService.isRunning) ||
+                                                 (modelData.dur > 0 && TimerService.mode === "timer" && TimerService.durationSec === modelData.dur && TimerService.isRunning)
+
+                    color: isThisRunning ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.16)
+                                         : (cardHover.containsMouse ? Qt.rgba(1, 1, 1, 0.08) : Qt.rgba(1, 1, 1, 0.04))
+                    border.color: isThisRunning ? Colors.colPrimary : "transparent"
+                    border.width: isThisRunning ? 1 : 0
+
+                    Behavior on color { ColorAnimation { duration: 140 } }
+                    Behavior on border.color { ColorAnimation { duration: 140 } }
 
                     RowLayout {
                         anchors.fill: parent
-                        anchors.leftMargin: 12
-                        anchors.rightMargin: 12
+                        anchors.margins: 10
                         spacing: 10
 
-                        Text {
-                            text: modelData.icon
-                            font.family: "Symbols Nerd Font"
-                            font.pixelSize: 15
-                            color: btnHover.containsMouse ? Colors.colPrimary : Colors.colTextMuted
+                        Rectangle {
+                            width: 28; height: 28; radius: 8
+                            color: presetCard.isThisRunning ? Colors.colPrimary : (cardHover.containsMouse ? Qt.rgba(1, 1, 1, 0.10) : Qt.rgba(1, 1, 1, 0.06))
+
+                            Behavior on color { ColorAnimation { duration: 140 } }
+
+                            Text {
+                                anchors.centerIn: parent
+                                text: modelData.icon
+                                font.family: "Symbols Nerd Font"
+                                font.pixelSize: 13
+                                color: presetCard.isThisRunning ? "#000000" : Colors.colPrimary
+                            }
                         }
 
                         ColumnLayout {
                             Layout.fillWidth: true
                             spacing: 1
+                            Layout.alignment: Qt.AlignVCenter
 
                             Text {
-                                text: modelData.title
+                                text: modelData.label
                                 font.family: "Geist"
                                 font.pixelSize: 12
                                 font.bold: true
-                                color: btnHover.containsMouse ? "#ffffff" : Colors.colText
+                                color: presetCard.isThisRunning ? Colors.colPrimary : Colors.colText
                             }
 
                             Text {
@@ -326,9 +361,12 @@ Rectangle {
                     }
 
                     MouseArea {
-                        id: btnHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
+                        id: cardHover
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            if (modelData.isStopwatch) {
+                            if (modelData.dur === 0) {
                                 TimerService.startStopwatch()
                             } else {
                                 TimerService.startTimer(modelData.dur)

@@ -20,14 +20,14 @@ Rectangle {
         Text {
             text: NotificationManager.dndActive ? "󰂛" : (NotificationManager.count > 0 ? "󱅫" : "󰂚")
             font.family: "Symbols Nerd Font"
-            font.pixelSize: 13
+            font.pixelSize: 14
             color: NotificationManager.dndActive ? Colors.colError : (NotificationManager.count > 0 ? Colors.colPrimary : Colors.colTextMuted)
         }
 
         Text {
             text: NotificationManager.count > 0 ? NotificationManager.count.toString() : ""
             font.family: "Geist"
-            font.pixelSize: 11
+            font.pixelSize: 12
             font.bold: true
             color: Colors.colText
             visible: NotificationManager.count > 0

@@ -14,6 +14,7 @@ PanelWindow {
     property real value: 0.5
     property string labelText: "Volume"
     property string valueText: "50%"
+    property bool hasSlider: true
 
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
@@ -25,8 +26,8 @@ PanelWindow {
     }
     margins.bottom: 60
 
-    implicitWidth: 260
-    implicitHeight: 64
+    implicitWidth: root.hasSlider ? 250 : (toastContent.implicitWidth + 36)
+    implicitHeight: root.hasSlider ? 58 : 42
 
     color: "transparent"
     visible: root.isShown || osdPill.opacity > 0.0
@@ -90,15 +91,26 @@ PanelWindow {
     }
 
     function showVolume() {
+        root.hasSlider = true
         volProc.running = true
     }
 
     function showBrightness() {
+        root.hasSlider = true
         brightProc.running = true
     }
 
     function showMic() {
+        root.hasSlider = true
         micProc.running = true
+    }
+
+    function showToast(icon, label, stateStr) {
+        root.hasSlider = false
+        root.iconText = icon
+        root.labelText = label
+        root.valueText = stateStr
+        root.show()
     }
 
     function show() {
@@ -109,12 +121,12 @@ PanelWindow {
     Rectangle {
         id: osdPill
         anchors.fill: parent
-        radius: 18
+        radius: root.hasSlider ? 16 : 21
         color: "#000000"
         border.color: "transparent"
         border.width: 0
 
-        scale: root.isShown ? 1.0 : 0.90
+        scale: root.isShown ? 1.0 : 0.92
         opacity: root.isShown ? 1.0 : 0.0
 
         Behavior on scale {
@@ -125,15 +137,57 @@ PanelWindow {
         }
 
         RowLayout {
-            anchors.fill: parent
-            anchors.leftMargin: 16
-            anchors.rightMargin: 16
-            spacing: 12
+            id: toastContent
+            anchors.centerIn: parent
+            spacing: 11
+            visible: !root.hasSlider
 
             Text {
                 text: root.iconText
                 font.family: "Symbols Nerd Font"
-                font.pixelSize: 20
+                font.pixelSize: 17
+                color: Colors.colPrimary
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Text {
+                text: root.labelText
+                font.family: "Geist"
+                font.pixelSize: 13
+                font.bold: true
+                color: "#ffffff"
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Rectangle {
+                Layout.preferredWidth: 3
+                Layout.preferredHeight: 3
+                radius: 1.5
+                color: Qt.rgba(1, 1, 1, 0.3)
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Text {
+                text: root.valueText
+                font.family: "Geist"
+                font.pixelSize: 12
+                font.bold: true
+                color: (root.valueText === "Disabled" || root.valueText === "Muted") ? Colors.colTextMuted : Colors.colPrimary
+                Layout.alignment: Qt.AlignVCenter
+            }
+        }
+
+        RowLayout {
+            anchors.fill: parent
+            anchors.leftMargin: 16
+            anchors.rightMargin: 16
+            spacing: 12
+            visible: root.hasSlider
+
+            Text {
+                text: root.iconText
+                font.family: "Symbols Nerd Font"
+                font.pixelSize: 18
                 color: Colors.colPrimary
                 Layout.alignment: Qt.AlignVCenter
             }
@@ -166,16 +220,16 @@ PanelWindow {
 
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 6
-                    radius: 3
-                    color: Qt.rgba(1, 1, 1, 0.10)
+                    Layout.preferredHeight: 5
+                    radius: 2.5
+                    color: Qt.rgba(1, 1, 1, 0.12)
 
                     Rectangle {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         anchors.left: parent.left
                         width: parent.width * root.value
-                        radius: 3
+                        radius: 2.5
                         color: Colors.colPrimary
 
                         Behavior on width {

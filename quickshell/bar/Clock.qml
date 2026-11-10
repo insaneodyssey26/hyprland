@@ -54,7 +54,7 @@ Item {
                 Text {
                     text: "󰅐"
                     font.family: "Symbols Nerd Font"
-                    font.pixelSize: 13
+                    font.pixelSize: 14
                     color: PopupManager.isPopupOpen("timer") ? Colors.colPrimary : Colors.colTextMuted
                     Layout.alignment: Qt.AlignVCenter
                 }
@@ -66,7 +66,7 @@ Item {
                     Text {
                         text: root.timeStr
                         font.family: "Geist"
-                        font.pixelSize: 13
+                        font.pixelSize: 14
                         font.bold: true
                         color: Colors.colText
                         Layout.alignment: Qt.AlignBaseline
@@ -75,7 +75,7 @@ Item {
                     Text {
                         text: root.secStr
                         font.family: "Geist"
-                        font.pixelSize: 10
+                        font.pixelSize: 11
                         font.bold: true
                         color: Colors.colPrimary
                         opacity: 0.85
@@ -159,7 +159,7 @@ Item {
                 anchors.centerIn: parent
                 text: root.dateStr
                 font.family: "Geist"
-                font.pixelSize: 12
+                font.pixelSize: 13
                 font.bold: true
                 color: PopupManager.isPopupOpen("calendar") ? Colors.colPrimary : Colors.colText
             }
@@ -190,14 +190,14 @@ Item {
             Text {
                 text: WeatherService.icon
                 font.family: "Symbols Nerd Font"
-                font.pixelSize: 13
+                font.pixelSize: 14
                 color: Colors.colPrimary
             }
 
             Text {
                 text: WeatherService.temp
                 font.family: "Geist"
-                font.pixelSize: 12
+                font.pixelSize: 13
                 font.bold: true
                 color: Colors.colText
             }

@@ -9,7 +9,7 @@ Rectangle {
     id: root
     implicitHeight: 28
     // Stable fixed width avoids layout jitter on speed changes
-    implicitWidth: 72
+    implicitWidth: 78
     radius: 14
     color: (wifiHover.containsMouse || PopupManager.isPopupOpen("wifi")) ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
 
@@ -48,7 +48,7 @@ Rectangle {
                 return "󰤟"
             }
             font.family: "Symbols Nerd Font"
-            font.pixelSize: 13
+            font.pixelSize: 14
             color: net.isConnected ? Colors.colPrimary : Colors.colError
         }
 
@@ -58,7 +58,7 @@ Rectangle {
             horizontalAlignment: Text.AlignLeft
             text: net.speedStr
             font.family: "Geist"
-            font.pixelSize: 12
+            font.pixelSize: 13
             font.bold: true
             color: Colors.colText
         }

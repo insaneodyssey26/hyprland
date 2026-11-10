@@ -53,14 +53,14 @@ Rectangle {
         Text {
             text: root.getBatteryIcon(root.pct, root.charging)
             font.family: "Symbols Nerd Font"
-            font.pixelSize: 13
+            font.pixelSize: 14
             color: root.pct < 20 ? Colors.colError : (root.charging ? Colors.colPrimary : (root.pct >= 80 ? Colors.colPrimary : Colors.colText))
         }
 
         Text {
             text: Math.round(root.pct) + "%"
             font.family: "Geist"
-            font.pixelSize: 12
+            font.pixelSize: 13
             font.bold: true
             color: Colors.colText
         }
