@@ -28,6 +28,10 @@ PanelWindow {
     color: "transparent"
     visible: root.isOpen || clipCard.opacity > 0.0
 
+    Component.onCompleted: {
+        listProc.running = true
+    }
+
     Process {
         id: listProc
         command: ["/home/masum/dotfiles/quickshell/scripts/clip-control.py", "list"]
@@ -317,6 +321,9 @@ PanelWindow {
                                     Image {
                                         anchors.fill: parent
                                         source: modelData.image_path ? ("file://" + modelData.image_path) : ""
+                                        sourceSize.width: 64
+                                        sourceSize.height: 64
+                                        asynchronous: true
                                         visible: modelData.is_binary && status === Image.Ready
                                         fillMode: Image.PreserveAspectCrop
                                     }

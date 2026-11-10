@@ -18,13 +18,13 @@ Rectangle {
     property real brightnessVal: 50.0
 
     Timer {
-        interval: 1200
+        interval: 2500
         running: true
         repeat: true
         triggeredOnStart: true
         onTriggered: {
             getVolProcess.running = true
-            getBrightProcess.running = true
+            brightFile.reload()
             if (PopupManager.isPopupOpen("volume")) {
                 getSinksProcess.running = true
             }
@@ -46,14 +46,12 @@ Rectangle {
         }
     }
 
-    Process {
-        id: getBrightProcess
-        command: ["bash", "-c", "brightnessctl -m | cut -d, -f4 | tr -d '%'"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                let b = parseInt(text.trim(), 10)
-                if (!isNaN(b)) root.brightnessVal = b
-            }
+    FileView {
+        id: brightFile
+        path: "/sys/class/backlight/nvidia_0/actual_brightness"
+        onLoaded: {
+            let val = parseInt(text().trim(), 10)
+            if (!isNaN(val)) root.brightnessVal = val
         }
     }
 
@@ -149,7 +147,7 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
         onClicked: {
             getSinksProcess.running = true
-            getBrightProcess.running = true
+            brightFile.reload()
             PopupManager.openPopup("volume")
         }
         onWheel: (wheel) => {
@@ -175,7 +173,7 @@ Rectangle {
                 PopupManager.closeAll()
             } else if (visible) {
                 getSinksProcess.running = true
-                getBrightProcess.running = true
+                brightFile.reload()
             }
         }
         color: "transparent"

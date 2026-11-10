@@ -13,7 +13,7 @@ Singleton {
 
     Process {
         id: weatherProc
-        command: ["bash", "-c", "tz=$(timedatectl show -p Timezone --value 2>/dev/null | cut -d/ -f2); [ -n \"$tz\" ] && loc=\"$tz\" || loc=\"\"; curl -s --connect-timeout 3 \"wttr.in/${loc}?format=%c+%t\" || echo ''"]
+        command: ["bash", "-c", "curl -s --connect-timeout 3 \"wttr.in/700118?format=%c+%t\" || echo ''"]
         stdout: StdioCollector {
             onStreamFinished: {
                 let out = text.trim()

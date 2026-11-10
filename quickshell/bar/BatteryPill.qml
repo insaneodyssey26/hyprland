@@ -21,16 +21,16 @@ Rectangle {
     }
 
     property real pct: UPower.displayDevice ? (UPower.displayDevice.percentage * 100) : 100
-    property bool charging: UPower.displayDevice ? (UPower.displayDevice.state === UPowerDeviceState.Charging) : false
+    property bool isPlugged: UPower.onBattery !== undefined ? !UPower.onBattery : (UPower.displayDevice ? (UPower.displayDevice.state === UPowerDeviceState.Charging || UPower.displayDevice.state === UPowerDeviceState.FullyCharged || UPower.displayDevice.state === UPowerDeviceState.PendingCharge) : false)
     property bool initialized: false
 
-    onChargingChanged: {
+    onIsPluggedChanged: {
         if (!root.initialized) {
             root.initialized = true
             return
         }
-        let icon = root.charging ? "󱐋" : "󰁹"
-        let stateStr = root.charging ? "Connected (" + Math.round(root.pct) + "%)" : "Disconnected (" + Math.round(root.pct) + "%)"
+        let icon = root.isPlugged ? "󱐋" : "󰁹"
+        let stateStr = root.isPlugged ? "Connected (" + Math.round(root.pct) + "%)" : "Disconnected (" + Math.round(root.pct) + "%)"
         osdToastProc.command = ["quickshell", "ipc", "-p", "/home/masum/dotfiles/quickshell/shell.qml", "call", "osd", "toast", icon, "Power Adapter", stateStr]
         osdToastProc.running = true
     }
@@ -40,7 +40,7 @@ Rectangle {
     }
 
     function getBatteryIcon(pct, isCharging) {
-        if (isCharging) {
+        if (isCharging || root.isPlugged) {
             if (pct >= 95) return "󰂅"
             if (pct >= 80) return "󰂋"
             if (pct >= 60) return "󰂊"
