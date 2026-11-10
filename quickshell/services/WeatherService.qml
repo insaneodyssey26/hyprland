@@ -13,7 +13,7 @@ Singleton {
 
     Process {
         id: weatherProc
-        command: ["bash", "-c", "curl -s --connect-timeout 3 \"wttr.in/700118?format=%c+%t\" || echo ''"]
+        command: ["bash", "-c", "curl -s --connect-timeout 3 \"wttr.in/Khardaha?format=%c+%t\" || echo ''"]
         stdout: StdioCollector {
             onStreamFinished: {
                 let out = text.trim()
@@ -24,16 +24,28 @@ Singleton {
                         let t = parts[1]
                         weatherService.temp = t.replace("+", "")
                         
-                        // Clean Nerd Font weather glyph mapping
-                        if (sym.includes("☀️") || sym.includes("🌞")) weatherService.icon = "󰖙"
-                        else if (sym.includes("✨") || sym.includes("Clear")) weatherService.icon = "󰖔"
-                        else if (sym.includes("⛅") || sym.includes("Partly")) weatherService.icon = "󰖕"
-                        else if (sym.includes("☁️") || sym.includes("Overcast")) weatherService.icon = "󰖐"
-                        else if (sym.includes("🌧") || sym.includes("Rain")) weatherService.icon = "󰖗"
-                        else if (sym.includes("⛈") || sym.includes("Thunder")) weatherService.icon = "󰙾"
-                        else if (sym.includes("❄️") || sym.includes("Snow")) weatherService.icon = "󰖘"
-                        else if (sym.includes("🌫") || sym.includes("Fog") || sym.includes("Mist")) weatherService.icon = "󰖑"
-                        else weatherService.icon = "󰖔"
+                        let hour = new Date().getHours()
+                        let isDay = hour >= 6 && hour < 18
+
+                        if (sym.includes("🌦") || sym.includes("🌧") || sym.includes("Rain") || sym.includes("Shower")) {
+                            weatherService.icon = isDay ? "󰖗" : "󰖖"
+                        } else if (sym.includes("⛈") || sym.includes("Thunder")) {
+                            weatherService.icon = "󰙾"
+                        } else if (sym.includes("⛅") || sym.includes("Partly")) {
+                            weatherService.icon = isDay ? "󰖖" : "󰖕"
+                        } else if (sym.includes("☁️") || sym.includes("Overcast")) {
+                            weatherService.icon = "󰖐"
+                        } else if (sym.includes("☀️") || sym.includes("🌞")) {
+                            weatherService.icon = isDay ? "󰖙" : "󰖔"
+                        } else if (sym.includes("✨") || sym.includes("Clear")) {
+                            weatherService.icon = isDay ? "󰖙" : "󰖔"
+                        } else if (sym.includes("❄️") || sym.includes("Snow")) {
+                            weatherService.icon = "󰖘"
+                        } else if (sym.includes("🌫") || sym.includes("Fog") || sym.includes("Mist") || sym.includes("Haze")) {
+                            weatherService.icon = "󰖑"
+                        } else {
+                            weatherService.icon = isDay ? "󰖙" : "󰖔"
+                        }
 
                         weatherService.isLoaded = true
                     }
