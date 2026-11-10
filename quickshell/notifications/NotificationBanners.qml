@@ -15,8 +15,6 @@ PanelWindow {
     implicitHeight: 650
     color: "transparent"
 
-    // Crucial: Overlay layer and Ignore exclusion mode ensures it overlays directly on top of windows
-    // without altering Niri tiling geometries or moving active windows!
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
     WlrLayershell.namespace: "aether-notification-banners"
@@ -40,15 +38,13 @@ PanelWindow {
 
         model: NotificationManager.toastModel
 
-        // 1. ADD TRANSITION: New incoming toast slides smoothly in from off-screen right (+440px -> 0)
         add: Transition {
             NumberAnimation {
                 property: "x"
                 from: 440
                 to: 0
                 duration: 320
-                easing.type: Easing.OutBack
-                easing.overshoot: 1.12
+                easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 property: "opacity"
@@ -59,7 +55,6 @@ PanelWindow {
             }
         }
 
-        // 2. DISPLACED TRANSITION: Existing cards smoothly shift down on the Y axis to make room
         displaced: Transition {
             NumberAnimation {
                 properties: "y"
@@ -85,7 +80,6 @@ PanelWindow {
                 dismissAnim.start()
             }
 
-            // Smooth exit animation
             ParallelAnimation {
                 id: dismissAnim
                 NumberAnimation {
@@ -110,13 +104,12 @@ PanelWindow {
             Rectangle {
                 id: popupCard
                 width: parent.width
-                implicitHeight: bannerLayout.implicitHeight + 20
+                implicitHeight: bannerLayout.implicitHeight + 24
                 radius: 16
                 color: "#000000"
                 border.color: "transparent"
                 border.width: 0
 
-                // Auto-dismiss this specific notification after 5.5 seconds
                 Timer {
                     interval: 5500
                     running: !cardWrapper.isDismissing
@@ -131,13 +124,12 @@ PanelWindow {
                         left: parent.left
                         right: parent.right
                         top: parent.top
-                        leftMargin: 16
-                        rightMargin: 16
-                        topMargin: 10
+                        leftMargin: 18
+                        rightMargin: 18
+                        topMargin: 14
                     }
-                    spacing: 0
+                    spacing: 4
 
-                    // Top header row: App Icon, App Name (prominent & bigger), Dismiss Button
                     RowLayout {
                         Layout.fillWidth: true
                         spacing: 8
@@ -152,14 +144,13 @@ PanelWindow {
                         Text {
                             text: (cardWrapper.noti && cardWrapper.noti.appName) ? cardWrapper.noti.appName : "Notification"
                             font.family: "Geist"
-                            font.pixelSize: 14
+                            font.pixelSize: 13
                             font.bold: true
                             color: Colors.colPrimary
                             Layout.fillWidth: true
                             elide: Text.ElideRight
                         }
 
-                        // Big, Easy-to-Click Dismiss Target (26px x 26px pill)
                         Rectangle {
                             id: dismissBtn
                             Layout.preferredWidth: 26
@@ -192,45 +183,30 @@ PanelWindow {
                         }
                     }
 
-                    // Gap between Header and Summary (3px)
-                    Item {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 3
-                    }
-
-                    // Summary Title
                     Text {
                         Layout.fillWidth: true
                         text: (cardWrapper.noti && cardWrapper.noti.summary) ? cardWrapper.noti.summary : ""
                         font.family: "Geist"
-                        font.pixelSize: 14
+                        font.pixelSize: 15
                         font.bold: true
                         color: Colors.colText
                         wrapMode: Text.Wrap
                     }
 
-                    // Gap between title and body (2px)
-                    Item {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 2
-                        visible: cardWrapper.noti && cardWrapper.noti.body !== ""
-                    }
-
-                    // Body
                     Text {
                         Layout.fillWidth: true
                         visible: cardWrapper.noti && cardWrapper.noti.body !== ""
                         text: (cardWrapper.noti && cardWrapper.noti.body) ? cardWrapper.noti.body : ""
                         font.family: "Geist"
-                        font.pixelSize: 12
+                        font.pixelSize: 13
+                        lineHeight: 1.25
                         color: Colors.colTextMuted
                         wrapMode: Text.Wrap
-                        maximumLineCount: 5
+                        maximumLineCount: 6
                         elide: Text.ElideRight
                     }
                 }
 
-                // Card click area: opens full drawer when clicking the body (not the dismiss button)
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true

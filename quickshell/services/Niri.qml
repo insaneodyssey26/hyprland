@@ -79,9 +79,8 @@ Singleton {
         focusedWindowProc.running = true;
     }
 
-    // Periodic lightweight sync fallback (every 3000ms) as backup for the event stream
     Timer {
-        interval: 3000
+        interval: 10000
         running: true
         repeat: true
         onTriggered: {

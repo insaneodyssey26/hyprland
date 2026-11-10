@@ -355,10 +355,11 @@ PanelWindow {
                                 visible: text !== ""
                                 text: card.modelData.body || ""
                                 font.family: "Geist"
-                                font.pixelSize: 11
+                                font.pixelSize: 13
+                                lineHeight: 1.2
                                 color: Colors.colTextMuted
                                 wrapMode: Text.Wrap
-                                maximumLineCount: 3
+                                maximumLineCount: 4
                                 elide: Text.ElideRight
                             }
 

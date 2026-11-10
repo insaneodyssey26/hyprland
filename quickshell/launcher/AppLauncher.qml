@@ -341,6 +341,8 @@ PanelWindow {
                                 anchors.centerIn: parent
                                 width: 22
                                 height: 22
+                                sourceSize.width: 44
+                                sourceSize.height: 44
                                 source: modelData.icon ? ("file://" + modelData.icon) : ""
                                 visible: status === Image.Ready
                                 smooth: true

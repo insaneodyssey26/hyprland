@@ -22,6 +22,22 @@ Rectangle {
 
     property real pct: UPower.displayDevice ? (UPower.displayDevice.percentage * 100) : 100
     property bool charging: UPower.displayDevice ? (UPower.displayDevice.state === UPowerDeviceState.Charging) : false
+    property bool initialized: false
+
+    onChargingChanged: {
+        if (!root.initialized) {
+            root.initialized = true
+            return
+        }
+        let icon = root.charging ? "󱐋" : "󰁹"
+        let stateStr = root.charging ? "Connected (" + Math.round(root.pct) + "%)" : "Disconnected (" + Math.round(root.pct) + "%)"
+        osdToastProc.command = ["quickshell", "ipc", "-p", "/home/masum/dotfiles/quickshell/shell.qml", "call", "osd", "toast", icon, "Power Adapter", stateStr]
+        osdToastProc.running = true
+    }
+
+    Process {
+        id: osdToastProc
+    }
 
     function getBatteryIcon(pct, isCharging) {
         if (isCharging) {
@@ -74,7 +90,6 @@ Rectangle {
         onClicked: PopupManager.openPopup("battery")
     }
 
-    // Battery & Power Profile Popup
     PopupWindow {
         id: batPopup
         anchor {
@@ -131,7 +146,6 @@ Rectangle {
                         }
                     }
 
-                    // Battery bar
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 12
@@ -146,7 +160,6 @@ Rectangle {
                         }
                     }
 
-                    // Health and Charging state
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 36
@@ -172,7 +185,6 @@ Rectangle {
                         }
                     }
 
-                    // Asus ROG Control / Power quick toggle
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 32

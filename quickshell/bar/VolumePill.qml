@@ -15,6 +15,7 @@ Rectangle {
     property real vol: 40.0
     property bool isMuted: false
     property var audioSinks: []
+    property real brightnessVal: 50.0
 
     Timer {
         interval: 1200
@@ -23,6 +24,7 @@ Rectangle {
         triggeredOnStart: true
         onTriggered: {
             getVolProcess.running = true
+            getBrightProcess.running = true
             if (PopupManager.isPopupOpen("volume")) {
                 getSinksProcess.running = true
             }
@@ -40,6 +42,17 @@ Rectangle {
                 if (match && match[1]) {
                     root.vol = Math.round(parseFloat(match[1]) * 100)
                 }
+            }
+        }
+    }
+
+    Process {
+        id: getBrightProcess
+        command: ["bash", "-c", "brightnessctl -m | cut -d, -f4 | tr -d '%'"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                let b = parseInt(text.trim(), 10)
+                if (!isNaN(b)) root.brightnessVal = b
             }
         }
     }
@@ -64,6 +77,10 @@ Rectangle {
     }
 
     Process {
+        id: setBrightProc
+    }
+
+    Process {
         id: setMuteProc
         command: ["wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"]
     }
@@ -83,6 +100,13 @@ Rectangle {
         root.isMuted = false
         setVolProc.command = ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", (clamped / 100).toFixed(2)]
         setVolProc.running = true
+    }
+
+    function setBrightnessPercent(val) {
+        let clamped = Math.max(1, Math.min(100, Math.round(val)))
+        root.brightnessVal = clamped
+        setBrightProc.command = ["brightnessctl", "set", clamped + "%"]
+        setBrightProc.running = true
     }
 
     function toggleMute() {
@@ -125,6 +149,7 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
         onClicked: {
             getSinksProcess.running = true
+            getBrightProcess.running = true
             PopupManager.openPopup("volume")
         }
         onWheel: (wheel) => {
@@ -150,6 +175,7 @@ Rectangle {
                 PopupManager.closeAll()
             } else if (visible) {
                 getSinksProcess.running = true
+                getBrightProcess.running = true
             }
         }
         color: "transparent"
@@ -173,10 +199,9 @@ Rectangle {
                     anchors.margins: 14
                     spacing: 12
 
-                    // Card Header
                     RowLayout {
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 34
+                        Layout.preferredHeight: 26
                         Layout.leftMargin: 4
                         Layout.rightMargin: 4
                         spacing: 8
@@ -184,15 +209,15 @@ Rectangle {
                         Text {
                             text: root.isMuted ? "󰝟" : "󰕾"
                             font.family: "Symbols Nerd Font"
-                            font.pixelSize: 16
+                            font.pixelSize: 15
                             color: Colors.colPrimary
                             Layout.alignment: Qt.AlignVCenter
                         }
 
                         Text {
-                            text: "Audio Output"
+                            text: "Volume"
                             font.family: "Geist"
-                            font.pixelSize: 14
+                            font.pixelSize: 13
                             font.bold: true
                             color: Colors.colText
                             Layout.alignment: Qt.AlignVCenter
@@ -210,17 +235,16 @@ Rectangle {
                         }
                     }
 
-                    // Interactive Volume Slider
                     Rectangle {
                         id: sliderTrack
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 22
-                        radius: 11
+                        Layout.preferredHeight: 18
+                        radius: 9
                         color: Qt.rgba(1, 1, 1, 0.08)
 
                         Rectangle {
                             height: parent.height
-                            radius: 11
+                            radius: 9
                             color: root.isMuted ? Colors.colError : Colors.colPrimary
                             width: Math.min(sliderTrack.width, Math.max(0, (root.vol / 100) * sliderTrack.width))
                         }
@@ -251,7 +275,82 @@ Rectangle {
                         }
                     }
 
-                    // Section Divider
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 26
+                        Layout.leftMargin: 4
+                        Layout.rightMargin: 4
+                        spacing: 8
+
+                        Text {
+                            text: root.brightnessVal > 60 ? "󰃠" : (root.brightnessVal > 30 ? "󰃟" : "󰃞")
+                            font.family: "Symbols Nerd Font"
+                            font.pixelSize: 15
+                            color: Colors.colPrimary
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        Text {
+                            text: "Brightness"
+                            font.family: "Geist"
+                            font.pixelSize: 13
+                            font.bold: true
+                            color: Colors.colText
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Text {
+                            text: Math.round(root.brightnessVal) + "%"
+                            font.family: "Geist"
+                            font.pixelSize: 12
+                            font.bold: true
+                            color: Colors.colPrimary
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+                    }
+
+                    Rectangle {
+                        id: brightTrack
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 18
+                        radius: 9
+                        color: Qt.rgba(1, 1, 1, 0.08)
+
+                        Rectangle {
+                            height: parent.height
+                            radius: 9
+                            color: Colors.colPrimary
+                            width: Math.min(brightTrack.width, Math.max(0, (root.brightnessVal / 100) * brightTrack.width))
+                        }
+
+                        Rectangle {
+                            width: 14
+                            height: 14
+                            radius: 7
+                            anchors.verticalCenter: parent.verticalCenter
+                            x: Math.max(0, Math.min(brightTrack.width - 14, (root.brightnessVal / 100) * brightTrack.width - 7))
+                            color: "#ffffff"
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            preventStealing: true
+                            onClicked: (mouse) => {
+                                let ratio = Math.max(0.01, Math.min(1, mouse.x / brightTrack.width))
+                                root.setBrightnessPercent(ratio * 100)
+                            }
+                            onPositionChanged: (mouse) => {
+                                if (pressed) {
+                                    let ratio = Math.max(0.01, Math.min(1, mouse.x / brightTrack.width))
+                                    root.setBrightnessPercent(ratio * 100)
+                                }
+                            }
+                        }
+                    }
+
                     RowLayout {
                         Layout.fillWidth: true
                         Layout.topMargin: 2
@@ -263,82 +362,62 @@ Rectangle {
                             font.family: "Geist"
                             font.pixelSize: 10
                             font.bold: true
-                            color: Qt.rgba(1, 1, 1, 0.4)
-                            font.letterSpacing: 0.8
+                            color: Colors.colTextMuted
+                            opacity: 0.6
+                            Layout.alignment: Qt.AlignVCenter
                         }
 
                         Rectangle {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 1
                             color: Qt.rgba(1, 1, 1, 0.08)
-                        }
-
-                        Text {
-                            text: root.audioSinks.length + " connected"
-                            font.family: "Geist"
-                            font.pixelSize: 10
-                            color: Qt.rgba(1, 1, 1, 0.35)
+                            Layout.alignment: Qt.AlignVCenter
                         }
                     }
 
-                    // Devices ListView
                     ColumnLayout {
                         Layout.fillWidth: true
-                        spacing: 6
+                        spacing: 4
 
                         Repeater {
                             model: root.audioSinks
 
                             Rectangle {
                                 Layout.fillWidth: true
-                                Layout.preferredHeight: 48
-                                radius: 10
-                                color: modelData.active ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.12) : (sinkHover.containsMouse ? Qt.rgba(1, 1, 1, 0.08) : Qt.rgba(1, 1, 1, 0.03))
-                                border.color: modelData.active ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.35) : Qt.rgba(1, 1, 1, 0.06)
-                                border.width: 0
+                                Layout.preferredHeight: 38
+                                radius: 8
+                                color: modelData.is_default ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.16)
+                                                            : (sinkHover.containsMouse ? Qt.rgba(1, 1, 1, 0.08) : Qt.rgba(1, 1, 1, 0.04))
+                                border.color: modelData.is_default ? Colors.colPrimary : "transparent"
+                                border.width: modelData.is_default ? 1 : 0
+
+                                Behavior on color { ColorAnimation { duration: 150 } }
 
                                 RowLayout {
                                     anchors.fill: parent
                                     anchors.leftMargin: 12
                                     anchors.rightMargin: 12
-                                    spacing: 12
+                                    spacing: 10
 
-                                    Rectangle {
-                                        width: 32
-                                        height: 32
-                                        radius: 16
-                                        color: modelData.active ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.2) : Qt.rgba(1, 1, 1, 0.06)
-                                        Text {
-                                            anchors.centerIn: parent
-                                            text: modelData.icon || "󰕾"
-                                            font.family: "Symbols Nerd Font"
-                                            font.pixelSize: 15
-                                            color: modelData.active ? Colors.colPrimary : Colors.colTextMuted
-                                        }
-                                    }
-
-                                    ColumnLayout {
-                                        Layout.fillWidth: true
-                                        spacing: 2
-                                        Text {
-                                            text: modelData.name
-                                            font.family: "Geist"
-                                            font.pixelSize: 13
-                                            font.bold: modelData.active
-                                            color: modelData.active ? "#ffffff" : Colors.colText
-                                            elide: Text.ElideRight
-                                            Layout.fillWidth: true
-                                        }
-                                        Text {
-                                            text: modelData.active ? "Active Output" : "Available"
-                                            font.family: "Geist"
-                                            font.pixelSize: 10
-                                            color: modelData.active ? Colors.colPrimary : Qt.rgba(1, 1, 1, 0.4)
-                                        }
+                                    Text {
+                                        text: modelData.is_default ? "󰓃" : "󰕾"
+                                        font.family: "Symbols Nerd Font"
+                                        font.pixelSize: 14
+                                        color: modelData.is_default ? Colors.colPrimary : Colors.colTextMuted
                                     }
 
                                     Text {
-                                        visible: modelData.active
+                                        Layout.fillWidth: true
+                                        text: modelData.name
+                                        font.family: "Geist"
+                                        font.pixelSize: 12
+                                        font.bold: modelData.is_default
+                                        color: modelData.is_default ? Colors.colPrimary : Colors.colText
+                                        elide: Text.ElideRight
+                                    }
+
+                                    Text {
+                                        visible: modelData.is_default
                                         text: ""
                                         font.family: "Symbols Nerd Font"
                                         font.pixelSize: 13
@@ -357,14 +436,12 @@ Rectangle {
                         }
                     }
 
-                    // Section Divider
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 1
                         color: Qt.rgba(1, 1, 1, 0.08)
                     }
 
-                    // Actions Row
                     RowLayout {
                         Layout.fillWidth: true
                         spacing: 8

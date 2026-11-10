@@ -12,6 +12,6 @@ layout {
     }
 
     insert-hint {
-        color "#69d8cf66"
+        color "#bfc9c666"
     }
 }

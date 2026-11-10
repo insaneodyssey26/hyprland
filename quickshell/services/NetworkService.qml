@@ -14,18 +14,16 @@ QtObject {
     property real lastTxBytes: 0
     property real lastTime: 0
 
-    // Poll wifi status every 4s
     property Timer pollTimer: Timer {
-        interval: 4000
+        interval: 10000
         running: true
         repeat: true
         triggeredOnStart: true
         onTriggered: wifiCheckProcess.running = true
     }
 
-    // Sample /proc/net/dev every 1s for accurate throughput calculation
     property Timer speedTimer: Timer {
-        interval: 1000
+        interval: 2000
         running: true
         repeat: true
         triggeredOnStart: true

@@ -84,8 +84,8 @@ ShellRoot {
                         top: mainBar.bottom
                         left: parent.left
                     }
-                    width: 11
-                    height: 11
+                    width: 14
+                    height: 14
 
                     ShapePath {
                         fillColor: "#000000"
@@ -93,12 +93,12 @@ ShellRoot {
                         startX: 0
                         startY: 0
 
-                        PathLine { x: 11; y: 0 }
+                        PathLine { x: 14; y: 0 }
                         PathArc {
                             x: 0
-                            y: 11
-                            radiusX: 11
-                            radiusY: 11
+                            y: 14
+                            radiusX: 14
+                            radiusY: 14
                             direction: PathArc.Counterclockwise
                         }
                         PathLine { x: 0; y: 0 }
@@ -111,30 +111,31 @@ ShellRoot {
                         top: mainBar.bottom
                         right: parent.right
                     }
-                    width: 11
-                    height: 11
+                    width: 14
+                    height: 14
 
                     ShapePath {
                         fillColor: "#000000"
                         strokeColor: "transparent"
-                        startX: 11
+                        startX: 14
                         startY: 0
 
                         PathLine { x: 0; y: 0 }
                         PathArc {
-                            x: 11
-                            y: 11
-                            radiusX: 11
-                            radiusY: 11
+                            x: 14
+                            y: 14
+                            radiusX: 14
+                            radiusY: 14
                             direction: PathArc.Clockwise
                         }
-                        PathLine { x: 11; y: 0 }
+                        PathLine { x: 14; y: 0 }
                     }
                 }
             }
         }
     }
 
+    BottomCorners {}
     NotificationDrawer {}
     NotificationBanners {}
 
@@ -187,6 +188,23 @@ IpcHandler {
         }
         function close(): void {
             if (PopupManager.isPopupOpen("timer")) {
+                PopupManager.closeAll()
+            }
+        }
+    }
+
+IpcHandler {
+        target: "media"
+        function toggle(): void {
+            PopupManager.openPopup("media")
+        }
+        function open(): void {
+            if (!PopupManager.isPopupOpen("media")) {
+                PopupManager.openPopup("media")
+            }
+        }
+        function close(): void {
+            if (PopupManager.isPopupOpen("media")) {
                 PopupManager.closeAll()
             }
         }
