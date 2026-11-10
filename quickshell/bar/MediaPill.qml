@@ -10,7 +10,7 @@ Rectangle {
     implicitHeight: 28
     implicitWidth: mediaRow.implicitWidth + 16
     radius: 14
-    color: (mediaHover.containsMouse || PopupManager.isPopupOpen("media")) ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
+    color: (iconMouse.containsMouse || textMouse.containsMouse || PopupManager.isPopupOpen("media")) ? Qt.rgba(1, 1, 1, 0.10) : "transparent"
     visible: activePlayer !== null && activePlayer.trackTitle !== ""
 
     Behavior on color { ColorAnimation { duration: 150 } }
@@ -47,30 +47,59 @@ Rectangle {
         anchors.centerIn: parent
         spacing: 6
 
-        Text {
-            text: (activePlayer && activePlayer.playbackState === MprisPlaybackState.Playing) ? "󰎆" : "󰏤"
-            font.family: "Symbols Nerd Font"
-            font.pixelSize: 13
-            color: Colors.colPrimary
+        Rectangle {
+            width: 22
+            height: 22
+            radius: 11
+            color: iconMouse.containsMouse ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.20) : "transparent"
+
+            Behavior on color { ColorAnimation { duration: 120 } }
+
+            Text {
+                anchors.centerIn: parent
+                text: (activePlayer && activePlayer.playbackState === MprisPlaybackState.Playing) ? "󰎆" : "󰏤"
+                font.family: "Symbols Nerd Font"
+                font.pixelSize: 14
+                color: Colors.colPrimary
+            }
+
+            MouseArea {
+                id: iconMouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    if (activePlayer) activePlayer.togglePlaying()
+                }
+            }
         }
 
-        Text {
+        Item {
+            implicitWidth: titleText.implicitWidth
+            implicitHeight: titleText.implicitHeight
             Layout.maximumWidth: 190
-            elide: Text.ElideRight
-            text: activePlayer ? (activePlayer.trackTitle || "") : ""
-            font.family: "Geist"
-            font.pixelSize: 12
-            font.bold: true
-            color: Colors.colText
-        }
-    }
 
-    MouseArea {
-        id: mediaHover
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-        onClicked: PopupManager.openPopup("media")
+            Text {
+                id: titleText
+                anchors.fill: parent
+                elide: Text.ElideRight
+                text: activePlayer ? (activePlayer.trackTitle || "") : ""
+                font.family: "Geist"
+                font.pixelSize: 13
+                font.bold: true
+                color: textMouse.containsMouse ? Colors.colPrimary : Colors.colText
+
+                Behavior on color { ColorAnimation { duration: 120 } }
+            }
+
+            MouseArea {
+                id: textMouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: PopupManager.openPopup("media")
+            }
+        }
     }
 
     // MPRIS Enhanced Media Card Popup

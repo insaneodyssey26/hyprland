@@ -19,6 +19,21 @@ RowLayout {
         id: wsRow
         spacing: 7
 
+        MouseArea {
+            anchors.fill: parent
+            anchors.margins: -4
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            propagateComposedEvents: true
+            onWheel: (wheel) => {
+                if (wheel.angleDelta.y > 0) {
+                    Niri.focusWorkspaceDown()
+                } else if (wheel.angleDelta.y < 0) {
+                    Niri.focusWorkspaceUp()
+                }
+            }
+        }
+
         Repeater {
             model: Niri.workspaces.length > 0 ? Niri.workspaces : [{idx: 1, is_active: true}]
 

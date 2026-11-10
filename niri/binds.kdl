@@ -108,4 +108,9 @@ binds {
     Mod+Period  { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "emoji" "toggle"; }
     Mod+N       { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "notifications" "toggle"; }
     Mod+S       { spawn "quickshell" "ipc" "-p" "/home/masum/dotfiles/quickshell/shell.qml" "call" "controls" "toggle"; }
+
+    Mod+MouseBack    { focus-column-left; }
+    Mod+MouseForward { focus-column-right; }
+    Mod+WheelScrollDown cooldown-ms=150 { focus-column-right; }
+    Mod+WheelScrollUp   cooldown-ms=150 { focus-column-left; }
 }

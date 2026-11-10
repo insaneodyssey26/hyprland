@@ -154,8 +154,14 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            // Clicking active window indicator toggles quickshell application launcher
             quickshellLauncherProc.running = true
+        }
+        onWheel: (wheel) => {
+            if (wheel.angleDelta.y > 0) {
+                Niri.focusPrevWindow()
+            } else if (wheel.angleDelta.y < 0) {
+                Niri.focusNextWindow()
+            }
         }
 
         Process {

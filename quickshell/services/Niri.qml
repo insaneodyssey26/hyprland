@@ -155,4 +155,29 @@ Singleton {
         focusWorkspaceProc.command = ["niri", "msg", "action", "focus-workspace", "" + index];
         focusWorkspaceProc.running = true;
     }
+
+    Process {
+        id: actionCmdProc
+    }
+
+    function runAction(action) {
+        actionCmdProc.command = ["niri", "msg", "action", action];
+        actionCmdProc.running = true;
+    }
+
+    function focusNextWindow() {
+        runAction("focus-column-right");
+    }
+
+    function focusPrevWindow() {
+        runAction("focus-column-left");
+    }
+
+    function focusWorkspaceUp() {
+        runAction("focus-workspace-up");
+    }
+
+    function focusWorkspaceDown() {
+        runAction("focus-workspace-down");
+    }
 }
