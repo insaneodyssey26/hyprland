@@ -72,7 +72,7 @@ else
     info "AUR helper (paru) is already installed."
 fi
 
-OFFICIAL_PKGS="niri swayidle hyprlock kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf fd ripgrep zoxide yazi nautilus loupe mpv btop asciiquarium cava gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-gnome xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts noto-fonts-emoji ttf-nerd-fonts-symbols unzip zip power-profiles-daemon asusctl rog-control-center zram-generator pacman-contrib"
+OFFICIAL_PKGS="niri hypridle hyprlock kitty foot zsh zsh-autosuggestions zsh-syntax-highlighting eza bat fzf fd ripgrep zoxide yazi nautilus loupe mpv btop asciiquarium cava gnome-calculator rnote satty fastfetch starship awww xdg-desktop-portal-gnome xdg-desktop-portal-gtk polkit-kde-agent playerctl cliphist wl-clipboard xdg-user-dirs bluez bluez-utils networkmanager pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol qt5-wayland qt6-wayland brightnessctl noto-fonts noto-fonts-emoji ttf-nerd-fonts-symbols unzip zip power-profiles-daemon asusctl rog-control-center zram-generator pacman-contrib"
 AUR_PKGS="quickshell-git matugen-bin nautilus-open-any-terminal otf-geist maplemono-nf-unhinted wvkbd tty-clock"
 
 # Detect NVIDIA GPU and append appropriate drivers
@@ -114,7 +114,7 @@ if [ -d "$WORKSPACE/nautilus" ]; then
 fi
 
 # List of folders to deploy
-CONFIG_FOLDERS="niri hyprlock quickshell matugen foot fastfetch fish gtk-3.0 gtk-4.0 reflector mpv cava zed kitty scripts"
+CONFIG_FOLDERS="niri hypridle hyprlock quickshell matugen foot fastfetch fish gtk-3.0 gtk-4.0 reflector mpv cava zed kitty scripts"
 
 for folder in $CONFIG_FOLDERS; do
     SRC="$WORKSPACE/$folder"
