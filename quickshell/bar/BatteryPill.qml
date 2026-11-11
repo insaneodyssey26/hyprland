@@ -8,9 +8,9 @@ import "../services"
 
 Rectangle {
     id: root
-    implicitHeight: 28
+    implicitHeight: 26
     implicitWidth: batRow.implicitWidth + 14
-    radius: 14
+    radius: 13
     color: (batHover.containsMouse || PopupManager.isPopupOpen("battery")) ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
 
     Behavior on color { ColorAnimation { duration: 150 } }

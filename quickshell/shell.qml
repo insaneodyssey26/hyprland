@@ -37,14 +37,14 @@ ShellRoot {
                     left: true
                     right: true
                 }
-                implicitHeight: 46
+                implicitHeight: 52
                 color: "transparent"
 
                 WlrLayershell.layer: WlrLayer.Top
                 WlrLayershell.keyboardFocus: (PopupManager.activePopup === "timer") ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
                 WlrLayershell.namespace: "aether-bar"
                 WlrLayershell.exclusionMode: ExclusionMode.Normal
-                WlrLayershell.exclusiveZone: 35
+                WlrLayershell.exclusiveZone: 38
 
                 Rectangle {
                     id: mainBar
@@ -53,7 +53,7 @@ ShellRoot {
                         left: parent.left
                         right: parent.right
                     }
-                    height: 35
+                    height: 38
                     color: "#000000"
 
                     Item {
@@ -78,64 +78,12 @@ ShellRoot {
                     }
                 }
 
-                Shape {
-                    id: leftFillet
-                    anchors {
-                        top: mainBar.bottom
-                        left: parent.left
-                    }
-                    width: 14
-                    height: 14
-
-                    ShapePath {
-                        fillColor: "#000000"
-                        strokeColor: "transparent"
-                        startX: 0
-                        startY: 0
-
-                        PathLine { x: 14; y: 0 }
-                        PathArc {
-                            x: 0
-                            y: 14
-                            radiusX: 14
-                            radiusY: 14
-                            direction: PathArc.Counterclockwise
-                        }
-                        PathLine { x: 0; y: 0 }
-                    }
-                }
-
-                Shape {
-                    id: rightFillet
-                    anchors {
-                        top: mainBar.bottom
-                        right: parent.right
-                    }
-                    width: 14
-                    height: 14
-
-                    ShapePath {
-                        fillColor: "#000000"
-                        strokeColor: "transparent"
-                        startX: 14
-                        startY: 0
-
-                        PathLine { x: 0; y: 0 }
-                        PathArc {
-                            x: 14
-                            y: 14
-                            radiusX: 14
-                            radiusY: 14
-                            direction: PathArc.Clockwise
-                        }
-                        PathLine { x: 14; y: 0 }
-                    }
-                }
             }
         }
     }
 
-    BottomCorners {}
+    DisplayBezel {}
+    EdgeNavigation {}
     NotificationDrawer {}
     NotificationBanners {}
 

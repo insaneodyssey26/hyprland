@@ -6,9 +6,9 @@ import "../theme"
 
 Rectangle {
     id: root
-    implicitHeight: 28
+    implicitHeight: 26
     implicitWidth: 32
-    radius: 14
+    radius: 13
     color: kbdHover.containsMouse ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
 
     Behavior on color { ColorAnimation { duration: 150 } }

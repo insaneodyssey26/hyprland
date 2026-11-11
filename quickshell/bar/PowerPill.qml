@@ -10,9 +10,9 @@ Rectangle {
     readonly property color powerRed: "#e63946"
     readonly property color powerRedHover: "#ff4d5e"
 
-    implicitHeight: 28
+    implicitHeight: 26
     implicitWidth: 32
-    radius: 14
+    radius: 13
     color: (pwrHover.containsMouse || PopupManager.isPopupOpen("power")) ? Qt.rgba(powerRed.r, powerRed.g, powerRed.b, 0.25) : "transparent"
 
     Behavior on color { ColorAnimation { duration: 150 } }

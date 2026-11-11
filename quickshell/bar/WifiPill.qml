@@ -7,10 +7,10 @@ import "../services"
 
 Rectangle {
     id: root
-    implicitHeight: 28
+    implicitHeight: 26
     // Stable fixed width avoids layout jitter on speed changes
-    implicitWidth: 78
-    radius: 14
+    implicitWidth: 88
+    radius: 13
     color: (wifiHover.containsMouse || PopupManager.isPopupOpen("wifi")) ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
 
     Behavior on color { ColorAnimation { duration: 150 } }

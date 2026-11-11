@@ -6,15 +6,11 @@ import Quickshell.Services.Mpris
 import "../theme"
 import "../services"
 
-Rectangle {
+Item {
     id: root
-    implicitHeight: 28
-    implicitWidth: mediaRow.implicitWidth + 16
-    radius: 14
-    color: (pillHoverArea.containsMouse || PopupManager.isPopupOpen("media")) ? Qt.rgba(1, 1, 1, 0.10) : "transparent"
+    implicitHeight: 26
+    implicitWidth: mediaRow.implicitWidth
     visible: activePlayer !== null && activePlayer.trackTitle !== ""
-
-    Behavior on color { ColorAnimation { duration: 150 } }
 
     property var activePlayer: {
         for (let key in Mpris.players.values) {
@@ -30,8 +26,8 @@ Rectangle {
 
     RowLayout {
         id: mediaRow
-        anchors.centerIn: parent
-        spacing: 6
+        anchors.verticalCenter: parent.verticalCenter
+        spacing: 8
 
         Rectangle {
             width: 24
@@ -73,7 +69,7 @@ Rectangle {
                 font.family: "Geist"
                 font.pixelSize: 13
                 font.bold: true
-                color: pillHoverArea.containsMouse ? Colors.colPrimary : Colors.colText
+                color: titleHoverArea.containsMouse ? Colors.colPrimary : Colors.colText
 
                 Behavior on color { ColorAnimation { duration: 120 } }
 
@@ -82,7 +78,7 @@ Rectangle {
 
                 SequentialAnimation on x {
                     id: marqueeAnim
-                    running: titleText.overflowDist > 0 && pillHoverArea.containsMouse
+                    running: titleText.overflowDist > 0 && titleHoverArea.containsMouse
                     loops: Animation.Infinite
                     PauseAnimation { duration: 600 }
                     NumberAnimation {
@@ -100,7 +96,7 @@ Rectangle {
                 }
 
                 states: State {
-                    when: !pillHoverArea.containsMouse
+                    when: !titleHoverArea.containsMouse
                     PropertyChanges {
                         target: titleText
                         x: 0
@@ -118,7 +114,40 @@ Rectangle {
             }
 
             MouseArea {
-                id: pillHoverArea
+                id: titleHoverArea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: PopupManager.openPopup("media")
+            }
+        }
+
+        Rectangle {
+            id: visualizerPill
+            property bool isPlaying: activePlayer !== null && activePlayer.playbackState === MprisPlaybackState.Playing
+            visible: opacity > 0
+            opacity: isPlaying ? 1.0 : 0.0
+            implicitHeight: 26
+            implicitWidth: isPlaying ? (visualizer.implicitWidth + 16) : 0
+            radius: 13
+            clip: true
+            color: (vizHoverArea.containsMouse || PopupManager.isPopupOpen("media")) ? Qt.rgba(1, 1, 1, 0.16) : Qt.rgba(1, 1, 1, 0.10)
+            border.color: Qt.rgba(1, 1, 1, 0.08)
+            border.width: 1
+
+            Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+            Behavior on implicitWidth { NumberAnimation { duration: 280; easing.type: Easing.OutCubic } }
+            Behavior on color { ColorAnimation { duration: 150 } }
+
+            AudioVisualizer {
+                id: visualizer
+                anchors.centerIn: parent
+                isPlaying: visualizerPill.isPlaying
+                barColor: (vizHoverArea.containsMouse || PopupManager.isPopupOpen("media")) ? Colors.colPrimary : Colors.colSecondary
+            }
+
+            MouseArea {
+                id: vizHoverArea
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor

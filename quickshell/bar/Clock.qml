@@ -6,8 +6,8 @@ import "../services"
 
 Item {
     id: root
-    implicitHeight: 28
-    implicitWidth: content.implicitWidth + 14
+    implicitHeight: 26
+    implicitWidth: content.implicitWidth + 24
 
     property string timeStr: ""
     property string secStr: ""
@@ -29,8 +29,10 @@ Item {
     Rectangle {
         id: bgPill
         anchors.fill: parent
-        radius: 14
-        color: (clockHover.containsMouse || dateHover.containsMouse || timerActiveHover.containsMouse || PopupManager.isPopupOpen("calendar") || PopupManager.isPopupOpen("timer")) ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
+        radius: 13
+        color: (clockHover.containsMouse || dateHover.containsMouse || timerActiveHover.containsMouse || PopupManager.isPopupOpen("calendar") || PopupManager.isPopupOpen("timer")) ? Qt.rgba(1, 1, 1, 0.16) : Qt.rgba(1, 1, 1, 0.10)
+        border.color: Qt.rgba(1, 1, 1, 0.08)
+        border.width: 1
         Behavior on color { ColorAnimation { duration: 150 } }
     }
 

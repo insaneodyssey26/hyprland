@@ -7,9 +7,9 @@ import "../services"
 
 Rectangle {
     id: root
-    implicitHeight: 28
+    implicitHeight: 26
     implicitWidth: volRow.implicitWidth + 14
-    radius: 14
+    radius: 13
     color: (volHover.containsMouse || PopupManager.isPopupOpen("volume")) ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
 
     property real vol: 40.0

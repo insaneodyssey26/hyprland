@@ -7,9 +7,9 @@ import "../services"
 
 Rectangle {
     id: root
-    implicitHeight: 28
+    implicitHeight: 26
     implicitWidth: tempRow.implicitWidth + 16
-    radius: 14
+    radius: 13
     color: (tempHover.containsMouse || PopupManager.isPopupOpen("cpu")) ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
 
     Behavior on color { ColorAnimation { duration: 150 } }
@@ -117,7 +117,7 @@ Rectangle {
 
                         // Btop launcher
                         Rectangle {
-                            width: 28; height: 28; radius: 14
+                            width: 28; height: 28; radius: 13
                             color: btopHover.containsMouse ? Qt.rgba(1, 1, 1, 0.16) : Qt.rgba(1, 1, 1, 0.08)
                             Text {
                                 anchors.centerIn: parent

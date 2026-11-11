@@ -6,44 +6,65 @@ RowLayout {
     id: root
     spacing: 8
 
-    CpuTempPill {
-        Layout.leftMargin: 2
+    Rectangle {
+        Layout.alignment: Qt.AlignVCenter
+        implicitHeight: 26
+        implicitWidth: hardwareRow.implicitWidth + 14
+        radius: 13
+        color: Qt.rgba(1, 1, 1, 0.10)
+        border.color: Qt.rgba(1, 1, 1, 0.08)
+        border.width: 1
+
+        RowLayout {
+            id: hardwareRow
+            anchors.centerIn: parent
+            spacing: 2
+
+            CpuTempPill {}
+
+            Rectangle {
+                Layout.preferredWidth: 1
+                Layout.preferredHeight: 12
+                color: Qt.rgba(1, 1, 1, 0.14)
+            }
+
+            VolumePill {}
+
+            Rectangle {
+                Layout.preferredWidth: 1
+                Layout.preferredHeight: 12
+                color: Qt.rgba(1, 1, 1, 0.14)
+            }
+
+            BatteryPill {}
+
+            Rectangle {
+                Layout.preferredWidth: 1
+                Layout.preferredHeight: 12
+                color: Qt.rgba(1, 1, 1, 0.14)
+            }
+
+            WifiPill {}
+        }
     }
 
     Rectangle {
-        Layout.preferredWidth: 1
-        Layout.preferredHeight: 14
-        color: Qt.rgba(1, 1, 1, 0.16)
-    }
+        Layout.alignment: Qt.AlignVCenter
+        implicitHeight: 26
+        implicitWidth: actionsRow.implicitWidth + 10
+        radius: 13
+        color: Qt.rgba(1, 1, 1, 0.10)
+        border.color: Qt.rgba(1, 1, 1, 0.08)
+        border.width: 1
 
-    VolumePill {}
+        RowLayout {
+            id: actionsRow
+            anchors.centerIn: parent
+            spacing: 2
 
-    Rectangle {
-        Layout.preferredWidth: 1
-        Layout.preferredHeight: 14
-        color: Qt.rgba(1, 1, 1, 0.16)
-    }
-
-    BatteryPill {}
-
-    Rectangle {
-        Layout.preferredWidth: 1
-        Layout.preferredHeight: 14
-        color: Qt.rgba(1, 1, 1, 0.16)
-    }
-
-    WifiPill {}
-
-    Rectangle {
-        Layout.preferredWidth: 1
-        Layout.preferredHeight: 14
-        color: Qt.rgba(1, 1, 1, 0.16)
-    }
-
-    RowLayout {
-        spacing: 4
-        KeyboardPill {}
-        NotificationPill {}
-        PowerPill {}
+            KeyboardPill {}
+            NotificationPill {}
+            PowerPill {}
+        }
     }
 }

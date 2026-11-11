@@ -41,7 +41,7 @@ input {
     }
 
     // Natural hover focus: smoothly focus windows as cursor moves without jumping
-    focus-follows-mouse
+    focus-follows-mouse max-scroll-amount="100%"
 }
 
 // ------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ output "eDP-1" {
 // Layout & Geometry (Split-Screen & Multi-Column Support)
 // ------------------------------------------------------------------------------
 layout {
-    gaps 7
+    gaps 8
     center-focused-column "never"
     always-center-single-column
 
@@ -98,10 +98,10 @@ layout {
     }
 
     struts {
-        top 0
-        bottom 0
-        left 0
-        right 0
+        top -8
+        bottom -8
+        left -8
+        right -8
     }
 }
 
