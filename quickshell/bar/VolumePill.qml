@@ -127,14 +127,14 @@ Rectangle {
         Text {
             text: root.isMuted ? "󰝟" : (root.vol > 50 ? "󰕾" : (root.vol > 0 ? "󰖀" : "󰕿"))
             font.family: "Symbols Nerd Font"
-            font.pixelSize: 14
+            font.pixelSize: 13
             color: root.isMuted ? Colors.colError : Colors.colPrimary
         }
 
         Text {
             text: root.isMuted ? "Muted" : (Math.round(root.vol) + "%")
             font.family: "Geist"
-            font.pixelSize: 13
+            font.pixelSize: 12
             font.bold: true
             color: Colors.colText
         }

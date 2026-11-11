@@ -8,7 +8,7 @@ import "../services"
 Rectangle {
     id: root
     implicitHeight: 26
-    implicitWidth: tempRow.implicitWidth + 16
+    implicitWidth: tempRow.implicitWidth + 14
     radius: 13
     color: (tempHover.containsMouse || PopupManager.isPopupOpen("cpu")) ? Qt.rgba(1, 1, 1, 0.12) : "transparent"
 
@@ -35,14 +35,14 @@ Rectangle {
         Text {
             text: "󰔏"
             font.family: "Symbols Nerd Font"
-            font.pixelSize: 14
+            font.pixelSize: 13
             color: sysMon.tempC >= 75 ? Colors.colError : Colors.colPrimary
         }
 
         Text {
             text: (sysMon.tempC > 0 ? sysMon.tempC + "°C" : "48°C")
             font.family: "Geist"
-            font.pixelSize: 13
+            font.pixelSize: 12
             font.bold: true
             color: Colors.colText
         }
