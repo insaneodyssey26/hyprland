@@ -110,8 +110,9 @@ PanelWindow {
 
     function launchWithEditor(cmd) {
         if (!root.selectedProject) return
+        let targetPath = root.selectedProject.path
         root.close()
-        launchProc.command = [cmd, root.selectedProject.path]
+        launchProc.command = ["bash", "-c", cmd + " " + JSON.stringify(targetPath) + " &"]
         launchProc.running = true
     }
 
