@@ -72,6 +72,8 @@ def get_desktop_apps():
                     if part.startswith('%') and len(part) == 2:
                         continue
                     clean_exec.append(part)
+                while clean_exec and clean_exec[-1] in ('--', '--url'):
+                    clean_exec.pop()
                 clean_exec_str = " ".join(clean_exec)
 
                 icon_raw = de.get('Icon', '').strip()

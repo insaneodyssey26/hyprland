@@ -117,7 +117,7 @@ PanelWindow {
 
     function launchApp(app) {
         if (!app || !app.exec) return
-        launchProc.command = ["bash", "-c", app.exec + " &"]
+        launchProc.command = ["bash", "-c", "nohup " + app.exec + " >/dev/null 2>&1 &"]
         launchProc.running = true
         root.close()
     }
