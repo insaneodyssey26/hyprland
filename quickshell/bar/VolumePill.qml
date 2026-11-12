@@ -15,20 +15,44 @@ Rectangle {
     property real vol: 40.0
     property bool isMuted: false
     property var audioSinks: []
-    property real brightnessVal: 50.0
+    property var audioSources: []
+    property real micVol: 50.0
+    property bool isMicMuted: false
+    property bool outputExpanded: false
+    property bool inputExpanded: false
+
+    function refreshAll() {
+        getVolProcess.running = true
+        getMicVolProcess.running = true
+        getDevicesProcess.running = true
+    }
+
+    Connections {
+        target: AudioSignalHub
+        function onVolumeChanged() {
+            root.refreshAll()
+        }
+    }
+
+    Process {
+        id: pactlSubProc
+        command: ["pactl", "subscribe"]
+        running: true
+        stdout: SplitParser {
+            onRead: data => {
+                if (data.includes("sink") || data.includes("source") || data.includes("server")) {
+                    root.refreshAll()
+                }
+            }
+        }
+    }
 
     Timer {
-        interval: 2500
+        interval: 3000
         running: true
         repeat: true
         triggeredOnStart: true
-        onTriggered: {
-            getVolProcess.running = true
-            brightFile.reload()
-            if (PopupManager.isPopupOpen("volume")) {
-                getSinksProcess.running = true
-            }
-        }
+        onTriggered: root.refreshAll()
     }
 
     Process {
@@ -46,47 +70,57 @@ Rectangle {
         }
     }
 
-    FileView {
-        id: brightFile
-        path: "/sys/class/backlight/nvidia_0/actual_brightness"
-        onLoaded: {
-            let val = parseInt(text().trim(), 10)
-            if (!isNaN(val)) root.brightnessVal = val
+    Process {
+        id: getMicVolProcess
+        command: ["wpctl", "get-volume", "@DEFAULT_AUDIO_SOURCE@"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                let str = text.trim()
+                root.isMicMuted = str.includes("[MUTED]")
+                let match = str.match(/Volume:\s+([0-9.]+)/)
+                if (match && match[1]) {
+                    root.micVol = Math.round(parseFloat(match[1]) * 100)
+                }
+            }
         }
     }
 
     Process {
-        id: getSinksProcess
-        command: ["/home/masum/dotfiles/scripts/audio-sinks.py"]
+        id: getDevicesProcess
+        command: ["/home/masum/dotfiles/scripts/audio-devices.py"]
         stdout: StdioCollector {
             onStreamFinished: {
                 try {
                     let parsed = JSON.parse(text.trim())
-                    if (Array.isArray(parsed)) {
-                        root.audioSinks = parsed
+                    if (parsed) {
+                        if (Array.isArray(parsed.sinks)) root.audioSinks = parsed.sinks
+                        if (Array.isArray(parsed.sources)) root.audioSources = parsed.sources
                     }
                 } catch(e) {}
             }
         }
     }
 
-    Process {
-        id: setVolProc
-    }
-
-    Process {
-        id: setBrightProc
-    }
-
+    Process { id: setVolProc }
+    Process { id: setMicVolProc }
     Process {
         id: setMuteProc
         command: ["wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"]
+        onExited: root.refreshAll()
     }
-
     Process {
-        id: setSinkProc
+        id: setMicMuteProc
+        command: ["wpctl", "set-mute", "@DEFAULT_AUDIO_SOURCE@", "toggle"]
+        onExited: root.refreshAll()
     }
-
+    Process {
+        id: setSinkPortProc
+        onExited: root.refreshAll()
+    }
+    Process {
+        id: setSourcePortProc
+        onExited: root.refreshAll()
+    }
     Process {
         id: pavuProc
         command: ["pavucontrol"]
@@ -100,11 +134,12 @@ Rectangle {
         setVolProc.running = true
     }
 
-    function setBrightnessPercent(val) {
-        let clamped = Math.max(1, Math.min(100, Math.round(val)))
-        root.brightnessVal = clamped
-        setBrightProc.command = ["brightnessctl", "set", clamped + "%"]
-        setBrightProc.running = true
+    function setMicVolumePercent(val) {
+        let clamped = Math.max(0, Math.min(100, Math.round(val)))
+        root.micVol = clamped
+        root.isMicMuted = false
+        setMicVolProc.command = ["wpctl", "set-volume", "@DEFAULT_AUDIO_SOURCE@", (clamped / 100).toFixed(2)]
+        setMicVolProc.running = true
     }
 
     function toggleMute() {
@@ -112,11 +147,19 @@ Rectangle {
         setMuteProc.running = true
     }
 
-    function setSink(sinkId) {
-        setSinkProc.command = ["wpctl", "set-default", "" + sinkId]
-        setSinkProc.running = true
-        getSinksProcess.running = true
-        getVolProcess.running = true
+    function toggleMicMute() {
+        root.isMicMuted = !root.isMicMuted
+        setMicMuteProc.running = true
+    }
+
+    function setSinkPort(target, port) {
+        setSinkPortProc.command = ["pactl", "set-sink-port", target, port]
+        setSinkPortProc.running = true
+    }
+
+    function setSourcePort(target, port) {
+        setSourcePortProc.command = ["pactl", "set-source-port", target, port]
+        setSourcePortProc.running = true
     }
 
     RowLayout {
@@ -146,8 +189,7 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            getSinksProcess.running = true
-            brightFile.reload()
+            root.refreshAll()
             PopupManager.openPopup("volume")
         }
         onWheel: (wheel) => {
@@ -164,7 +206,7 @@ Rectangle {
             gravity: Edges.Bottom
             margins.top: 8
         }
-        implicitWidth: 340
+        implicitWidth: 330
         implicitHeight: mainCol.implicitHeight + 28
         visible: PopupManager.isPopupOpen("volume")
         grabFocus: true
@@ -172,8 +214,7 @@ Rectangle {
             if (!visible && PopupManager.activePopup === "volume") {
                 PopupManager.closeAll()
             } else if (visible) {
-                getSinksProcess.running = true
-                brightFile.reload()
+                root.refreshAll()
             }
         }
         color: "transparent"
@@ -186,7 +227,7 @@ Rectangle {
 
             Rectangle {
                 anchors.fill: parent
-                radius: 16
+                radius: 18
                 color: "#000000"
                 border.color: "transparent"
                 border.width: 0
@@ -205,17 +246,9 @@ Rectangle {
                         spacing: 8
 
                         Text {
-                            text: root.isMuted ? "󰝟" : "󰕾"
-                            font.family: "Symbols Nerd Font"
-                            font.pixelSize: 15
-                            color: Colors.colPrimary
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-
-                        Text {
-                            text: "Volume"
+                            text: "Audio Control"
                             font.family: "Geist"
-                            font.pixelSize: 13
+                            font.pixelSize: 14
                             font.bold: true
                             color: Colors.colText
                             Layout.alignment: Qt.AlignVCenter
@@ -223,212 +256,372 @@ Rectangle {
 
                         Item { Layout.fillWidth: true }
 
-                        Text {
-                            text: root.isMuted ? "Muted" : (Math.round(root.vol) + "%")
-                            font.family: "Geist"
-                            font.pixelSize: 12
-                            font.bold: true
-                            color: root.isMuted ? Colors.colError : Colors.colPrimary
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-                    }
-
-                    Rectangle {
-                        id: sliderTrack
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 18
-                        radius: 9
-                        color: Qt.rgba(1, 1, 1, 0.08)
-
                         Rectangle {
-                            height: parent.height
-                            radius: 9
-                            color: root.isMuted ? Colors.colError : Colors.colPrimary
-                            width: Math.min(sliderTrack.width, Math.max(0, (root.vol / 100) * sliderTrack.width))
-                        }
-
-                        Rectangle {
-                            width: 14
-                            height: 14
-                            radius: 7
-                            anchors.verticalCenter: parent.verticalCenter
-                            x: Math.max(0, Math.min(sliderTrack.width - 14, (root.vol / 100) * sliderTrack.width - 7))
-                            color: "#ffffff"
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            preventStealing: true
-                            onClicked: (mouse) => {
-                                let ratio = Math.max(0, Math.min(1, mouse.x / sliderTrack.width))
-                                root.setVolumePercent(ratio * 100)
+                            width: 26
+                            height: 26
+                            radius: 13
+                            color: pavuHover.containsMouse ? Qt.rgba(1, 1, 1, 0.16) : Qt.rgba(1, 1, 1, 0.08)
+                            Text {
+                                anchors.centerIn: parent
+                                text: "󰓃"
+                                font.family: "Symbols Nerd Font"
+                                font.pixelSize: 13
+                                color: Colors.colPrimary
                             }
-                            onPositionChanged: (mouse) => {
-                                if (pressed) {
-                                    let ratio = Math.max(0, Math.min(1, mouse.x / sliderTrack.width))
-                                    root.setVolumePercent(ratio * 100)
+                            MouseArea {
+                                id: pavuHover
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: {
+                                    pavuProc.running = true
+                                    PopupManager.closeAll()
                                 }
                             }
                         }
                     }
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 26
-                        Layout.leftMargin: 4
-                        Layout.rightMargin: 4
-                        spacing: 8
-
-                        Text {
-                            text: root.brightnessVal > 60 ? "󰃠" : (root.brightnessVal > 30 ? "󰃟" : "󰃞")
-                            font.family: "Symbols Nerd Font"
-                            font.pixelSize: 15
-                            color: Colors.colPrimary
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-
-                        Text {
-                            text: "Brightness"
-                            font.family: "Geist"
-                            font.pixelSize: 13
-                            font.bold: true
-                            color: Colors.colText
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-
-                        Item { Layout.fillWidth: true }
-
-                        Text {
-                            text: Math.round(root.brightnessVal) + "%"
-                            font.family: "Geist"
-                            font.pixelSize: 12
-                            font.bold: true
-                            color: Colors.colPrimary
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-                    }
-
                     Rectangle {
-                        id: brightTrack
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 18
-                        radius: 9
-                        color: Qt.rgba(1, 1, 1, 0.08)
+                        implicitHeight: outVolCol.implicitHeight + 20
+                        radius: 12
+                        color: Qt.rgba(1, 1, 1, 0.04)
+                        border.color: Qt.rgba(1, 1, 1, 0.06)
+                        border.width: 1
 
-                        Rectangle {
-                            height: parent.height
-                            radius: 9
-                            color: Colors.colPrimary
-                            width: Math.min(brightTrack.width, Math.max(0, (root.brightnessVal / 100) * brightTrack.width))
-                        }
-
-                        Rectangle {
-                            width: 14
-                            height: 14
-                            radius: 7
-                            anchors.verticalCenter: parent.verticalCenter
-                            x: Math.max(0, Math.min(brightTrack.width - 14, (root.brightnessVal / 100) * brightTrack.width - 7))
-                            color: "#ffffff"
-                        }
-
-                        MouseArea {
+                        ColumnLayout {
+                            id: outVolCol
                             anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            preventStealing: true
-                            onClicked: (mouse) => {
-                                let ratio = Math.max(0.01, Math.min(1, mouse.x / brightTrack.width))
-                                root.setBrightnessPercent(ratio * 100)
-                            }
-                            onPositionChanged: (mouse) => {
-                                if (pressed) {
-                                    let ratio = Math.max(0.01, Math.min(1, mouse.x / brightTrack.width))
-                                    root.setBrightnessPercent(ratio * 100)
+                            anchors.margins: 10
+                            spacing: 8
+
+                            RowLayout {
+                                Layout.fillWidth: true
+                                spacing: 8
+
+                                Rectangle {
+                                    width: 24
+                                    height: 24
+                                    radius: 12
+                                    color: muteHover.containsMouse ? Qt.rgba(1, 1, 1, 0.18) : Qt.rgba(1, 1, 1, 0.08)
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: root.isMuted ? "󰝟" : "󰕾"
+                                        font.family: "Symbols Nerd Font"
+                                        font.pixelSize: 13
+                                        color: root.isMuted ? Colors.colError : Colors.colPrimary
+                                    }
+                                    MouseArea {
+                                        id: muteHover
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: root.toggleMute()
+                                    }
+                                }
+
+                                Text {
+                                    text: "Speaker Volume"
+                                    font.family: "Geist"
+                                    font.pixelSize: 12
+                                    font.bold: true
+                                    color: Colors.colText
+                                }
+
+                                Item { Layout.fillWidth: true }
+
+                                Text {
+                                    text: root.isMuted ? "Muted" : (Math.round(root.vol) + "%")
+                                    font.family: "Geist"
+                                    font.pixelSize: 12
+                                    font.bold: true
+                                    color: root.isMuted ? Colors.colError : Colors.colPrimary
                                 }
                             }
-                        }
-                    }
-
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.topMargin: 2
-                        Layout.bottomMargin: 2
-                        spacing: 8
-
-                        Text {
-                            text: "OUTPUT DEVICES"
-                            font.family: "Geist"
-                            font.pixelSize: 10
-                            font.bold: true
-                            color: Colors.colTextMuted
-                            opacity: 0.6
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-
-                        Rectangle {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 1
-                            color: Qt.rgba(1, 1, 1, 0.08)
-                            Layout.alignment: Qt.AlignVCenter
-                        }
-                    }
-
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        spacing: 4
-
-                        Repeater {
-                            model: root.audioSinks
 
                             Rectangle {
+                                id: sliderTrack
                                 Layout.fillWidth: true
-                                Layout.preferredHeight: 38
-                                radius: 8
-                                color: modelData.is_default ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.16)
-                                                            : (sinkHover.containsMouse ? Qt.rgba(1, 1, 1, 0.08) : Qt.rgba(1, 1, 1, 0.04))
-                                border.color: modelData.is_default ? Colors.colPrimary : "transparent"
-                                border.width: modelData.is_default ? 1 : 0
+                                Layout.preferredHeight: 18
+                                radius: 9
+                                color: Qt.rgba(1, 1, 1, 0.08)
 
-                                Behavior on color { ColorAnimation { duration: 150 } }
+                                Rectangle {
+                                    height: parent.height
+                                    radius: 9
+                                    color: root.isMuted ? Colors.colError : Colors.colPrimary
+                                    width: Math.min(sliderTrack.width, Math.max(0, (root.vol / 100) * sliderTrack.width))
+                                }
+
+                                Rectangle {
+                                    width: 14
+                                    height: 14
+                                    radius: 7
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    x: Math.max(0, Math.min(sliderTrack.width - 14, (root.vol / 100) * sliderTrack.width - 7))
+                                    color: "#ffffff"
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    cursorShape: Qt.PointingHandCursor
+                                    preventStealing: true
+                                    onClicked: (mouse) => {
+                                        let ratio = Math.max(0, Math.min(1, mouse.x / sliderTrack.width))
+                                        root.setVolumePercent(ratio * 100)
+                                    }
+                                    onPositionChanged: (mouse) => {
+                                        if (pressed) {
+                                            let ratio = Math.max(0, Math.min(1, mouse.x / sliderTrack.width))
+                                            root.setVolumePercent(ratio * 100)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: inMicCol.implicitHeight + 20
+                        radius: 12
+                        color: Qt.rgba(1, 1, 1, 0.04)
+                        border.color: Qt.rgba(1, 1, 1, 0.06)
+                        border.width: 1
+
+                        ColumnLayout {
+                            id: inMicCol
+                            anchors.fill: parent
+                            anchors.margins: 10
+                            spacing: 8
+
+                            RowLayout {
+                                Layout.fillWidth: true
+                                spacing: 8
+
+                                Rectangle {
+                                    width: 24
+                                    height: 24
+                                    radius: 12
+                                    color: micMuteHover.containsMouse ? Qt.rgba(1, 1, 1, 0.18) : Qt.rgba(1, 1, 1, 0.08)
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: root.isMicMuted ? "󰍭" : "󰍬"
+                                        font.family: "Symbols Nerd Font"
+                                        font.pixelSize: 13
+                                        color: root.isMicMuted ? Colors.colError : Colors.colPrimary
+                                    }
+                                    MouseArea {
+                                        id: micMuteHover
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: root.toggleMicMute()
+                                    }
+                                }
+
+                                Text {
+                                    text: "Microphone Gain"
+                                    font.family: "Geist"
+                                    font.pixelSize: 12
+                                    font.bold: true
+                                    color: Colors.colText
+                                }
+
+                                Item { Layout.fillWidth: true }
+
+                                Text {
+                                    text: root.isMicMuted ? "Muted" : (Math.round(root.micVol) + "%")
+                                    font.family: "Geist"
+                                    font.pixelSize: 12
+                                    font.bold: true
+                                    color: root.isMicMuted ? Colors.colError : Colors.colPrimary
+                                }
+                            }
+
+                            Rectangle {
+                                id: micSliderTrack
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 18
+                                radius: 9
+                                color: Qt.rgba(1, 1, 1, 0.08)
+
+                                Rectangle {
+                                    height: parent.height
+                                    radius: 9
+                                    color: root.isMicMuted ? Colors.colError : Colors.colPrimary
+                                    width: Math.min(micSliderTrack.width, Math.max(0, (root.micVol / 100) * micSliderTrack.width))
+                                }
+
+                                Rectangle {
+                                    width: 14
+                                    height: 14
+                                    radius: 7
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    x: Math.max(0, Math.min(micSliderTrack.width - 14, (root.micVol / 100) * micSliderTrack.width - 7))
+                                    color: "#ffffff"
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    cursorShape: Qt.PointingHandCursor
+                                    preventStealing: true
+                                    onClicked: (mouse) => {
+                                        let ratio = Math.max(0, Math.min(1, mouse.x / micSliderTrack.width))
+                                        root.setMicVolumePercent(ratio * 100)
+                                    }
+                                    onPositionChanged: (mouse) => {
+                                        if (pressed) {
+                                            let ratio = Math.max(0, Math.min(1, mouse.x / micSliderTrack.width))
+                                            root.setMicVolumePercent(ratio * 100)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: outHeaderRow.implicitHeight + (root.outputExpanded ? (outAccordionContent.implicitHeight + 12) : 0) + 16
+                        radius: 12
+                        color: Qt.rgba(1, 1, 1, 0.04)
+                        border.color: Qt.rgba(1, 1, 1, 0.06)
+                        border.width: 1
+                        clip: true
+
+                        Behavior on implicitHeight {
+                            NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
+                        }
+
+                        ColumnLayout {
+                            anchors.fill: parent
+                            anchors.margins: 10
+                            spacing: 8
+
+                            Item {
+                                id: outHeaderRowWrap
+                                Layout.fillWidth: true
+                                implicitHeight: outHeaderRow.implicitHeight
 
                                 RowLayout {
+                                    id: outHeaderRow
                                     anchors.fill: parent
-                                    anchors.leftMargin: 12
-                                    anchors.rightMargin: 12
-                                    spacing: 10
+                                    spacing: 8
 
                                     Text {
-                                        text: modelData.is_default ? "󰓃" : "󰕾"
-                                        font.family: "Symbols Nerd Font"
-                                        font.pixelSize: 14
-                                        color: modelData.is_default ? Colors.colPrimary : Colors.colTextMuted
-                                    }
-
-                                    Text {
-                                        Layout.fillWidth: true
-                                        text: modelData.name
-                                        font.family: "Geist"
-                                        font.pixelSize: 12
-                                        font.bold: modelData.is_default
-                                        color: modelData.is_default ? Colors.colPrimary : Colors.colText
-                                        elide: Text.ElideRight
-                                    }
-
-                                    Text {
-                                        visible: modelData.is_default
-                                        text: ""
+                                        text: "󰓃"
                                         font.family: "Symbols Nerd Font"
                                         font.pixelSize: 13
                                         color: Colors.colPrimary
                                     }
+
+                                    Text {
+                                        text: "Output Route"
+                                        font.family: "Geist"
+                                        font.pixelSize: 12
+                                        font.bold: true
+                                        color: Colors.colText
+                                    }
+
+                                    Item { Layout.fillWidth: true }
+
+                                    Text {
+                                        text: {
+                                            for (let i = 0; i < root.audioSinks.length; i++) {
+                                                if (root.audioSinks[i].active) return root.audioSinks[i].displayName
+                                            }
+                                            return "Default"
+                                        }
+                                        font.family: "Geist"
+                                        font.pixelSize: 11
+                                        color: Colors.colTextMuted
+                                        visible: !root.outputExpanded
+                                    }
+
+                                    Text {
+                                        text: root.outputExpanded ? "󰅃" : "󰅀"
+                                        font.family: "Symbols Nerd Font"
+                                        font.pixelSize: 12
+                                        color: Colors.colTextMuted
+                                    }
                                 }
 
                                 MouseArea {
-                                    id: sinkHover
                                     anchors.fill: parent
-                                    hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    onClicked: root.setSink(modelData.id)
+                                    onClicked: root.outputExpanded = !root.outputExpanded
+                                }
+                            }
+
+                            ColumnLayout {
+                                id: outAccordionContent
+                                Layout.fillWidth: true
+                                spacing: 4
+                                opacity: root.outputExpanded ? 1.0 : 0.0
+                                visible: opacity > 0
+
+                                Behavior on opacity {
+                                    NumberAnimation { duration: 180; easing.type: Easing.OutQuad }
+                                }
+
+                                Repeater {
+                                    model: root.audioSinks
+
+                                    Rectangle {
+                                        Layout.fillWidth: true
+                                        Layout.preferredHeight: 32
+                                        radius: 7
+                                        color: modelData.active ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.16)
+                                                                : (sinkHover.containsMouse ? Qt.rgba(1, 1, 1, 0.08) : Qt.rgba(1, 1, 1, 0.03))
+                                        border.color: modelData.active ? Colors.colPrimary : "transparent"
+                                        border.width: modelData.active ? 1 : 0
+
+                                        Behavior on color { ColorAnimation { duration: 120 } }
+
+                                        RowLayout {
+                                            anchors.fill: parent
+                                            anchors.leftMargin: 10
+                                            anchors.rightMargin: 10
+                                            spacing: 8
+
+                                            Text {
+                                                text: modelData.icon || "󰕾"
+                                                font.family: "Symbols Nerd Font"
+                                                font.pixelSize: 13
+                                                color: modelData.active ? Colors.colPrimary : Colors.colTextMuted
+                                            }
+
+                                            Text {
+                                                Layout.fillWidth: true
+                                                text: modelData.displayName
+                                                font.family: "Geist"
+                                                font.pixelSize: 12
+                                                font.bold: modelData.active
+                                                color: modelData.active ? Colors.colPrimary : Colors.colText
+                                                elide: Text.ElideRight
+                                            }
+
+                                            Text {
+                                                visible: modelData.active
+                                                text: ""
+                                                font.family: "Symbols Nerd Font"
+                                                font.pixelSize: 12
+                                                color: Colors.colPrimary
+                                            }
+                                        }
+
+                                        MouseArea {
+                                            id: sinkHover
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            cursorShape: Qt.PointingHandCursor
+                                            onClicked: {
+                                                root.setSinkPort(modelData.target, modelData.port)
+                                                root.outputExpanded = false
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -436,53 +629,145 @@ Rectangle {
 
                     Rectangle {
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 1
-                        color: Qt.rgba(1, 1, 1, 0.08)
-                    }
+                        implicitHeight: inHeaderRow.implicitHeight + (root.inputExpanded ? (inAccordionContent.implicitHeight + 12) : 0) + 16
+                        radius: 12
+                        color: Qt.rgba(1, 1, 1, 0.04)
+                        border.color: Qt.rgba(1, 1, 1, 0.06)
+                        border.width: 1
+                        clip: true
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 8
-
-                        Rectangle {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 34
-                            radius: 8
-                            color: muteHover.containsMouse ? Qt.rgba(1, 1, 1, 0.12) : Qt.rgba(1, 1, 1, 0.05)
-                            border.color: "transparent"; border.width: 0
-
-                            RowLayout {
-                                anchors.centerIn: parent
-                                spacing: 8
-                                Text { text: root.isMuted ? "󰝟" : "󰕾"; font.family: "Symbols Nerd Font"; font.pixelSize: 13; color: Colors.colPrimary }
-                                Text { text: root.isMuted ? "Unmute" : "Mute"; font.family: "Geist"; font.pixelSize: 12; font.bold: true; color: Colors.colText }
-                            }
-
-                            MouseArea {
-                                id: muteHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
-                                onClicked: root.toggleMute()
-                            }
+                        Behavior on implicitHeight {
+                            NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
                         }
 
-                        Rectangle {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 34
-                            radius: 8
-                            color: pavuHover.containsMouse ? Qt.rgba(1, 1, 1, 0.12) : Qt.rgba(1, 1, 1, 0.05)
-                            border.color: "transparent"; border.width: 0
+                        ColumnLayout {
+                            anchors.fill: parent
+                            anchors.margins: 10
+                            spacing: 8
 
-                            RowLayout {
-                                anchors.centerIn: parent
-                                spacing: 8
-                                Text { text: "󰓃"; font.family: "Symbols Nerd Font"; font.pixelSize: 13; color: Colors.colPrimary }
-                                Text { text: "Mixer"; font.family: "Geist"; font.pixelSize: 12; font.bold: true; color: Colors.colText }
+                            Item {
+                                id: inHeaderRowWrap
+                                Layout.fillWidth: true
+                                implicitHeight: inHeaderRow.implicitHeight
+
+                                RowLayout {
+                                    id: inHeaderRow
+                                    anchors.fill: parent
+                                    spacing: 8
+
+                                    Text {
+                                        text: "󰍬"
+                                        font.family: "Symbols Nerd Font"
+                                        font.pixelSize: 13
+                                        color: Colors.colPrimary
+                                    }
+
+                                    Text {
+                                        text: "Input Route"
+                                        font.family: "Geist"
+                                        font.pixelSize: 12
+                                        font.bold: true
+                                        color: Colors.colText
+                                    }
+
+                                    Item { Layout.fillWidth: true }
+
+                                    Text {
+                                        text: {
+                                            for (let i = 0; i < root.audioSources.length; i++) {
+                                                if (root.audioSources[i].active) return root.audioSources[i].displayName
+                                            }
+                                            return "Default"
+                                        }
+                                        font.family: "Geist"
+                                        font.pixelSize: 11
+                                        color: Colors.colTextMuted
+                                        visible: !root.inputExpanded
+                                    }
+
+                                    Text {
+                                        text: root.inputExpanded ? "󰅃" : "󰅀"
+                                        font.family: "Symbols Nerd Font"
+                                        font.pixelSize: 12
+                                        color: Colors.colTextMuted
+                                    }
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: root.inputExpanded = !root.inputExpanded
+                                }
                             }
 
-                            MouseArea {
-                                id: pavuHover; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    pavuProc.running = true
-                                    PopupManager.closeAll()
+                            ColumnLayout {
+                                id: inAccordionContent
+                                Layout.fillWidth: true
+                                spacing: 4
+                                opacity: root.inputExpanded ? 1.0 : 0.0
+                                visible: opacity > 0
+
+                                Behavior on opacity {
+                                    NumberAnimation { duration: 180; easing.type: Easing.OutQuad }
+                                }
+
+                                Repeater {
+                                    model: root.audioSources
+
+                                    Rectangle {
+                                        Layout.fillWidth: true
+                                        Layout.preferredHeight: 32
+                                        radius: 7
+                                        color: modelData.active ? Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.16)
+                                                                : (sourceHover.containsMouse ? Qt.rgba(1, 1, 1, 0.08) : Qt.rgba(1, 1, 1, 0.03))
+                                        border.color: modelData.active ? Colors.colPrimary : "transparent"
+                                        border.width: modelData.active ? 1 : 0
+
+                                        Behavior on color { ColorAnimation { duration: 120 } }
+
+                                        RowLayout {
+                                            anchors.fill: parent
+                                            anchors.leftMargin: 10
+                                            anchors.rightMargin: 10
+                                            spacing: 8
+
+                                            Text {
+                                                text: modelData.icon || "󰍬"
+                                                font.family: "Symbols Nerd Font"
+                                                font.pixelSize: 13
+                                                color: modelData.active ? Colors.colPrimary : Colors.colTextMuted
+                                            }
+
+                                            Text {
+                                                Layout.fillWidth: true
+                                                text: modelData.displayName
+                                                font.family: "Geist"
+                                                font.pixelSize: 12
+                                                font.bold: modelData.active
+                                                color: modelData.active ? Colors.colPrimary : Colors.colText
+                                                elide: Text.ElideRight
+                                            }
+
+                                            Text {
+                                                visible: modelData.active
+                                                text: ""
+                                                font.family: "Symbols Nerd Font"
+                                                font.pixelSize: 12
+                                                color: Colors.colPrimary
+                                            }
+                                        }
+
+                                        MouseArea {
+                                            id: sourceHover
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            cursorShape: Qt.PointingHandCursor
+                                            onClicked: {
+                                                root.setSourcePort(modelData.target, modelData.port)
+                                                root.inputExpanded = false
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

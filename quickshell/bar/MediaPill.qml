@@ -20,6 +20,44 @@ Item {
         return Mpris.players.values[0] || null
     }
 
+    property real currentPos: activePlayer ? (activePlayer.position || 0) : 0
+    property real currentLen: activePlayer ? (activePlayer.length || 0) : 0
+    property bool isDraggingSeek: false
+    property real seekDragRatio: 0.0
+
+    Timer {
+        interval: 1000
+        running: mediaPopup.visible && activePlayer !== null && activePlayer.playbackState === MprisPlaybackState.Playing && !root.isDraggingSeek
+        repeat: true
+        onTriggered: {
+            if (activePlayer && activePlayer.position !== undefined) {
+                root.currentPos = activePlayer.position
+            }
+        }
+    }
+
+    Connections {
+        target: activePlayer
+        function onPositionChanged() {
+            if (!root.isDraggingSeek && activePlayer) {
+                root.currentPos = activePlayer.position
+            }
+        }
+        function onLengthChanged() {
+            if (activePlayer) {
+                root.currentLen = activePlayer.length
+            }
+        }
+    }
+
+    function formatTime(microSeconds) {
+        if (!microSeconds || microSeconds <= 0 || isNaN(microSeconds)) return "0:00"
+        let totalSec = Math.floor(microSeconds / 1000000)
+        let mins = Math.floor(totalSec / 60)
+        let secs = totalSec % 60
+        return mins + ":" + (secs < 10 ? "0" : "") + secs
+    }
+
     Process {
         id: mediaCmdProc
     }
@@ -164,13 +202,17 @@ Item {
             gravity: Edges.Bottom
             margins.top: 8
         }
-        implicitWidth: 320
+        implicitWidth: 340
         implicitHeight: mainCol.implicitHeight + 32
         visible: PopupManager.isPopupOpen("media")
         grabFocus: true
         onVisibleChanged: {
             if (!visible && PopupManager.activePopup === "media") {
                 PopupManager.closeAll()
+            }
+            if (visible && activePlayer) {
+                if (activePlayer.position !== undefined) root.currentPos = activePlayer.position
+                if (activePlayer.length !== undefined) root.currentLen = activePlayer.length
             }
         }
         color: "transparent"
@@ -192,87 +234,276 @@ Item {
                     id: mainCol
                     anchors.fill: parent
                     anchors.margins: 18
-                    spacing: 16
+                    spacing: 14
 
-                    ColumnLayout {
+                    RowLayout {
                         Layout.fillWidth: true
-                        spacing: 4
+                        spacing: 8
 
-                        Item {
-                            Layout.fillWidth: true
-                            implicitHeight: popupTitle.implicitHeight
-                            clip: true
+                        Rectangle {
+                            width: 26
+                            height: 26
+                            radius: 13
+                            color: Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.14)
 
                             Text {
-                                id: popupTitle
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: activePlayer ? (activePlayer.trackTitle || "No playback") : "No player detected"
-                                font.family: "Geist"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: Colors.colText
-
-                                readonly property real overflowDist: Math.max(0, implicitWidth - parent.width)
-                                x: 0
-
-                                SequentialAnimation on x {
-                                    running: popupTitle.overflowDist > 0
-                                    loops: Animation.Infinite
-                                    PauseAnimation { duration: 2000 }
-                                    NumberAnimation {
-                                        to: -popupTitle.overflowDist
-                                        duration: Math.max(1400, popupTitle.overflowDist * 28)
-                                        easing.type: Easing.Linear
-                                    }
-                                    PauseAnimation { duration: 2400 }
-                                    NumberAnimation {
-                                        to: 0
-                                        duration: 800
-                                        easing.type: Easing.OutCubic
-                                    }
-                                }
+                                anchors.centerIn: parent
+                                text: "󰎆"
+                                font.family: "Symbols Nerd Font"
+                                font.pixelSize: 13
+                                color: Colors.colPrimary
                             }
                         }
 
                         Text {
-                            Layout.fillWidth: true
-                            elide: Text.ElideRight
-                            text: {
-                                if (!activePlayer || !activePlayer.trackArtists) return "Unknown Artist"
-                                if (Array.isArray(activePlayer.trackArtists)) return activePlayer.trackArtists.join(", ")
-                                return activePlayer.trackArtists.toString()
-                            }
-                            font.family: "Geist"
-                            font.pixelSize: 13
-                            color: Colors.colPrimary
-                        }
-
-                        Text {
-                            Layout.fillWidth: true
-                            elide: Text.ElideRight
-                            text: activePlayer ? (activePlayer.trackAlbum || "") : ""
+                            text: "NOW PLAYING"
                             font.family: "Geist"
                             font.pixelSize: 11
+                            font.bold: true
+                            font.letterSpacing: 1.2
                             color: Colors.colTextMuted
-                            visible: text !== ""
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Rectangle {
+                            implicitWidth: playerBadgeText.implicitWidth + 14
+                            implicitHeight: 20
+                            radius: 10
+                            color: Qt.rgba(1, 1, 1, 0.05)
+                            border.color: Qt.rgba(1, 1, 1, 0.08)
+                            border.width: 1
+
+                            Text {
+                                id: playerBadgeText
+                                anchors.centerIn: parent
+                                text: activePlayer ? (activePlayer.identity || "Media") : "Offline"
+                                font.family: "Geist"
+                                font.pixelSize: 10
+                                font.bold: true
+                                color: Colors.colTextMuted
+                            }
                         }
                     }
 
                     Rectangle {
                         Layout.fillWidth: true
-                        Layout.preferredHeight: 1
-                        color: Qt.rgba(1, 1, 1, 0.08)
+                        implicitHeight: heroRow.implicitHeight + 24
+                        radius: 14
+                        color: Qt.rgba(1, 1, 1, 0.04)
+                        border.color: Qt.rgba(1, 1, 1, 0.06)
+                        border.width: 1
+
+                        RowLayout {
+                            id: heroRow
+                            anchors.fill: parent
+                            anchors.margins: 12
+                            spacing: 12
+
+                            Rectangle {
+                                width: 52
+                                height: 52
+                                radius: 10
+                                color: Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.15)
+                                border.color: Qt.rgba(Colors.colPrimary.r, Colors.colPrimary.g, Colors.colPrimary.b, 0.3)
+                                border.width: 1
+                                clip: true
+
+                                Image {
+                                    id: albumArtImg
+                                    anchors.fill: parent
+                                    source: (activePlayer && activePlayer.trackArtUrl) ? activePlayer.trackArtUrl : ""
+                                    fillMode: Image.PreserveAspectCrop
+                                    asynchronous: true
+                                    visible: status === Image.Ready
+                                }
+
+                                Text {
+                                    anchors.centerIn: parent
+                                    visible: albumArtImg.status !== Image.Ready
+                                    text: "󰎆"
+                                    font.family: "Symbols Nerd Font"
+                                    font.pixelSize: 24
+                                    color: Colors.colPrimary
+                                }
+                            }
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 3
+
+                                Item {
+                                    Layout.fillWidth: true
+                                    implicitHeight: popupTitle.implicitHeight
+                                    clip: true
+
+                                    Text {
+                                        id: popupTitle
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        text: activePlayer ? (activePlayer.trackTitle || "No playback") : "No player detected"
+                                        font.family: "Geist"
+                                        font.pixelSize: 15
+                                        font.bold: true
+                                        color: Colors.colText
+
+                                        readonly property real overflowDist: Math.max(0, implicitWidth - parent.width)
+                                        x: 0
+
+                                        SequentialAnimation on x {
+                                            running: popupTitle.overflowDist > 0
+                                            loops: Animation.Infinite
+                                            PauseAnimation { duration: 2000 }
+                                            NumberAnimation {
+                                                to: -popupTitle.overflowDist
+                                                duration: Math.max(1400, popupTitle.overflowDist * 28)
+                                                easing.type: Easing.Linear
+                                            }
+                                            PauseAnimation { duration: 2400 }
+                                            NumberAnimation {
+                                                to: 0
+                                                duration: 800
+                                                easing.type: Easing.OutCubic
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Text {
+                                    Layout.fillWidth: true
+                                    elide: Text.ElideRight
+                                    text: {
+                                        if (!activePlayer || !activePlayer.trackArtists) return "Unknown Artist"
+                                        if (Array.isArray(activePlayer.trackArtists)) return activePlayer.trackArtists.join(", ")
+                                        return activePlayer.trackArtists.toString()
+                                    }
+                                    font.family: "Geist"
+                                    font.pixelSize: 12
+                                    color: Colors.colPrimary
+                                }
+
+                                Text {
+                                    Layout.fillWidth: true
+                                    elide: Text.ElideRight
+                                    text: activePlayer ? (activePlayer.trackAlbum || "") : ""
+                                    font.family: "Geist"
+                                    font.pixelSize: 10
+                                    color: Colors.colTextMuted
+                                    visible: text !== ""
+                                }
+                            }
+                        }
+                    }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 6
+                        visible: root.currentLen > 0
+
+                        Item {
+                            id: progressTrack
+                            Layout.fillWidth: true
+                            implicitHeight: 18
+
+                            property real progressRatio: {
+                                if (root.isDraggingSeek) return root.seekDragRatio
+                                if (!root.currentLen || root.currentLen <= 0) return 0.0
+                                return Math.min(1.0, Math.max(0.0, root.currentPos / root.currentLen))
+                            }
+
+                            Rectangle {
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                height: 5
+                                radius: 2.5
+                                color: Qt.rgba(1, 1, 1, 0.12)
+
+                                Rectangle {
+                                    anchors.left: parent.left
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    width: parent.width * progressTrack.progressRatio
+                                    radius: 2.5
+                                    color: Colors.colPrimary
+                                }
+                            }
+
+                            Rectangle {
+                                width: 12
+                                height: 12
+                                radius: 6
+                                color: Colors.colText
+                                anchors.verticalCenter: parent.verticalCenter
+                                x: Math.max(0, Math.min(progressTrack.width - width, (progressTrack.width * progressTrack.progressRatio) - (width / 2)))
+                                visible: seekMouse.containsMouse || root.isDraggingSeek
+                            }
+
+                            MouseArea {
+                                id: seekMouse
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+
+                                function applySeek(mouseXVal) {
+                                    let ratio = Math.max(0.0, Math.min(1.0, mouseXVal / width))
+                                    root.seekDragRatio = ratio
+                                    let targetUsec = ratio * root.currentLen
+                                    root.currentPos = targetUsec
+                                    let targetSec = Math.floor(targetUsec / 1000000)
+                                    mediaCmdProc.command = ["playerctl", "position", targetSec.toString()]
+                                    mediaCmdProc.running = true
+                                }
+
+                                onPressed: function(mouse) {
+                                    root.isDraggingSeek = true
+                                    applySeek(mouse.x)
+                                }
+                                onPositionChanged: function(mouse) {
+                                    if (root.isDraggingSeek) {
+                                        applySeek(mouse.x)
+                                    }
+                                }
+                                onReleased: function(mouse) {
+                                    if (root.isDraggingSeek) {
+                                        applySeek(mouse.x)
+                                        root.isDraggingSeek = false
+                                    }
+                                }
+                            }
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+
+                            Text {
+                                text: root.formatTime(root.currentPos)
+                                font.family: "Geist"
+                                font.pixelSize: 10
+                                color: Colors.colTextMuted
+                            }
+
+                            Item { Layout.fillWidth: true }
+
+                            Text {
+                                text: root.formatTime(root.currentLen)
+                                font.family: "Geist"
+                                font.pixelSize: 10
+                                color: Colors.colTextMuted
+                            }
+                        }
                     }
 
                     RowLayout {
                         Layout.alignment: Qt.AlignHCenter
-                        spacing: 20
+                        spacing: 16
 
                         Rectangle {
-                            width: 40
-                            height: 40
-                            radius: 20
-                            color: popupPrevMouse.containsMouse ? Qt.rgba(1, 1, 1, 0.16) : Qt.rgba(1, 1, 1, 0.08)
+                            width: 38
+                            height: 38
+                            radius: 19
+                            color: popupPrevMouse.containsMouse ? Qt.rgba(1, 1, 1, 0.14) : Qt.rgba(1, 1, 1, 0.06)
+                            border.color: Qt.rgba(1, 1, 1, 0.08)
+                            border.width: 1
 
                             Behavior on color { ColorAnimation { duration: 120 } }
 
@@ -280,7 +511,7 @@ Item {
                                 anchors.centerIn: parent
                                 text: "󰒮"
                                 font.family: "Symbols Nerd Font"
-                                font.pixelSize: 16
+                                font.pixelSize: 15
                                 color: Colors.colText
                             }
                             MouseArea {
@@ -302,7 +533,7 @@ Item {
                             color: Colors.colPrimary
 
                             Behavior on opacity { NumberAnimation { duration: 120 } }
-                            opacity: popupPlayMouse.containsMouse ? 0.9 : 1.0
+                            opacity: popupPlayMouse.containsMouse ? 0.88 : 1.0
 
                             Text {
                                 anchors.centerIn: parent
@@ -324,10 +555,12 @@ Item {
                         }
 
                         Rectangle {
-                            width: 40
-                            height: 40
-                            radius: 20
-                            color: popupNextMouse.containsMouse ? Qt.rgba(1, 1, 1, 0.16) : Qt.rgba(1, 1, 1, 0.08)
+                            width: 38
+                            height: 38
+                            radius: 19
+                            color: popupNextMouse.containsMouse ? Qt.rgba(1, 1, 1, 0.14) : Qt.rgba(1, 1, 1, 0.06)
+                            border.color: Qt.rgba(1, 1, 1, 0.08)
+                            border.width: 1
 
                             Behavior on color { ColorAnimation { duration: 120 } }
 
@@ -335,7 +568,7 @@ Item {
                                 anchors.centerIn: parent
                                 text: "󰒭"
                                 font.family: "Symbols Nerd Font"
-                                font.pixelSize: 16
+                                font.pixelSize: 15
                                 color: Colors.colText
                             }
                             MouseArea {

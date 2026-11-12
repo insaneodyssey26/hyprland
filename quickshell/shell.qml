@@ -332,12 +332,14 @@ IpcHandler {
         target: "osd"
         function volume() {
             osdOverlay.showVolume()
+            AudioSignalHub.notifyVolumeChanged()
         }
         function brightness() {
             osdOverlay.showBrightness()
         }
         function mic() {
             osdOverlay.showMic()
+            AudioSignalHub.notifyVolumeChanged()
         }
         function toast(icon: string, label: string, stateStr: string) {
             osdOverlay.showToast(icon, label, stateStr)

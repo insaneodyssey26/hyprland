@@ -4,3 +4,4 @@ NetworkService NetworkService.qml
 singleton PopupManager 1.0 PopupManager.qml
 singleton WeatherService 1.0 WeatherService.qml
 singleton TimerService 1.0 TimerService.qml
+singleton AudioSignalHub 1.0 AudioSignalHub.qml

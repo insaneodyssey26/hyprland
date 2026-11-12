@@ -20,6 +20,28 @@ Rectangle {
         command: ["rog-control-center"]
     }
 
+    Process {
+        id: setBrightProc
+    }
+
+    property real brightnessVal: 50.0
+
+    FileView {
+        id: brightFile
+        path: "/sys/class/backlight/nvidia_0/actual_brightness"
+        onLoaded: {
+            let val = parseInt(text().trim(), 10)
+            if (!isNaN(val)) root.brightnessVal = val
+        }
+    }
+
+    function setBrightnessPercent(val) {
+        let clamped = Math.max(1, Math.min(100, Math.round(val)))
+        root.brightnessVal = clamped
+        setBrightProc.command = ["brightnessctl", "set", clamped + "%"]
+        setBrightProc.running = true
+    }
+
     property real pct: UPower.displayDevice ? (UPower.displayDevice.percentage * 100) : 100
     property bool isPlugged: UPower.onBattery !== undefined ? !UPower.onBattery : (UPower.displayDevice ? (UPower.displayDevice.state === UPowerDeviceState.Charging || UPower.displayDevice.state === UPowerDeviceState.FullyCharged || UPower.displayDevice.state === UPowerDeviceState.PendingCharge) : false)
     property bool initialized: false
@@ -87,7 +109,10 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onClicked: PopupManager.openPopup("battery")
+        onClicked: {
+            brightFile.reload()
+            PopupManager.openPopup("battery")
+        }
     }
 
     PopupWindow {
@@ -98,13 +123,15 @@ Rectangle {
             gravity: Edges.Bottom
             margins.top: 8
         }
-        implicitWidth: 260
-        implicitHeight: 180
+        implicitWidth: 300
+        implicitHeight: mainBatCol.implicitHeight + 32
         visible: PopupManager.isPopupOpen("battery")
         grabFocus: true
         onVisibleChanged: {
             if (!visible && PopupManager.activePopup === "battery") {
                 PopupManager.closeAll()
+            } else if (visible) {
+                brightFile.reload()
             }
         }
         color: "transparent"
@@ -123,6 +150,7 @@ Rectangle {
                 border.width: 0
 
                 ColumnLayout {
+                    id: mainBatCol
                     anchors.fill: parent
                     anchors.margins: 16
                     spacing: 12
@@ -181,6 +209,88 @@ Rectangle {
                                 font.pixelSize: 12
                                 font.bold: true
                                 color: Colors.colText
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 1
+                        color: Qt.rgba(1, 1, 1, 0.08)
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 24
+                        Layout.leftMargin: 4
+                        Layout.rightMargin: 4
+                        spacing: 8
+
+                        Text {
+                            text: root.brightnessVal > 60 ? "󰃠" : (root.brightnessVal > 30 ? "󰃟" : "󰃞")
+                            font.family: "Symbols Nerd Font"
+                            font.pixelSize: 15
+                            color: Colors.colPrimary
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        Text {
+                            text: "Screen Brightness"
+                            font.family: "Geist"
+                            font.pixelSize: 13
+                            font.bold: true
+                            color: Colors.colText
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        Item { Layout.fillWidth: true }
+
+                        Text {
+                            text: Math.round(root.brightnessVal) + "%"
+                            font.family: "Geist"
+                            font.pixelSize: 12
+                            font.bold: true
+                            color: Colors.colPrimary
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+                    }
+
+                    Rectangle {
+                        id: brightTrack
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 18
+                        radius: 9
+                        color: Qt.rgba(1, 1, 1, 0.08)
+
+                        Rectangle {
+                            height: parent.height
+                            radius: 9
+                            color: Colors.colPrimary
+                            width: Math.min(brightTrack.width, Math.max(0, (root.brightnessVal / 100) * brightTrack.width))
+                        }
+
+                        Rectangle {
+                            width: 14
+                            height: 14
+                            radius: 7
+                            anchors.verticalCenter: parent.verticalCenter
+                            x: Math.max(0, Math.min(brightTrack.width - 14, (root.brightnessVal / 100) * brightTrack.width - 7))
+                            color: "#ffffff"
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            preventStealing: true
+                            onClicked: (mouse) => {
+                                let ratio = Math.max(0.01, Math.min(1, mouse.x / brightTrack.width))
+                                root.setBrightnessPercent(ratio * 100)
+                            }
+                            onPositionChanged: (mouse) => {
+                                if (pressed) {
+                                    let ratio = Math.max(0.01, Math.min(1, mouse.x / brightTrack.width))
+                                    root.setBrightnessPercent(ratio * 100)
+                                }
                             }
                         }
                     }
