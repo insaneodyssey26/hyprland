@@ -50,6 +50,8 @@ RowLayout {
         }
     }
 
+    TrayPill {}
+
     Rectangle {
         Layout.alignment: Qt.AlignVCenter
         implicitHeight: 26
